@@ -9,7 +9,7 @@
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
+npm run dev      # http://localhost:5180
 npm run build    # 类型检查 + 打包
 npm test         # 单元测试（vitest，23 个）
 ```
