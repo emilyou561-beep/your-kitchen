@@ -66,11 +66,14 @@ function Scatter({ cx, cy, rx, ry, n, seed, render }: {
 
 /* ───────── food primitives ───────── */
 
+/** Rice dome filling a bowl whose rim centre line is y=66 and half-width ~58. */
 function Rice({ cx = 100, cy = 60, rx = 50, ry = 13, seed = 1, n = 46 }) {
+  const base = 66
+  const dome = `M${cx - rx - 4} ${base} C${cx - rx + 4} ${cy - ry}, ${cx + rx - 4} ${cy - ry}, ${cx + rx + 4} ${base} A${rx + 4} 11 0 0 1 ${cx - rx - 4} ${base}Z`
   return (
     <g>
-      <path d={blobPath(cx, cy, rx, ry, seed, 0.08, 12)} fill="#FFFDF6" stroke={INK} strokeWidth={1.6} />
-      <Scatter cx={cx} cy={cy} rx={rx * 0.86} ry={ry * 0.8} n={n} seed={seed + 7}
+      <path d={dome} fill="#FFFDF6" stroke={INK} strokeWidth={1.6} />
+      <Scatter cx={cx} cy={cy + 2} rx={rx * 0.8} ry={ry * 0.7} n={n} seed={seed + 7}
         render={(x, y, rot, i) => <ellipse key={i} cx={x} cy={y} rx={2.3} ry={1.2} transform={`rotate(${rot} ${x} ${y})`} fill="#fff" stroke="#D8CFB8" strokeWidth={0.6} />} />
     </g>
   )
@@ -201,7 +204,7 @@ function Donburi({ surface = '#FFFDF6', children, decor = 'wave' }: { surface?: 
     <g>
       <ellipse cx={100} cy={66} rx={58} ry={12} fill={surface} stroke={INK} strokeWidth={SW} />
       {children}
-      <path d="M42 66h116a58 40 0 0 1-116 0z" fill={PAPER} stroke={INK} strokeWidth={SW} />
+      <path d="M42 66A58 12 0 0 0 158 66A58 40 0 0 1 42 66Z" fill={PAPER} stroke={INK} strokeWidth={SW} />
       {decor === 'wave' ? (
         <path d="M58 82c10 6 20 6 30 0s20-6 30 0 20 6 30 0" fill="none" stroke={NAVY} strokeWidth={2.5} />
       ) : (
@@ -221,8 +224,8 @@ function Owan({ soup = '#C99A55', children }: { soup?: string; children?: ReactN
       <ellipse cx={100} cy={65} rx={51} ry={9.5} fill={soup} />
       <path d="M58 62c12 -3 26 -3 40 0" stroke="#fff" strokeOpacity={0.35} strokeWidth={2} fill="none" strokeLinecap="round" />
       {children}
-      <path d="M44 64h112a56 42 0 0 1-112 0z" fill="#9A2C21" stroke={INK} strokeWidth={SW} />
-      <path d="M52 70h96" stroke="#D6A642" strokeWidth={1.6} />
+      <path d="M44 64A56 12 0 0 0 156 64A56 42 0 0 1 44 64Z" fill="#9A2C21" stroke={INK} strokeWidth={SW} />
+      <path d="M48 72A52 11 0 0 0 152 72" stroke="#D6A642" strokeWidth={1.6} fill="none" />
       <path d="M62 78q8 10 20 14" stroke="#C7493B" strokeWidth={3} fill="none" strokeLinecap="round" opacity={0.6} />
     </g>
   )
@@ -235,7 +238,7 @@ function Plate({ children, cy = 80, rx = 80, ry = 22 }: { children?: ReactNode; 
       <ellipse cx={100} cy={cy + 4} rx={rx} ry={ry} fill="#CDBF9F" stroke={INK} strokeWidth={SW} />
       <ellipse cx={100} cy={cy} rx={rx} ry={ry} fill={PAPER} stroke={INK} strokeWidth={SW} />
       <ellipse cx={100} cy={cy} rx={rx - 16} ry={ry - 6} fill="none" stroke={NAVY} strokeWidth={1.4} strokeDasharray="5 4" />
-      {children}
+      <g transform="translate(0 7)">{children}</g>
     </g>
   )
 }
@@ -246,7 +249,7 @@ function Kobachi({ fill, children }: { fill: string; children?: ReactNode }) {
     <g>
       <ellipse cx={100} cy={68} rx={44} ry={11} fill={fill} stroke={INK} strokeWidth={SW} />
       {children}
-      <path d="M56 68h88a44 30 0 0 1-88 0z" fill="#3E6A8E" stroke={INK} strokeWidth={SW} />
+      <path d="M56 68A44 11 0 0 0 144 68A44 30 0 0 1 56 68Z" fill="#3E6A8E" stroke={INK} strokeWidth={SW} />
       <path d="M62 76c8 5 16 5 24 0s16-5 24 0 16 5 24 0" stroke={PAPER} strokeWidth={2} fill="none" />
     </g>
   )

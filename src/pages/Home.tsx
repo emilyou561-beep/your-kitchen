@@ -2,33 +2,19 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from '../components/Icons'
 import { Waves } from '../components/Waves'
 import { HeroArt } from '../components/HeroArt'
-import { useKitchen } from '../state/KitchenContext'
-import { INGREDIENT_BY_ID } from '../data/ingredients'
+import { Magnets } from '../components/Magnets'
 import './Home.css'
 
 export function Home() {
-  const { inventory } = useKitchen()
-  const note =
-    inventory.length > 0
-      ? inventory
-          .slice(0, 3)
-          .map((i) => INGREDIENT_BY_ID[i.ingredientId]?.name ?? i.ingredientId)
-          .join(' · ')
-      : 'egg · tofu · scallion'
-
   return (
     <main id="main" className="yk-home yk-grain">
       <div className="yk-home__sun" aria-hidden="true" />
 
       <div className="yk-home__stage">
         <section className="yk-fridge yk-grain" aria-labelledby="hero-q">
-          <div className="yk-fridge__freezer" aria-hidden="true">
-            <div className="yk-fridge__note">
-              <span>{note}</span>
-              <i className="yk-fridge__magnet" />
-            </div>
-            <div className="yk-fridge__stamp">夜</div>
-            <div className="yk-fridge__handle yk-fridge__handle--short" />
+          <div className="yk-fridge__freezer">
+            <Magnets />
+            <div className="yk-fridge__handle yk-fridge__handle--short" aria-hidden="true" />
           </div>
           <div className="yk-fridge__door">
             <div className="yk-fridge__handle yk-fridge__handle--long" aria-hidden="true" />
