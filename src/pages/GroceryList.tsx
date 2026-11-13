@@ -1,15 +1,43 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Plus, Printer, Trash } from '../components/Icons'
+import { FridgeIcon, Plus, Printer, Trash } from '../components/Icons'
+import { groceryText } from '../lib/grocery'
 import { useKitchen } from '../state/KitchenContext'
 import { RECIPE_BY_ID } from '../data/recipes'
 import './GroceryList.css'
 
 export function GroceryList() {
-  const { grocery, selected, updateGroceryItem, removeGroceryItem, addGroceryItem, clearChecked } = useKitchen()
+  const {
+    grocery,
+    selected,
+    includeOptional,
+    setIncludeOptional,
+    buildGroceryList,
+    updateGroceryItem,
+    removeGroceryItem,
+    addGroceryItem,
+    clearChecked,
+    moveCheckedToKitchen,
+    notify,
+  } = useKitchen()
   const [draft, setDraft] = useState('')
   const left = grocery.filter((g) => !g.checked).length
   const done = grocery.length - left
+  const doneFromRecipes = grocery.filter((g) => g.checked && g.ingredientId).length
+
+  const refresh = () => {
+    const n = buildGroceryList()
+    notify(n === 0 ? 'You have everything for the selected dishes' : `List updated — ${n} item${n === 1 ? '' : 's'} to buy`)
+  }
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(groceryText(grocery))
+      notify('List copied')
+    } catch {
+      notify('Copy is not available in this browser')
+    }
+  }
   const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 
   return (
@@ -22,11 +50,11 @@ export function GroceryList() {
           <h1 className="yk-page__title">Grocery List</h1>
         </div>
         <div className="yk-grocery__tools">
+          <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={copy} disabled={grocery.length === 0}>
+            Copy
+          </button>
           <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={() => window.print()} disabled={grocery.length === 0}>
             <Printer size={18} /> Print
-          </button>
-          <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={clearChecked} disabled={done === 0}>
-            <Trash size={18} /> Clear checked
           </button>
         </div>
       </div>
@@ -39,7 +67,18 @@ export function GroceryList() {
         </div>
 
         {selected.length > 0 && (
-          <p className="yk-receipt__for">For: {selected.map((id) => RECIPE_BY_ID[id]?.name).filter(Boolean).join(', ')}</p>
+          <div className="yk-receipt__for">
+            <p>For: {selected.map((id) => RECIPE_BY_ID[id]?.name).filter(Boolean).join(', ')}</p>
+            <div className="yk-receipt__opts">
+              <label className="yk-check">
+                <input type="checkbox" checked={includeOptional} onChange={(e) => setIncludeOptional(e.target.checked)} />
+                Include optional ingredients
+              </label>
+              <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={refresh}>
+                Update from recipes
+              </button>
+            </div>
+          </div>
         )}
 
         {grocery.length === 0 ? (
@@ -121,6 +160,19 @@ export function GroceryList() {
             <Plus size={20} />
           </button>
         </form>
+
+        {done > 0 && (
+          <div className="yk-receipt__done">
+            {doneFromRecipes > 0 && (
+              <button type="button" className="yk-btn yk-btn--navy yk-btn--sm" onClick={moveCheckedToKitchen}>
+                <FridgeIcon size={18} /> Put bought items in My Kitchen
+              </button>
+            )}
+            <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={clearChecked}>
+              <Trash size={18} /> Clear checked
+            </button>
+          </div>
+        )}
 
         <div className="yk-receipt__total">
           <span>Items left</span>

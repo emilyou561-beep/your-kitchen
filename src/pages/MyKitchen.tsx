@@ -11,7 +11,7 @@ const STORAGES: Storage[] = ['fridge', 'freezer', 'pantry']
 const DRAG_TYPE = 'application/x-yoru-ingredient'
 
 export function MyKitchen() {
-  const { inventory, owned, addIngredient, removeIngredient, updateIngredient } = useKitchen()
+  const { inventory, owned, addIngredient, removeIngredient, updateIngredient, addPantryBasics, clearInventory } = useKitchen()
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<Category>('vegetables')
   const [dropActive, setDropActive] = useState(false)
@@ -106,6 +106,7 @@ export function MyKitchen() {
                       className="yk-tile"
                       data-owned={has}
                       aria-pressed={has}
+                      aria-label={has ? `${ing.name}, in your kitchen` : `Add ${ing.name}`}
                       draggable={!has}
                       onDragStart={(e) => {
                         e.dataTransfer.setData(DRAG_TYPE, ing.id)
@@ -118,7 +119,6 @@ export function MyKitchen() {
                       <span className="yk-tile__mark" aria-hidden="true">
                         {has ? <Check size={18} /> : <Plus size={18} />}
                       </span>
-                      <span className="yk-visually-hidden">{has ? ', in your kitchen. Press to remove.' : ', press to add.'}</span>
                     </button>
                   </li>
                 )
@@ -145,11 +145,21 @@ export function MyKitchen() {
             <h2 id="fridge-h">In your kitchen</h2>
             <span className="yk-fridge-list__count">{inventory.length}</span>
           </div>
+          <div className="yk-fridge-list__tools">
+            <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={addPantryBasics}>
+              <Plus size={18} /> Pantry basics
+            </button>
+            {inventory.length > 0 && (
+              <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={clearInventory}>
+                <Trash size={18} /> Clear all
+              </button>
+            )}
+          </div>
 
           {inventory.length === 0 ? (
             <div className="yk-empty yk-fridge-list__empty">
               <p className="yk-empty__title">Your fridge is empty</p>
-              <p>Tap an ingredient to add it.</p>
+              <p>Tap an ingredient to add it, or start with the pantry basics.</p>
             </div>
           ) : (
             grouped.map(

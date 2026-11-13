@@ -45,12 +45,28 @@
   font-size: var(--yk-text-lg);
 }
 .yk-detail__meta {
-  margin: var(--yk-space-3) 0 0;
+  margin: var(--yk-space-4) 0 0;
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--yk-space-4);
+  font-weight: 700;
+}
+.yk-detail__time {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-weight: 700;
   color: var(--yk-ink-soft);
+}
+.yk-detail__serves {
+  min-width: 96px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  padding: 0 4px;
+}
+.yk-stepper__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 .yk-detail__actions {
   margin-top: var(--yk-space-5);
@@ -114,6 +130,14 @@
 .yk-ing__opt {
   font-weight: 400;
   color: var(--yk-ink-soft);
+  font-size: var(--yk-text-sm);
+}
+.yk-ing[data-partial='true'] .yk-ing__mark {
+  background: var(--yk-mustard);
+}
+.yk-ing__short {
+  font-weight: 700;
+  color: var(--yk-vermilion);
   font-size: var(--yk-text-sm);
 }
 .yk-ing__qty {

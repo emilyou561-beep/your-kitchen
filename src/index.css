@@ -335,6 +335,107 @@ h3 {
   color: var(--yk-vermilion);
 }
 
+/* ───────── Search + filter pills (shared) ───────── */
+.yk-search {
+  position: relative;
+}
+.yk-search__icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.yk-search input {
+  width: 100%;
+  height: 56px;
+  padding: 0 16px 0 48px;
+  font-size: var(--yk-text-lg);
+  background: #fff;
+  border: var(--yk-border);
+  border-radius: var(--yk-radius-pill);
+}
+.yk-search input::placeholder {
+  color: var(--yk-ink-soft);
+}
+
+.yk-tab {
+  min-height: 44px;
+  padding: 0 16px;
+  border: var(--yk-border-thin);
+  border-radius: var(--yk-radius-pill);
+  background: transparent;
+  font-weight: 700;
+  font-size: var(--yk-text-sm);
+  cursor: pointer;
+}
+.yk-tab:hover {
+  background: var(--yk-paper);
+}
+.yk-tab[aria-pressed='true'] {
+  background: var(--yk-navy);
+  color: var(--yk-paper);
+}
+
+/* ───────── Stepper (shared) ───────── */
+.yk-stepper {
+  grid-area: step;
+}
+.yk-row select:nth-of-type(1) {
+  grid-area: unit;
+}
+.yk-row select:nth-of-type(2) {
+  grid-area: store;
+  justify-self: start;
+}
+.yk-row__remove {
+  grid-area: remove;
+}
+@media (max-width: 420px) {
+  .yk-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'name name remove'
+      'step step remove'
+      'unit store remove';
+  }
+}
+
+.yk-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: var(--yk-border-thin);
+  border-radius: var(--yk-radius-pill);
+  background: #fff;
+  overflow: hidden;
+}
+.yk-stepper__btn {
+  width: 40px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.yk-stepper__btn:hover {
+  background: var(--yk-paper);
+}
+.yk-stepper__input {
+  width: 56px;
+  height: 44px;
+  text-align: center;
+  border: 0;
+  border-inline: 2px solid var(--yk-paper-edge);
+  font-weight: 700;
+  -moz-appearance: textfield;
+}
+.yk-stepper__input::-webkit-outer-spin-button,
+.yk-stepper__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* ───────── Page frame ───────── */
 .yk-page {
   max-width: var(--yk-max);
@@ -415,6 +516,24 @@ h3 {
   font-weight: 700;
   box-shadow: 0 4px 0 var(--yk-navy-shadow);
   animation: yk-rise var(--yk-dur) var(--yk-ease);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: calc(100vw - 32px);
+}
+.yk-toast__action {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 2px solid var(--yk-mustard);
+  border-radius: var(--yk-radius-pill);
+  background: transparent;
+  color: var(--yk-mustard);
+  font-weight: 800;
+  cursor: pointer;
+}
+.yk-toast__action:hover {
+  background: var(--yk-mustard);
+  color: var(--yk-ink);
 }
 @keyframes yk-rise {
   from {

@@ -11,6 +11,7 @@
 npm install
 npm run dev      # http://localhost:5173
 npm run build    # 类型检查 + 打包
+npm test         # 单元测试（vitest，23 个）
 ```
 
 ## 目录
@@ -21,7 +22,10 @@ src/
   index.css              全局样式 + 通用组件
   data/ingredients.ts    食材表（英文名/罗马音/别名/默认单位与位置）
   data/recipes.ts        菜谱（essential/optional 食材、步骤）
-  lib/match.ts           可做程度计算与排序
+  lib/units.ts           单位换算与取整
+  lib/match.ts           可做程度计算（按数量）与排序
+  lib/grocery.ts         购物清单汇总（跨菜品合并、扣库存）
+  lib/logic.test.ts      单元测试
   state/KitchenContext   全局状态 + localStorage
   components/            Header, Icons, Waves, RecipeImage
   pages/                 Home, MyKitchen, Recipes, RecipeDetail, GroceryList（各带 .css）
@@ -34,7 +38,7 @@ docs/                    设计规格（中文）
 **P0**
 1. 替换首页主图：`public/images/hero-nikujaga.jpg` 目前是参考图裁切的低分辨率占位，需要换成 Canva 生成的高清图（≥ 2400px 宽，导出后压缩到 < 400KB 的 JPG/WebP）。
 2. 为其余 9 道菜补照片，放 `public/images/<recipe-id>.jpg`，并在 `data/recipes.ts` 填 `image` 字段。
-3. 单元测试：`lib/match.ts`（状态判定、排序）和 `buildGroceryList`（合并、保留手动项和勾选状态）。
+3. ~~单元测试~~ 已完成（`src/lib/logic.test.ts`）。补充：React 组件测试（Testing Library）。
 
 **P1**
 4. Playwright 截图测试：按 `VISUAL_QA.md` 的四个尺寸自动截图。
@@ -42,7 +46,7 @@ docs/                    设计规格（中文）
 6. 收据锯齿边在 Safari 下检查 `mask` 兼容性。
 
 **P2**
-7. 扩充食材（目标 80+）和菜谱（目标 30+），保持 essential 标注准确。
+7. 当前 71 种食材、27 道菜。继续扩充时保持 essential 标注准确，测试会自动检查食材 id 是否存在、界面文字是否为英文。
 8. 收据清单可按超市区域分组（蔬菜/肉/调料）。
 
 ## 规则

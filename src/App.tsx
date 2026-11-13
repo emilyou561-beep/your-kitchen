@@ -17,10 +17,26 @@ function ScrollReset() {
 }
 
 function Toast() {
-  const { toast } = useKitchen()
+  const { toast, dismissToast } = useKitchen()
   return (
     <div aria-live="polite" role="status">
-      {toast && <div className="yk-toast">{toast}</div>}
+      {toast && (
+        <div className="yk-toast" key={toast.id}>
+          <span>{toast.message}</span>
+          {toast.action && (
+            <button
+              type="button"
+              className="yk-toast__action"
+              onClick={() => {
+                toast.action!.run()
+                dismissToast()
+              }}
+            >
+              {toast.action.label}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 }

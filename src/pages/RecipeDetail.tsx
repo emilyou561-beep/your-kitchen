@@ -1,8 +1,9 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { RECIPE_BY_ID } from '../data/recipes'
-import { ingredientName, matchRecipe } from '../lib/match'
+import { formatAmount, ingredientName, matchRecipe } from '../lib/match'
+import { tidy } from '../lib/units'
 import { RecipeImage } from '../components/RecipeImage'
-import { ArrowRight, Check, Clock, Plus } from '../components/Icons'
+import { ArrowRight, Check, Clock, Minus, Plus } from '../components/Icons'
 import { useKitchen } from '../state/KitchenContext'
 import { StatusBadge } from './Recipes'
 import './RecipeDetail.css'
@@ -10,7 +11,7 @@ import './RecipeDetail.css'
 export function RecipeDetail() {
   const { id = '' } = useParams()
   const recipe = RECIPE_BY_ID[id]
-  const { owned, selected, toggleRecipe, addIngredient, buildGroceryList, notify } = useKitchen()
+  const { inventory, selected, servings, setServings, toggleRecipe, addIngredient, buildGroceryList, notify } = useKitchen()
   const navigate = useNavigate()
 
   if (!recipe) {
@@ -26,7 +27,8 @@ export function RecipeDetail() {
     )
   }
 
-  const match = matchRecipe(recipe, owned)
+  const serves = servings[recipe.id] ?? recipe.serves
+  const match = matchRecipe(recipe, inventory, serves)
   const isSelected = selected.includes(recipe.id)
 
   const makeList = () => {
@@ -53,9 +55,34 @@ export function RecipeDetail() {
           </span>
           <h1 className="yk-page__title">{recipe.name}</h1>
           <p className="yk-detail__blurb">{recipe.blurb}</p>
-          <p className="yk-detail__meta">
-            <Clock size={20} /> {recipe.minutes} min <span aria-hidden="true">·</span> Serves {recipe.serves}
-          </p>
+          <div className="yk-detail__meta">
+            <span className="yk-detail__time">
+              <Clock size={20} /> {recipe.minutes} min
+            </span>
+            <div className="yk-stepper" role="group" aria-label="Servings">
+              <button
+                type="button"
+                className="yk-stepper__btn"
+                aria-label="Fewer servings"
+                disabled={serves <= 1}
+                onClick={() => setServings(recipe.id, serves - 1)}
+              >
+                <Minus size={16} />
+              </button>
+              <span className="yk-detail__serves" aria-live="polite">
+                Serves {serves}
+              </span>
+              <button
+                type="button"
+                className="yk-stepper__btn"
+                aria-label="More servings"
+                disabled={serves >= 12}
+                onClick={() => setServings(recipe.id, serves + 1)}
+              >
+                <Plus size={16} />
+              </button>
+            </div>
+          </div>
           <div className="yk-detail__actions">
             <button
               type="button"
@@ -82,31 +109,38 @@ export function RecipeDetail() {
             Ingredients
           </h2>
           <ul>
-            {recipe.ingredients.map((ri) => {
-              const has = owned.has(ri.id)
+            {match.lines.map(({ ri, need, short }) => {
+              const has = short <= 1e-9
+              const partial = !has && short < need - 1e-9
+              const name = ingredientName(ri.id)
               return (
-                <li key={ri.id} className="yk-ing" data-has={has}>
+                <li key={ri.id} className="yk-ing" data-has={has} data-partial={partial}>
                   <span className="yk-ing__mark" aria-hidden="true">
-                    {has ? <Check size={16} /> : null}
+                    {has ? <Check size={16} /> : partial ? <Minus size={16} /> : null}
                   </span>
                   <span className="yk-ing__name">
-                    {ingredientName(ri.id)}
+                    {name}
                     {!ri.essential && <span className="yk-ing__opt"> (optional)</span>}
+                    {partial && <span className="yk-ing__short"> · need {formatAmount(short, ri.unit)} more</span>}
                   </span>
                   <span className="yk-ing__qty">
-                    {ri.qty} {ri.unit}
+                    {tidy(need)} {ri.unit}
                   </span>
-                  <span className="yk-visually-hidden">{has ? ', you have this' : ', missing'}</span>
-                  {!has && (
+                  <span className="yk-visually-hidden">
+                    {has ? ', you have enough' : partial ? ', not enough at home' : ', missing'}
+                  </span>
+                  {!has && !inventory.some((i) => i.ingredientId === ri.id) ? (
                     <button
                       type="button"
                       className="yk-icon-btn yk-ing__add"
-                      aria-label={`I have ${ingredientName(ri.id)}`}
+                      aria-label={`I have ${name}`}
                       title="I have this"
                       onClick={() => addIngredient(ri.id)}
                     >
                       <Plus size={18} />
                     </button>
+                  ) : (
+                    <span className="yk-ing__add" aria-hidden="true" />
                   )}
                 </li>
               )

@@ -54,6 +54,37 @@
   font-size: var(--yk-text-sm);
   color: var(--yk-ink-soft);
 }
+.yk-receipt__for p {
+  margin: 0;
+}
+.yk-receipt__opts {
+  margin-top: var(--yk-space-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--yk-space-3);
+}
+.yk-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-weight: 700;
+  color: var(--yk-ink);
+  cursor: pointer;
+}
+.yk-check input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--yk-vermilion);
+}
+.yk-receipt__done {
+  margin-top: var(--yk-space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yk-space-2);
+}
 
 .yk-receipt__items {
   list-style: none;
@@ -205,6 +236,8 @@
   .yk-header,
   .yk-grocery__tools,
   .yk-receipt__add,
+  .yk-receipt__opts,
+  .yk-receipt__done,
   .yk-line__remove,
   .yk-skip,
   .yk-toast {

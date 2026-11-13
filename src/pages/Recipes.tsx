@@ -1,27 +1,44 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { RECIPES } from '../data/recipes'
-import { AVAILABILITY_LABEL, ingredientName, rankRecipes } from '../lib/match'
-import type { Availability, RecipeMatch } from '../lib/match'
+import { AVAILABILITY_LABEL, formatAmount, ingredientName, rankRecipes } from '../lib/match'
+import type { Availability, LineCheck, RecipeMatch } from '../lib/match'
 import { RecipeImage } from '../components/RecipeImage'
-import { ArrowRight, Check, Clock, Plus } from '../components/Icons'
+import { ArrowRight, Check, Clock, Plus, Search } from '../components/Icons'
 import { useKitchen } from '../state/KitchenContext'
 import './Recipes.css'
 
 type Filter = 'all' | Availability
+type TimeCap = 0 | 15 | 30
 
 export function Recipes() {
-  const { owned, inventory, selected, toggleRecipe, buildGroceryList, notify } = useKitchen()
+  const { inventory, selected, toggleRecipe, buildGroceryList, notify } = useKitchen()
   const [filter, setFilter] = useState<Filter>('all')
+  const [time, setTime] = useState<TimeCap>(0)
+  const [query, setQuery] = useState('')
   const navigate = useNavigate()
 
-  const ranked = useMemo(() => rankRecipes(RECIPES, owned), [owned])
+  const ranked = useMemo(() => rankRecipes(RECIPES, inventory), [inventory])
+
+  const searched = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return ranked.filter((m) => {
+      if (time && m.recipe.minutes > time) return false
+      if (!q) return true
+      const hay = [m.recipe.name, m.recipe.blurb, ...m.recipe.ingredients.map((i) => ingredientName(i.id))]
+        .join(' ')
+        .toLowerCase()
+      return hay.includes(q)
+    })
+  }, [ranked, query, time])
+
   const counts = useMemo(() => {
     const c = { ready: 0, almost: 0, shop: 0 }
-    ranked.forEach((m) => c[m.status]++)
+    searched.forEach((m) => c[m.status]++)
     return c
-  }, [ranked])
-  const shown = filter === 'all' ? ranked : ranked.filter((m) => m.status === filter)
+  }, [searched])
+
+  const shown = filter === 'all' ? searched : searched.filter((m) => m.status === filter)
 
   const makeList = () => {
     const n = buildGroceryList()
@@ -38,16 +55,46 @@ export function Recipes() {
           </span>
           <h1 className="yk-page__title">Recipes</h1>
         </div>
-        <div className="yk-filter" role="group" aria-label="Filter recipes">
+        <div className="yk-filter" role="group" aria-label="Filter by availability">
           {(
             [
-              ['all', 'All', ranked.length],
+              ['all', 'All', searched.length],
               ['ready', 'Ready', counts.ready],
               ['almost', 'Almost', counts.almost],
             ] as [Filter, string, number][]
           ).map(([id, label, n]) => (
             <button key={id} type="button" className="yk-tab" aria-pressed={filter === id} onClick={() => setFilter(id)}>
               {label} <span className="yk-filter__n">{n}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="yk-recipes__tools">
+        <div className="yk-search yk-recipes__search">
+          <Search className="yk-search__icon" />
+          <label htmlFor="recipe-search" className="yk-visually-hidden">
+            Search recipes
+          </label>
+          <input
+            id="recipe-search"
+            type="search"
+            placeholder="Search dishes or ingredients"
+            autoComplete="off"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+        <div className="yk-filter" role="group" aria-label="Cooking time">
+          {(
+            [
+              [0, 'Any time'],
+              [15, '≤ 15 min'],
+              [30, '≤ 30 min'],
+            ] as [TimeCap, string][]
+          ).map(([v, label]) => (
+            <button key={v} type="button" className="yk-tab" aria-pressed={time === v} onClick={() => setTime(v)}>
+              {label}
             </button>
           ))}
         </div>
@@ -61,11 +108,25 @@ export function Recipes() {
 
       {shown.length === 0 ? (
         <div className="yk-empty yk-panel">
-          <p className="yk-empty__title">Nothing here yet</p>
-          <p>Add a few more ingredients to unlock these dishes.</p>
-          <Link to="/kitchen" className="yk-btn yk-btn--secondary">
-            Back to My Kitchen
-          </Link>
+          <p className="yk-empty__title">No dishes match</p>
+          <p>{query || time ? 'Try a different search or time filter.' : 'Add a few more ingredients to unlock these dishes.'}</p>
+          {query || time || filter !== 'all' ? (
+            <button
+              type="button"
+              className="yk-btn yk-btn--secondary"
+              onClick={() => {
+                setQuery('')
+                setTime(0)
+                setFilter('all')
+              }}
+            >
+              Clear filters
+            </button>
+          ) : (
+            <Link to="/kitchen" className="yk-btn yk-btn--secondary">
+              Back to My Kitchen
+            </Link>
+          )}
         </div>
       ) : (
         <ul className="yk-cards">
@@ -101,6 +162,12 @@ export function StatusBadge({ status }: { status: Availability }) {
   )
 }
 
+/** "Egg (2 more)" when some is at home, "Egg" when none. */
+export function missingLabel(l: LineCheck): string {
+  const name = ingredientName(l.ri.id)
+  return l.short < l.need - 1e-9 ? `${name} (${formatAmount(l.short, l.ri.unit)} more)` : name
+}
+
 function RecipeCard({ match, selected, onToggle }: { match: RecipeMatch; selected: boolean; onToggle: () => void }) {
   const { recipe, status, missingEssential } = match
   return (
@@ -126,8 +193,7 @@ function RecipeCard({ match, selected, onToggle }: { match: RecipeMatch; selecte
         </p>
         {missingEssential.length > 0 ? (
           <p className="yk-card__missing">
-            <span className="yk-card__missing-label">Missing:</span>{' '}
-            {missingEssential.map((i) => ingredientName(i.id)).join(', ')}
+            <span className="yk-card__missing-label">Missing:</span> {missingEssential.map(missingLabel).join(', ')}
           </p>
         ) : (
           <p className="yk-card__missing yk-card__missing--none">You have every essential.</p>
