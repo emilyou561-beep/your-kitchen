@@ -1,0 +1,135 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Plus, Printer, Trash } from '../components/Icons'
+import { useKitchen } from '../state/KitchenContext'
+import { RECIPE_BY_ID } from '../data/recipes'
+import './GroceryList.css'
+
+export function GroceryList() {
+  const { grocery, selected, updateGroceryItem, removeGroceryItem, addGroceryItem, clearChecked } = useKitchen()
+  const [draft, setDraft] = useState('')
+  const left = grocery.filter((g) => !g.checked).length
+  const done = grocery.length - left
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+
+  return (
+    <main id="main" className="yk-page yk-grocery">
+      <div className="yk-page__head yk-grocery__head">
+        <div>
+          <span className="yk-page__deco" aria-hidden="true">
+            買い物
+          </span>
+          <h1 className="yk-page__title">Grocery List</h1>
+        </div>
+        <div className="yk-grocery__tools">
+          <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={() => window.print()} disabled={grocery.length === 0}>
+            <Printer size={18} /> Print
+          </button>
+          <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={clearChecked} disabled={done === 0}>
+            <Trash size={18} /> Clear checked
+          </button>
+        </div>
+      </div>
+
+      <div className="yk-receipt">
+        <div className="yk-receipt__top" aria-hidden="true">
+          <span className="yk-receipt__shop">YORU KITCHEN</span>
+          <span className="yk-receipt__jp">夜の台所 · 買い物メモ</span>
+          <span className="yk-receipt__date">{today}</span>
+        </div>
+
+        {selected.length > 0 && (
+          <p className="yk-receipt__for">For: {selected.map((id) => RECIPE_BY_ID[id]?.name).filter(Boolean).join(', ')}</p>
+        )}
+
+        {grocery.length === 0 ? (
+          <div className="yk-receipt__empty">
+            <p className="yk-empty__title">Your list is empty</p>
+            <p>Select dishes and we’ll list what’s missing.</p>
+            <Link to="/recipes" className="yk-btn yk-btn--primary">
+              Browse Recipes
+            </Link>
+          </div>
+        ) : (
+          <ul className="yk-receipt__items" aria-label="Items to buy">
+            {grocery.map((g) => (
+              <li key={g.key} className="yk-line" data-checked={g.checked}>
+                <input
+                  id={`chk-${g.key}`}
+                  type="checkbox"
+                  className="yk-line__check"
+                  checked={g.checked}
+                  onChange={(e) => updateGroceryItem(g.key, { checked: e.target.checked })}
+                />
+                <label htmlFor={`chk-${g.key}`} className="yk-visually-hidden">
+                  Bought {g.name}
+                </label>
+                <div className="yk-line__main">
+                  <label htmlFor={`name-${g.key}`} className="yk-visually-hidden">
+                    Item name
+                  </label>
+                  <input
+                    id={`name-${g.key}`}
+                    className="yk-line__name"
+                    value={g.name}
+                    onChange={(e) => updateGroceryItem(g.key, { name: e.target.value })}
+                  />
+                  {g.forRecipes.length > 0 && <span className="yk-line__for">{g.forRecipes.join(', ')}</span>}
+                </div>
+                <span className="yk-line__dots" aria-hidden="true" />
+                <label htmlFor={`qty-${g.key}`} className="yk-visually-hidden">
+                  {g.name} quantity
+                </label>
+                <input
+                  id={`qty-${g.key}`}
+                  className="yk-line__qty"
+                  inputMode="decimal"
+                  value={g.qty}
+                  onChange={(e) => updateGroceryItem(g.key, { qty: e.target.value })}
+                />
+                <label htmlFor={`unit-${g.key}`} className="yk-visually-hidden">
+                  {g.name} unit
+                </label>
+                <input
+                  id={`unit-${g.key}`}
+                  className="yk-line__unit"
+                  value={g.unit}
+                  placeholder="unit"
+                  onChange={(e) => updateGroceryItem(g.key, { unit: e.target.value })}
+                />
+                <button type="button" className="yk-line__remove" aria-label={`Remove ${g.name}`} onClick={() => removeGroceryItem(g.key)}>
+                  <Trash size={18} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <form
+          className="yk-receipt__add"
+          onSubmit={(e) => {
+            e.preventDefault()
+            addGroceryItem(draft)
+            setDraft('')
+          }}
+        >
+          <label htmlFor="add-item" className="yk-visually-hidden">
+            Add an item
+          </label>
+          <input id="add-item" placeholder="Add an item…" value={draft} onChange={(e) => setDraft(e.target.value)} />
+          <button type="submit" className="yk-icon-btn" aria-label="Add item" disabled={!draft.trim()}>
+            <Plus size={20} />
+          </button>
+        </form>
+
+        <div className="yk-receipt__total">
+          <span>Items left</span>
+          <span aria-live="polite">{left}</span>
+        </div>
+        <p className="yk-receipt__thanks" aria-hidden="true">
+          ありがとうございました
+        </p>
+      </div>
+    </main>
+  )
+}

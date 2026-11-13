@@ -1,0 +1,219 @@
+.yk-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yk-space-2);
+}
+.yk-filter__n {
+  font-weight: 600;
+  opacity: 0.8;
+  margin-left: 4px;
+}
+
+.yk-recipes__hint {
+  margin: 0 0 var(--yk-space-5);
+  padding: 12px 16px;
+  border: 2px dashed var(--yk-paper-edge);
+  border-radius: var(--yk-radius-md);
+}
+.yk-recipes__hint a {
+  font-weight: 800;
+  color: var(--yk-vermilion);
+}
+
+.yk-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--yk-space-6) var(--yk-space-5);
+}
+
+.yk-card {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--yk-paper-light);
+  border: var(--yk-border);
+  border-radius: var(--yk-radius-lg);
+  box-shadow: var(--yk-shadow-card);
+  overflow: hidden;
+  transition:
+    transform var(--yk-dur) var(--yk-ease),
+    box-shadow var(--yk-dur) var(--yk-ease);
+}
+.yk-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 6px 11px 0 var(--yk-ink);
+}
+.yk-card[data-selected='true'] {
+  outline: 4px solid var(--yk-mustard);
+  outline-offset: 4px;
+}
+.yk-card:focus-within {
+  outline: 3px solid var(--yk-mustard);
+  outline-offset: 4px;
+}
+
+.yk-card__media {
+  position: relative;
+  border-bottom: var(--yk-border);
+}
+.yk-recipe-img {
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  object-fit: cover;
+  background: var(--yk-navy);
+}
+.yk-recipe-img--placeholder {
+  position: relative;
+}
+.yk-recipe-img--placeholder svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.yk-recipe-img__ja {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  writing-mode: vertical-rl;
+  font-family: var(--yk-font-deco-jp);
+  color: var(--yk-paper);
+  font-size: 18px;
+  letter-spacing: 2px;
+  background: var(--yk-vermilion);
+  border: 2px solid var(--yk-ink);
+  padding: 8px 4px;
+}
+
+.yk-status {
+  position: absolute;
+  left: 12px;
+  bottom: -16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 14px 0 10px;
+  border: var(--yk-border-thin);
+  border-radius: var(--yk-radius-pill);
+  font-size: var(--yk-text-xs);
+  font-weight: 800;
+  background: var(--yk-paper-light);
+}
+.yk-status__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--yk-ink);
+}
+.yk-status--ready .yk-status__dot {
+  background: var(--yk-moss);
+}
+.yk-status--almost .yk-status__dot {
+  background: var(--yk-mustard);
+}
+.yk-status--shop .yk-status__dot {
+  background: transparent;
+  border-style: dashed;
+}
+
+.yk-card__body {
+  flex: 1;
+  padding: 28px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.yk-card__titlerow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.yk-card__title {
+  font-family: var(--yk-font-display);
+  font-size: var(--yk-text-lg);
+  line-height: 1.15;
+  color: var(--yk-ink);
+}
+.yk-card__link {
+  text-decoration: none;
+}
+/* whole card clickable, but buttons stay above it */
+.yk-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.yk-card__link:hover {
+  color: var(--yk-vermilion);
+}
+.yk-card__link:focus-visible {
+  outline: none;
+}
+.yk-card__ja {
+  font-family: var(--yk-font-deco-jp);
+  color: var(--yk-navy);
+  font-size: var(--yk-text-sm);
+  white-space: nowrap;
+}
+.yk-card__meta {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: var(--yk-text-sm);
+  color: var(--yk-ink-soft);
+}
+.yk-card__missing {
+  margin: 0;
+  font-size: var(--yk-text-sm);
+}
+.yk-card__missing-label {
+  font-weight: 800;
+  color: var(--yk-vermilion);
+}
+.yk-card__missing--none {
+  color: var(--yk-moss);
+  font-weight: 700;
+}
+.yk-card__toggle {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+/* ── Sticky plan bar ── */
+.yk-planbar {
+  position: sticky;
+  bottom: 16px;
+  z-index: 10;
+  margin: var(--yk-space-7) auto 0;
+  max-width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--yk-space-4);
+  padding: 12px 12px 12px 24px;
+  background: var(--yk-navy);
+  color: var(--yk-paper);
+  border: var(--yk-border);
+  border-radius: var(--yk-radius-pill);
+  box-shadow: 0 6px 0 var(--yk-ink);
+}
+.yk-planbar__text strong {
+  font-size: var(--yk-text-lg);
+}
+@media (max-width: 520px) {
+  .yk-planbar {
+    padding-left: 16px;
+  }
+  .yk-planbar .yk-btn {
+    padding: 0 16px;
+  }
+}

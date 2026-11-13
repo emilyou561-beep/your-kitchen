@@ -1,0 +1,82 @@
+/* Yoru Kitchen design tokens — see docs/DESIGN_SYSTEM.md */
+:root {
+  /* Color */
+  --yk-vermilion: #b83227;
+  --yk-vermilion-dark: #8f251c;
+  --yk-navy: #234d76;
+  --yk-navy-deep: #1a3a5a;
+  --yk-navy-shadow: #14304d;
+  --yk-paper: #f5e8cd;
+  --yk-paper-light: #fffbf1;
+  --yk-paper-edge: #d8c7a2;
+  --yk-mustard: #d6a642;
+  --yk-ink: #28251f;
+  --yk-ink-soft: #5a5246; /* 6.9:1 on paper */
+  --yk-moss: #3f6b3a;     /* "have it" status, 5.6:1 on paper */
+
+  /* Type */
+  --yk-font-display: 'Shrikhand', 'Georgia', serif;
+  --yk-font-ui: 'Archivo', system-ui, -apple-system, sans-serif;
+  --yk-font-hand: 'Kalam', 'Comic Sans MS', cursive;
+  --yk-font-deco-jp: 'Zen Antique', serif;
+
+  --yk-text-xs: 0.8125rem;  /* 13 */
+  --yk-text-sm: 0.9375rem;  /* 15 */
+  --yk-text-md: 1.0625rem;  /* 17 */
+  --yk-text-lg: 1.375rem;   /* 22 */
+  --yk-text-xl: 1.75rem;    /* 28 */
+  --yk-text-2xl: 2.5rem;    /* 40 */
+  --yk-text-hero: clamp(2.75rem, 2rem + 3.4vw, 4.5rem); /* 44 → 72 */
+
+  /* Space (4px base) */
+  --yk-space-1: 4px;
+  --yk-space-2: 8px;
+  --yk-space-3: 12px;
+  --yk-space-4: 16px;
+  --yk-space-5: 24px;
+  --yk-space-6: 32px;
+  --yk-space-7: 48px;
+  --yk-space-8: 64px;
+  --yk-space-9: 96px;
+
+  /* Shape */
+  --yk-radius-sm: 8px;
+  --yk-radius-md: 16px;
+  --yk-radius-lg: 28px;
+  --yk-radius-xl: 40px;
+  --yk-radius-pill: 999px;
+  --yk-border: 3px solid var(--yk-ink);
+  --yk-border-thin: 2px solid var(--yk-ink);
+
+  /* Print-style offset shadows (no blur) */
+  --yk-shadow-press: 0 6px 0 var(--yk-ink);
+  --yk-shadow-card: 6px 8px 0 var(--yk-ink);
+  --yk-shadow-hero: 14px 16px 0 var(--yk-navy-shadow);
+
+  /* Texture */
+  --yk-grain: url('/images/paper-grain.png');
+  --yk-grain-size: 320px;
+
+  /* Motion */
+  --yk-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --yk-dur-fast: 120ms;
+  --yk-dur: 220ms;
+
+  /* Layout */
+  --yk-max: 1280px;
+  --yk-header-h: 84px;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --yk-header-h: 64px;
+    --yk-shadow-hero: 8px 10px 0 var(--yk-navy-shadow);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --yk-dur-fast: 0ms;
+    --yk-dur: 0ms;
+  }
+}

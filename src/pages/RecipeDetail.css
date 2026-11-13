@@ -1,0 +1,156 @@
+.yk-detail__back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: var(--yk-space-4);
+  font-weight: 700;
+  text-decoration: none;
+}
+.yk-detail__back:hover {
+  color: var(--yk-vermilion);
+}
+
+.yk-detail__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: var(--yk-space-7);
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .yk-detail__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--yk-space-6);
+  }
+}
+
+.yk-detail__photo {
+  position: relative;
+  margin: 0;
+  padding: 10px;
+  background: var(--yk-paper-light);
+  border: var(--yk-border);
+  box-shadow: var(--yk-shadow-card);
+  transform: rotate(-1deg);
+}
+.yk-detail__photo .yk-recipe-img {
+  aspect-ratio: 16 / 10;
+}
+.yk-detail__photo .yk-status {
+  bottom: 20px;
+  left: 20px;
+}
+
+.yk-detail__blurb {
+  margin: var(--yk-space-3) 0 0;
+  font-size: var(--yk-text-lg);
+}
+.yk-detail__meta {
+  margin: var(--yk-space-3) 0 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--yk-ink-soft);
+}
+.yk-detail__actions {
+  margin-top: var(--yk-space-5);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yk-space-3);
+}
+
+.yk-detail__cols {
+  margin-top: var(--yk-space-8);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: var(--yk-space-6);
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .yk-detail__cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.yk-detail__h2 {
+  font-family: var(--yk-font-display);
+  font-size: var(--yk-text-xl);
+  color: var(--yk-navy);
+  margin-bottom: var(--yk-space-4);
+}
+
+.yk-detail__ings {
+  padding: var(--yk-space-5);
+}
+.yk-detail__ings ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.yk-ing {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto 44px;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  border-bottom: 2px dashed var(--yk-paper-edge);
+}
+.yk-ing__mark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--yk-ink);
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+}
+.yk-ing[data-has='true'] .yk-ing__mark {
+  background: var(--yk-moss);
+  color: #fff;
+}
+.yk-ing[data-has='false'] .yk-ing__name {
+  font-weight: 700;
+}
+.yk-ing__opt {
+  font-weight: 400;
+  color: var(--yk-ink-soft);
+  font-size: var(--yk-text-sm);
+}
+.yk-ing__qty {
+  font-size: var(--yk-text-sm);
+  color: var(--yk-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.yk-ing__add {
+  grid-column: 4;
+}
+
+.yk-detail__steps ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.yk-detail__steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 var(--yk-space-5) 64px;
+  font-size: var(--yk-text-lg);
+  line-height: 1.45;
+}
+.yk-detail__steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -4px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--yk-vermilion);
+  color: var(--yk-paper);
+  border: var(--yk-border);
+  display: grid;
+  place-items: center;
+  font-family: var(--yk-font-display);
+  font-size: 1.25rem;
+}

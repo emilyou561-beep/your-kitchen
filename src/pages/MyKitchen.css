@@ -1,0 +1,291 @@
+.yk-kitchen .yk-btn[data-disabled='true'] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.yk-kitchen__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--yk-space-6);
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .yk-kitchen__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── Market ── */
+.yk-market {
+  padding: var(--yk-space-5);
+}
+
+.yk-search {
+  position: relative;
+}
+.yk-search__icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.yk-search input {
+  width: 100%;
+  height: 56px;
+  padding: 0 16px 0 48px;
+  font-size: var(--yk-text-lg);
+  background: #fff;
+  border: var(--yk-border);
+  border-radius: var(--yk-radius-pill);
+}
+.yk-search input::placeholder {
+  color: var(--yk-ink-soft);
+}
+
+.yk-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--yk-space-2);
+  margin: var(--yk-space-4) 0 0;
+}
+.yk-tab {
+  min-height: 44px;
+  padding: 0 16px;
+  border: var(--yk-border-thin);
+  border-radius: var(--yk-radius-pill);
+  background: transparent;
+  font-weight: 700;
+  font-size: var(--yk-text-sm);
+  cursor: pointer;
+}
+.yk-tab:hover {
+  background: var(--yk-paper);
+}
+.yk-tab[aria-pressed='true'] {
+  background: var(--yk-navy);
+  color: var(--yk-paper);
+}
+
+.yk-market__none {
+  margin: var(--yk-space-5) 0 0;
+  color: var(--yk-ink-soft);
+}
+
+.yk-tiles {
+  list-style: none;
+  margin: var(--yk-space-5) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--yk-space-3);
+}
+.yk-tile {
+  position: relative;
+  width: 100%;
+  min-height: 76px;
+  padding: 12px 44px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+  background: var(--yk-paper);
+  border: var(--yk-border-thin);
+  border-radius: var(--yk-radius-md);
+  box-shadow: 0 3px 0 var(--yk-ink);
+  cursor: pointer;
+  transition:
+    transform var(--yk-dur-fast) var(--yk-ease),
+    box-shadow var(--yk-dur-fast) var(--yk-ease);
+}
+.yk-tile[draggable='true'] {
+  cursor: grab;
+}
+.yk-tile:hover {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--yk-ink);
+}
+.yk-tile:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+.yk-tile__name {
+  font-weight: 700;
+  line-height: 1.2;
+}
+.yk-tile__romaji {
+  font-size: var(--yk-text-xs);
+  color: var(--yk-ink-soft);
+  font-style: italic;
+}
+.yk-tile__mark {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--yk-ink);
+  background: var(--yk-paper-light);
+}
+.yk-tile[data-owned='true'] {
+  background: var(--yk-navy);
+  color: var(--yk-paper);
+}
+.yk-tile[data-owned='true'] .yk-tile__romaji {
+  color: #dfe7ef;
+}
+.yk-tile[data-owned='true'] .yk-tile__mark {
+  background: var(--yk-mustard);
+  color: var(--yk-ink);
+}
+
+/* ── Fridge list ── */
+.yk-fridge-list {
+  padding: var(--yk-space-5);
+  position: sticky;
+  top: calc(var(--yk-header-h) + 48px);
+  transition: outline-color var(--yk-dur-fast);
+  outline: 4px dashed transparent;
+  outline-offset: 6px;
+}
+@media (max-width: 960px) {
+  .yk-fridge-list {
+    position: static;
+  }
+}
+.yk-fridge-list[data-drop='true'] {
+  outline-color: var(--yk-mustard);
+}
+.yk-fridge-list__head {
+  display: flex;
+  align-items: center;
+  gap: var(--yk-space-3);
+  margin-bottom: var(--yk-space-4);
+}
+.yk-fridge-list__head h2 {
+  font-family: var(--yk-font-display);
+  font-size: var(--yk-text-xl);
+  color: var(--yk-navy);
+}
+.yk-fridge-list__count {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: var(--yk-radius-pill);
+  background: var(--yk-mustard);
+  border: 2px solid var(--yk-ink);
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.yk-fridge-list__empty {
+  border: 3px dashed var(--yk-paper-edge);
+  border-radius: var(--yk-radius-md);
+  padding: var(--yk-space-7) var(--yk-space-4);
+}
+
+.yk-shelf + .yk-shelf {
+  margin-top: var(--yk-space-5);
+}
+.yk-shelf__label {
+  font-size: var(--yk-text-xs);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--yk-ink-soft);
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--yk-ink);
+}
+.yk-shelf__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.yk-row {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'name name name remove'
+    'step unit store remove';
+  align-items: center;
+  gap: 6px var(--yk-space-2);
+  padding: 12px 0;
+  border-bottom: 2px dashed var(--yk-paper-edge);
+}
+.yk-row__name {
+  grid-area: name;
+  font-weight: 700;
+  font-size: var(--yk-text-md);
+}
+.yk-row .yk-stepper {
+  grid-area: step;
+}
+.yk-row select:nth-of-type(1) {
+  grid-area: unit;
+}
+.yk-row select:nth-of-type(2) {
+  grid-area: store;
+  justify-self: start;
+}
+.yk-row__remove {
+  grid-area: remove;
+}
+@media (max-width: 420px) {
+  .yk-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'name name remove'
+      'step step remove'
+      'unit store remove';
+  }
+}
+
+.yk-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: var(--yk-border-thin);
+  border-radius: var(--yk-radius-pill);
+  background: #fff;
+  overflow: hidden;
+}
+.yk-stepper__btn {
+  width: 40px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.yk-stepper__btn:hover {
+  background: var(--yk-paper);
+}
+.yk-stepper__input {
+  width: 56px;
+  height: 44px;
+  text-align: center;
+  border: 0;
+  border-inline: 2px solid var(--yk-paper-edge);
+  font-weight: 700;
+  -moz-appearance: textfield;
+}
+.yk-stepper__input::-webkit-outer-spin-button,
+.yk-stepper__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.yk-select {
+  height: 44px;
+  padding: 0 28px 0 12px;
+  border: var(--yk-border-thin);
+  border-radius: var(--yk-radius-sm);
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
