@@ -43,7 +43,19 @@
 - 详情页缺少食材旁 ⊕ = "I have this"，直接加入库存，状态即时更新。
 - 生成清单只放**必需且缺少**的食材；toast 告知数量，或 "You have everything you need"。
 
-## 4. 动效
+## 4. 触感交互（第一批）
+
+| 位置 | 交互 | 实现 |
+|---|---|---|
+| My Kitchen 食材格 | 点击加入：格子先压下再弹起；一个芥末色小标签沿弧线**飞进右侧冰箱面板**（手机上冰箱在下方看不到时飞向顶部 My Kitchen 导航）；落地时冰箱面板轻晃、数字弹跳；安卓手机轻震 10ms | `lib/tactile.ts` 的 `flyTo / replay / buzz`；Web Animations API |
+| 菜谱卡 / 详情页 | 能直接做的菜，卡片滚进视野时**"啪"地盖上红色印章**（可 / READY），前 6 张依次错开 | `components/Stamp.tsx`；IntersectionObserver |
+| 购物清单 | 进入页面或"Update from recipes"时，小票从顶部的**打印机出纸口一格一格打出来** | `.yk-printing`，`steps(16)` |
+| 购物清单 | 勾选条目：一笔**手写红色划线**画过名字 | `Strike` SVG，stroke-dashoffset 动画 |
+| 购物清单 | 有已勾选条目时，小票底部出现**可撕下的存根**："N bought — Pull down to tear off & put away"。往下拖超过 60px 就撕下飞走，已买的食材放进 My Kitchen、手动条目一并清掉，可撤销。键盘或点击（Enter / 空格 / 单击）同样能撕 | `components/TearStub.tsx`；Pointer Events |
+
+全部遵守 `prefers-reduced-motion`：开启后不飞、不晃、不盖章动画，结果直接出现。
+
+## 5. 动效
 
 | 元素 | 动效 | 时长 |
 |---|---|---|

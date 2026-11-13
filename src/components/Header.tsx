@@ -42,11 +42,11 @@ export function Header() {
         </button>
 
         <nav id="yk-main-nav" className="yk-nav" aria-label="Main" data-open={open}>
-          <NavLink to="/kitchen" className="yk-nav__link">
+          <NavLink to="/kitchen" className="yk-nav__link" data-nav="kitchen">
             <FridgeIcon />
             My Kitchen
             {inventory.length > 0 && (
-              <span className="yk-badge" aria-label={`${inventory.length} ingredients`}>
+              <span key={inventory.length} className="yk-badge yk-pop" aria-label={`${inventory.length} ingredients`}>
                 {inventory.length}
               </span>
             )}
@@ -59,7 +59,7 @@ export function Header() {
             <ReceiptIcon />
             Grocery List
             {toBuy > 0 && (
-              <span className="yk-badge" aria-label={`${toBuy} items to buy`}>
+              <span key={toBuy} className="yk-badge yk-pop" aria-label={`${toBuy} items to buy`}>
                 {toBuy}
               </span>
             )}

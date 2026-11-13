@@ -4,6 +4,7 @@ import { RECIPES } from '../data/recipes'
 import { AVAILABILITY_LABEL, formatAmount, ingredientName, rankRecipes } from '../lib/match'
 import type { Availability, LineCheck, RecipeMatch } from '../lib/match'
 import { RecipeImage } from '../components/RecipeImage'
+import { Stamp } from '../components/Stamp'
 import { ArrowRight, Check, Clock, Plus, Search } from '../components/Icons'
 import { useKitchen } from '../state/KitchenContext'
 import './Recipes.css'
@@ -130,9 +131,9 @@ export function Recipes() {
         </div>
       ) : (
         <ul className="yk-cards">
-          {shown.map((m) => (
+          {shown.map((m, i) => (
             <li key={m.recipe.id}>
-              <RecipeCard match={m} selected={selected.includes(m.recipe.id)} onToggle={() => toggleRecipe(m.recipe.id)} />
+              <RecipeCard match={m} index={i} selected={selected.includes(m.recipe.id)} onToggle={() => toggleRecipe(m.recipe.id)} />
             </li>
           ))}
         </ul>
@@ -168,7 +169,7 @@ export function missingLabel(l: LineCheck): string {
   return l.short < l.need - 1e-9 ? `${name} (${formatAmount(l.short, l.ri.unit)} more)` : name
 }
 
-function RecipeCard({ match, selected, onToggle }: { match: RecipeMatch; selected: boolean; onToggle: () => void }) {
+function RecipeCard({ match, index, selected, onToggle }: { match: RecipeMatch; index: number; selected: boolean; onToggle: () => void }) {
   const { recipe, status, missingEssential } = match
   return (
     <article className="yk-card" data-selected={selected} aria-labelledby={`r-${recipe.id}`}>
@@ -209,6 +210,7 @@ function RecipeCard({ match, selected, onToggle }: { match: RecipeMatch; selecte
           <span className="yk-visually-hidden"> {recipe.name}</span>
         </button>
       </div>
+      {status === 'ready' && <Stamp delay={Math.min(index, 5) * 140} />}
     </article>
   )
 }

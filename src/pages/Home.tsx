@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from '../components/Icons'
 import { Waves } from '../components/Waves'
+import { HeroArt } from '../components/HeroArt'
 import { useKitchen } from '../state/KitchenContext'
 import { INGREDIENT_BY_ID } from '../data/ingredients'
 import './Home.css'
@@ -45,12 +46,8 @@ export function Home() {
         </section>
 
         <figure className="yk-home__photo">
-          <img
-            src="/images/hero-nikujaga.jpg"
-            alt="A blue-and-white ceramic bowl of nikujaga — braised potatoes, beef, carrot and snap peas — steaming on a wooden counter"
-            fetchPriority="high"
-          />
-          <figcaption>Nikujaga</figcaption>
+          <HeroArt />
+          <figcaption>Breakfast Set</figcaption>
         </figure>
       </div>
 

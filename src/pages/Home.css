@@ -151,11 +151,11 @@
   box-shadow: var(--yk-shadow-hero);
   transform: rotate(1.4deg);
 }
-.yk-home__photo img {
+.yk-home__photo .yk-hero-art {
+  display: block;
   width: 100%;
-  aspect-ratio: 16 / 9.3;
-  object-fit: cover;
-  object-position: 50% 55%;
+  aspect-ratio: 400 / 232;
+  height: auto;
 }
 .yk-home__photo figcaption {
   position: absolute;
@@ -211,10 +211,9 @@
     box-shadow: none;
     transform: none;
   }
-  .yk-home__photo img {
+  .yk-home__photo .yk-hero-art {
     aspect-ratio: auto;
     height: 250px;
-    object-position: 30% 55%;
   }
   .yk-home__photo figcaption {
     right: 14px;

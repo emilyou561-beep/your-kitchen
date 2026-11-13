@@ -178,3 +178,21 @@
   font-family: var(--yk-font-display);
   font-size: 1.25rem;
 }
+
+.yk-detail__photo .yk-stamp {
+  right: -26px;
+  bottom: -30px;
+  width: 112px;
+  height: 112px;
+}
+.yk-detail__photo .yk-stamp svg {
+  mix-blend-mode: normal;
+}
+.yk-detail__photo .yk-stamp::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--yk-paper-light);
+  z-index: -1;
+}

@@ -1,10 +1,22 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FridgeIcon, Plus, Printer, Trash } from '../components/Icons'
+import { Plus, Printer, Trash } from '../components/Icons'
+import { TearStub } from '../components/TearStub'
 import { groceryText } from '../lib/grocery'
+import { buzz } from '../lib/tactile'
 import { useKitchen } from '../state/KitchenContext'
 import { RECIPE_BY_ID } from '../data/recipes'
 import './GroceryList.css'
+
+/** Hand-drawn pen stroke across a bought item. */
+function Strike({ seed }: { seed: number }) {
+  const w = 3 + (seed % 3)
+  return (
+    <svg className="yk-strike" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d={`M1 ${7 + (seed % 2)} C 18 ${w}, 36 ${10 - w}, 55 6 S 86 ${4 + (seed % 3)}, 99 6`} pathLength={1} />
+    </svg>
+  )
+}
 
 export function GroceryList() {
   const {
@@ -21,12 +33,15 @@ export function GroceryList() {
     notify,
   } = useKitchen()
   const [draft, setDraft] = useState('')
+  // Bumped whenever the list is (re)printed so the receipt animation replays.
+  const [printKey, setPrintKey] = useState(0)
   const left = grocery.filter((g) => !g.checked).length
   const done = grocery.length - left
-  const doneFromRecipes = grocery.filter((g) => g.checked && g.ingredientId).length
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 
   const refresh = () => {
     const n = buildGroceryList()
+    setPrintKey((k) => k + 1)
     notify(n === 0 ? 'You have everything for the selected dishes' : `List updated — ${n} item${n === 1 ? '' : 's'} to buy`)
   }
 
@@ -38,7 +53,6 @@ export function GroceryList() {
       notify('Copy is not available in this browser')
     }
   }
-  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 
   return (
     <main id="main" className="yk-page yk-grocery">
@@ -59,7 +73,12 @@ export function GroceryList() {
         </div>
       </div>
 
-      <div className="yk-receipt">
+      <div className="yk-printer" aria-hidden="true">
+        <span className="yk-printer__slot" />
+        <span className="yk-printer__light" />
+      </div>
+
+      <div className="yk-receipt yk-printing" key={printKey}>
         <div className="yk-receipt__top" aria-hidden="true">
           <span className="yk-receipt__shop">YORU KITCHEN</span>
           <span className="yk-receipt__jp">夜の台所 · 買い物メモ</span>
@@ -91,28 +110,34 @@ export function GroceryList() {
           </div>
         ) : (
           <ul className="yk-receipt__items" aria-label="Items to buy">
-            {grocery.map((g) => (
+            {grocery.map((g, i) => (
               <li key={g.key} className="yk-line" data-checked={g.checked}>
                 <input
                   id={`chk-${g.key}`}
                   type="checkbox"
                   className="yk-line__check"
                   checked={g.checked}
-                  onChange={(e) => updateGroceryItem(g.key, { checked: e.target.checked })}
+                  onChange={(e) => {
+                    if (e.target.checked) buzz(8)
+                    updateGroceryItem(g.key, { checked: e.target.checked })
+                  }}
                 />
                 <label htmlFor={`chk-${g.key}`} className="yk-visually-hidden">
                   Bought {g.name}
                 </label>
                 <div className="yk-line__main">
-                  <label htmlFor={`name-${g.key}`} className="yk-visually-hidden">
-                    Item name
-                  </label>
-                  <input
-                    id={`name-${g.key}`}
-                    className="yk-line__name"
-                    value={g.name}
-                    onChange={(e) => updateGroceryItem(g.key, { name: e.target.value })}
-                  />
+                  <span className="yk-line__namewrap">
+                    <label htmlFor={`name-${g.key}`} className="yk-visually-hidden">
+                      Item name
+                    </label>
+                    <input
+                      id={`name-${g.key}`}
+                      className="yk-line__name"
+                      value={g.name}
+                      onChange={(e) => updateGroceryItem(g.key, { name: e.target.value })}
+                    />
+                    {g.checked && <Strike seed={i} />}
+                  </span>
                   {g.forRecipes.length > 0 && <span className="yk-line__for">{g.forRecipes.join(', ')}</span>}
                 </div>
                 <span className="yk-line__dots" aria-hidden="true" />
@@ -161,19 +186,6 @@ export function GroceryList() {
           </button>
         </form>
 
-        {done > 0 && (
-          <div className="yk-receipt__done">
-            {doneFromRecipes > 0 && (
-              <button type="button" className="yk-btn yk-btn--navy yk-btn--sm" onClick={moveCheckedToKitchen}>
-                <FridgeIcon size={18} /> Put bought items in My Kitchen
-              </button>
-            )}
-            <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={clearChecked}>
-              <Trash size={18} /> Clear checked
-            </button>
-          </div>
-        )}
-
         <div className="yk-receipt__total">
           <span>Items left</span>
           <span aria-live="polite">{left}</span>
@@ -182,6 +194,17 @@ export function GroceryList() {
           ありがとうございました
         </p>
       </div>
+
+      {done > 0 && (
+        <>
+          <TearStub count={done} onTear={() => moveCheckedToKitchen(true)} />
+          <div className="yk-grocery__after">
+            <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={clearChecked}>
+              <Trash size={18} /> Just clear checked
+            </button>
+          </div>
+        </>
+      )}
     </main>
   )
 }

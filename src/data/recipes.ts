@@ -27,7 +27,7 @@ const o = (id: string, qty: number, unit: string): RecipeIngredient => ({ id, qt
 export const RECIPES: Recipe[] = [
   {
     id: 'nikujaga', name: 'Nikujaga', nameJa: '肉じゃが', blurb: 'Beef and potatoes simmered sweet and savory.',
-    minutes: 35, serves: 3, image: '/images/hero-nikujaga.jpg', tint: '#C9894A',
+    minutes: 35, serves: 3, tint: '#C9894A',
     ingredients: [
       e('beef-sliced', 200, 'g'), e('potato', 3, 'pc'), e('onion', 1, 'pc'), e('soy-sauce', 3, 'tbsp'),
       e('mirin', 2, 'tbsp'), e('sugar', 15, 'g'), o('carrot', 1, 'pc'), o('snap-peas', 50, 'g'), o('dashi', 300, 'ml'),

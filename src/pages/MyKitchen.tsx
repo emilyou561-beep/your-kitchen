@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import type { DragEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { CATEGORIES, INGREDIENTS, INGREDIENT_BY_ID, STORAGE_LABEL, UNITS, searchIngredients } from '../data/ingredients'
 import type { Category, Storage } from '../data/ingredients'
 import { ArrowRight, Check, Minus, Plus, Search, Trash } from '../components/Icons'
 import { useKitchen } from '../state/KitchenContext'
+import { buzz, flyTo, replay } from '../lib/tactile'
 import './MyKitchen.css'
 
 const STORAGES: Storage[] = ['fridge', 'freezer', 'pantry']
@@ -15,6 +16,19 @@ export function MyKitchen() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<Category>('vegetables')
   const [dropActive, setDropActive] = useState(false)
+  const panelRef = useRef<HTMLElement>(null)
+  const countRef = useRef<HTMLSpanElement>(null)
+
+  /** Add with a little throw: tile squishes, chip arcs into the fridge, fridge wobbles. */
+  const throwIn = (id: string, name: string, tile: HTMLElement) => {
+    addIngredient(id, true)
+    replay(tile, 'yk-squish')
+    buzz()
+    flyTo(tile, [countRef.current, document.querySelector('[data-nav="kitchen"]')], name, (landed) => {
+      replay(panelRef.current, 'yk-wobble')
+      replay(landed, 'yk-pop')
+    })
+  }
 
   const results = useMemo(
     () => (query.trim() ? searchIngredients(query) : INGREDIENTS.filter((i) => i.category === category)),
@@ -30,7 +44,12 @@ export function MyKitchen() {
     e.preventDefault()
     setDropActive(false)
     const id = e.dataTransfer.getData(DRAG_TYPE)
-    if (id) addIngredient(id)
+    if (id) {
+      addIngredient(id, true)
+      buzz()
+      replay(panelRef.current, 'yk-wobble')
+      replay(countRef.current, 'yk-pop')
+    }
   }
 
   return (
@@ -112,7 +131,7 @@ export function MyKitchen() {
                         e.dataTransfer.setData(DRAG_TYPE, ing.id)
                         e.dataTransfer.effectAllowed = 'copy'
                       }}
-                      onClick={() => (has ? removeIngredient(ing.id) : addIngredient(ing.id))}
+                      onClick={(e) => (has ? removeIngredient(ing.id) : throwIn(ing.id, ing.name, e.currentTarget))}
                     >
                       <span className="yk-tile__name">{ing.name}</span>
                       {ing.romaji && <span className="yk-tile__romaji">{ing.romaji}</span>}
@@ -129,6 +148,7 @@ export function MyKitchen() {
 
         {/* ── Your fridge ── */}
         <section
+          ref={panelRef}
           className="yk-fridge-list yk-panel"
           aria-labelledby="fridge-h"
           data-drop={dropActive}
@@ -143,7 +163,9 @@ export function MyKitchen() {
         >
           <div className="yk-fridge-list__head">
             <h2 id="fridge-h">In your kitchen</h2>
-            <span className="yk-fridge-list__count">{inventory.length}</span>
+            <span ref={countRef} className="yk-fridge-list__count">
+              {inventory.length}
+            </span>
           </div>
           <div className="yk-fridge-list__tools">
             <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={addPantryBasics}>

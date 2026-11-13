@@ -3,6 +3,7 @@ import { RECIPE_BY_ID } from '../data/recipes'
 import { formatAmount, ingredientName, matchRecipe } from '../lib/match'
 import { tidy } from '../lib/units'
 import { RecipeImage } from '../components/RecipeImage'
+import { Stamp } from '../components/Stamp'
 import { ArrowRight, Check, Clock, Minus, Plus } from '../components/Icons'
 import { useKitchen } from '../state/KitchenContext'
 import { StatusBadge } from './Recipes'
@@ -47,6 +48,7 @@ export function RecipeDetail() {
         <figure className="yk-detail__photo">
           <RecipeImage recipe={recipe} />
           <StatusBadge status={match.status} />
+          {match.status === 'ready' && <Stamp key={recipe.id} />}
         </figure>
 
         <div className="yk-detail__info">

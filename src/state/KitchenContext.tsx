@@ -45,7 +45,7 @@ interface KitchenApi extends KitchenState {
   updateGroceryItem: (key: string, patch: Partial<GroceryItem>) => void
   removeGroceryItem: (key: string) => void
   clearChecked: () => void
-  moveCheckedToKitchen: () => number
+  moveCheckedToKitchen: (alsoClearOthers?: boolean) => number
   toast: Toast | null
   notify: (message: string, action?: Toast['action']) => void
   dismissToast: () => void
@@ -241,17 +241,22 @@ export function KitchenProvider({ children }: { children: ReactNode }) {
     notify('Checked items cleared', { label: 'Undo', run: () => setState((s) => ({ ...s, grocery: prev })) })
   }, [notify, state.grocery])
 
-  const moveCheckedToKitchen = useCallback((): number => {
+  const moveCheckedToKitchen = useCallback((alsoClearOthers = false): number => {
     const moving = state.grocery.filter((g) => g.checked && g.ingredientId)
-    if (moving.length === 0) return 0
+    const others = alsoClearOthers ? state.grocery.filter((g) => g.checked && !g.ingredientId) : []
+    if (moving.length === 0 && others.length === 0) return 0
     let inv = state.inventory
     for (const g of moving) {
       const q = Number(g.qty)
       inv = addStock(inv, g.ingredientId!, Number.isFinite(q) && q > 0 ? q : undefined, g.unit || undefined)
     }
-    const movedKeys = new Set(moving.map((g) => g.key))
+    const movedKeys = new Set([...moving, ...others].map((g) => g.key))
+    const prev = { inventory: state.inventory, grocery: state.grocery }
     setState((s) => ({ ...s, inventory: inv, grocery: s.grocery.filter((g) => !movedKeys.has(g.key)) }))
-    notify(`${moving.length} item${moving.length === 1 ? '' : 's'} put away in My Kitchen`)
+    notify(
+      moving.length > 0 ? `${moving.length} item${moving.length === 1 ? '' : 's'} put away in My Kitchen` : 'Bought items cleared',
+      { label: 'Undo', run: () => setState((s) => ({ ...s, ...prev })) },
+    )
     return moving.length
   }, [notify, state.grocery, state.inventory])
 
