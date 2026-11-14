@@ -267,19 +267,26 @@
   border-radius: var(--yk-radius-pill);
   background: var(--yk-mustard);
   border: 2px solid var(--yk-ink);
-  font-weight: 900;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
   font-size: var(--yk-text-xs);
+  letter-spacing: 0.02em;
 }
 .yk-funfact p {
   margin: 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
   font-size: var(--yk-text-md);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 .yk-funfact__src {
   display: inline-block;
   margin-top: 8px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
   font-size: var(--yk-text-xs);
-  font-weight: 700;
+  font-weight: 400;
   color: var(--yk-ink-soft);
 }
 .yk-funfact__src:hover {
