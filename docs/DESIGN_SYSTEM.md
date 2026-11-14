@@ -1,92 +1,93 @@
-# Yoru Kitchen 设计系统
+# Yoru Kitchen Design System
 
-> 说明文档用中文；App 界面文字一律英文。日文只作装饰（招牌、印章），必须 `aria-hidden`，不能承载任何功能信息。
-> 代码里的唯一真源：`src/styles/tokens.css`。改设计先改 token。
+> All app UI text is in English. Japanese is decoration only (signboards, stamps), must be `aria-hidden`, and must never carry functional information.
+> Single source of truth in code: `src/styles/tokens.css`. Change the token first when changing the design.
 
-## 1. 风格定位
+## 1. Direction
 
-昭和复古家庭厨房：暖纸色、朱红、藏青、芥末黄；粗墨线描边 + 无模糊的"印刷错位"投影；真实食物照片做主角；文字极少。
+A Showa-retro home kitchen: warm paper, vermilion, navy and mustard; thick ink outlines plus blur-free "misregistered print" shadows; real food photos as the hero; minimal text.
 
-**不要：** 渐变铺底、玻璃拟态、emoji、餐厅点餐风、樱花/灯笼等堆砌装饰、首屏教程文字。
+**Avoid:** gradient backgrounds, glassmorphism, emoji, restaurant-ordering UI, piled-on decorations like cherry blossoms or lanterns, and tutorial text above the fold.
 
-## 2. 颜色
+## 2. Color
 
-| Token | 值 | 用途 | 对比度 |
+| Token | Value | Use | Contrast |
 |---|---|---|---|
-| `--yk-vermilion` | #B83227 | 主按钮、标题、缺货提示 | 纸色上 4.9:1 |
-| `--yk-vermilion-dark` | #8F251C | 主按钮 hover | |
-| `--yk-navy` | #234D76 | 首页背景、选中态、次级标题 | 纸色上 7.2:1 |
-| `--yk-navy-deep` | #1A3A5A | 青海波底色 | |
-| `--yk-navy-shadow` | #14304D | 藏青底上的错位投影 | |
-| `--yk-paper` | #F5E8CD | 页面底色、冰箱门 | |
-| `--yk-paper-light` | #FFFBF1 | 卡片、面板 | |
-| `--yk-paper-edge` | #D8C7A2 | 虚线分隔、便签边 | 仅装饰 |
-| `--yk-mustard` | #D6A642 | 焦点环、把手、选中描边、"Almost" 状态点 | 仅装饰/非文字 |
-| `--yk-ink` | #28251F | 正文、描边、投影 | 纸色上 13:1 |
-| `--yk-ink-soft` | #5A5246 | 次要文字 | 纸色上 6.9:1 |
-| `--yk-moss` | #3F6B3A | "Ready" 状态、已拥有 | 纸色上 5.6:1 |
+| `--yk-vermilion` | #B83227 | Primary buttons, titles, missing-ingredient hints | 4.9:1 on paper |
+| `--yk-vermilion-dark` | #8F251C | Primary button hover | |
+| `--yk-navy` | #234D76 | Home background, selected state, secondary titles | 7.2:1 on paper |
+| `--yk-navy-deep` | #1A3A5A | Seigaiha wave base | |
+| `--yk-navy-shadow` | #14304D | Offset shadow on navy | |
+| `--yk-paper` | #F5E8CD | Page background, fridge door | |
+| `--yk-paper-light` | #FFFBF1 | Cards, panels | |
+| `--yk-paper-edge` | #D8C7A2 | Dashed dividers, note edges | Decorative only |
+| `--yk-mustard` | #D6A642 | Focus ring, handles, selected outline, "Almost" status dot | Decorative / non-text only |
+| `--yk-ink` | #28251F | Body text, outlines, shadows | 13:1 on paper |
+| `--yk-ink-soft` | #5A5246 | Secondary text | 6.9:1 on paper |
+| `--yk-moss` | #3F6B3A | "Ready" status, owned | 5.6:1 on paper |
 
-规则：芥末黄不做文字色；状态不能只靠颜色区分（状态徽章一定带文字）。
+Rules: never use mustard as a text color; never distinguish states by color alone (status badges always include text).
 
-## 3. 字体
+## 3. Typography
 
-| 角色 | 字体 | 场景 |
+| Role | Font | Where |
 |---|---|---|
-| Display | Shrikhand 400 | Logo、页面标题、卡片菜名、首页问题 |
-| UI | Zen Maru Gothic 500/700/900（圆体，亲切、像手写菜谱卡） | 导航、按钮、正文、表单 |
-| 手写 | Kalam 400 | 冰箱便签（仅装饰） |
-| 日文装饰 | Zen Antique | 招牌、印章、页面上方小字 |
+| Display | Shrikhand 400 | Logo, page titles, dish names on cards, home question |
+| UI | Zen Maru Gothic 500/700/900 (rounded, friendly, like a handwritten recipe card) | Navigation, buttons, body, forms |
+| Serif | Fraunces 400 / 400 italic / 600 italic | "Did you know?" fun fact card |
+| Handwriting | Kalam 400 | Fridge notes (decorative only) |
+| Japanese decoration | Zen Antique | Signboards, stamps, small text at the top of pages |
 
-字体通过 `@fontsource` 本地打包，离线可用，不依赖 Google 服务。
+Fonts are bundled locally via `@fontsource`, so they work offline with no dependency on Google services.
 
-字号阶梯（rem）：13 / 15 / 17（正文）/ 22 / 28 / 40 / 首页问题 `clamp(44px → 72px)`。
+Type scale (rem): 13 / 15 / 17 (body) / 22 / 28 / 40 / home question `clamp(44px → 72px)`.
 
-## 4. 间距 · 圆角 · 投影
+## 4. Spacing · Radius · Shadow
 
-- 间距：4px 基准：4, 8, 12, 16, 24, 32, 48, 64, 96。
-- 圆角：8（输入）、16（食材格）、28（卡片/面板）、40（冰箱门）、999（按钮）。
-- 描边：3px 墨线（主要）、2px（次要控件）。
-- 投影全部无模糊：按钮 `0 6px 0 ink`；卡片 `6px 8px 0 ink`；首页大块 `14px 16px 0 navy-shadow`（手机 8px 10px）。
+- Spacing on a 4px base: 4, 8, 12, 16, 24, 32, 48, 64, 96.
+- Radius: 8 (inputs), 16 (ingredient tiles), 28 (cards/panels), 40 (fridge door), 999 (buttons).
+- Outlines: 3px ink (primary), 2px (secondary controls).
+- All shadows are blur-free: buttons `0 6px 0 ink`; cards `6px 8px 0 ink`; large home blocks `14px 16px 0 navy-shadow` (mobile 8px 10px).
 
-## 5. 纹理
+## 5. Texture
 
-- 纸纹：`/images/paper-grain.png` 320px 平铺，透明度已烘焙在图里（约 15%），用于 body、页头、冰箱门。
-- 遮阳棚条纹：朱红/纸色 56px 竖条（手机 32px），下接 3px 墨线。
-- 青海波：SVG pattern，纸色线 45% 不透明度，仅用于首页底部。
-- 首页放射光：芥末黄 `repeating-conic-gradient`，16% 不透明度，手机端隐藏。
+- Paper grain: `/images/paper-grain.png`, 320px tile, opacity baked into the image (about 15%), used on body, header and fridge door.
+- Awning stripes: vermilion/paper 56px vertical stripes (32px on mobile), followed by a 3px ink line.
+- Seigaiha waves: SVG pattern, paper-colored lines at 45% opacity, home page footer only.
+- Home sunburst: mustard `repeating-conic-gradient` at 16% opacity, hidden on mobile.
 
-## 6. 图片方向
+## 6. Imagery
 
-- 写实照片，日式陶瓷（蓝白染付、粗陶），木桌，暖色侧光，有热气。
-- 菜品居中偏左，留出右上角给装饰招牌。
-- 处理方式：纸色 10–12px 相框 + 墨线 + 错位投影，轻微旋转（±1.5°）。
-- 统一比例：首页 16:9.3；菜谱卡 5:3；详情页 16:10。
-- 来源：Canva AI 生成（原创），或有授权的图库。禁止电视截图、商标、网图。
-- 没有照片时用 `RecipeImage` 的插画占位（碗 + 菜色），绝不出现破图。
+- Realistic photos, Japanese ceramics (blue-and-white sometsuke, stoneware), wooden table, warm side light, visible steam.
+- Dish centered slightly left, leaving the top-right corner for the decorative signboard.
+- Treatment: 10–12px paper frame + ink outline + offset shadow, slight rotation (±1.5°).
+- Consistent ratios: home 16:9.3; recipe cards 5:3; detail page 16:10.
+- Sources: original AI-generated images or licensed stock. No TV screenshots, trademarks, or random web images.
+- When there is no photo, `RecipeImage` falls back to the illustration (bowl + dish colors). Never show a broken image.
 
-## 7. 断点
+## 7. Breakpoints
 
-| 名称 | 宽度 | 变化 |
+| Name | Width | Changes |
 |---|---|---|
-| Mobile | ≤ 720px | 汉堡菜单、首页照片在上冰箱门压在下方、遮阳棚变窄 |
-| Tablet | 721–1100px | 首页两栏收窄 |
-| Desktop | > 1100px | 完整布局，最大宽 1440（页面内容 1280） |
-| 其它 | ≤ 960 | My Kitchen / 详情页单栏；≤ 520 收据行收紧 |
+| Mobile | ≤ 720px | Hamburger menu, home photo on top with the fridge door overlapping below, narrower awning |
+| Tablet | 721–1100px | Home two-column layout narrows |
+| Desktop | > 1100px | Full layout, max width 1440 (page content 1280) |
+| Other | ≤ 960 | My Kitchen / detail page single column; ≤ 520 receipt rows tighten |
 
-## 8. 组件库
+## 8. Components
 
-| 组件 | 文件 | 要点 |
+| Component | File | Notes |
 |---|---|---|
-| Header（遮阳棚 + Logo + 导航） | `components/Header.tsx` | 当前页芥末下划线；数量徽章；手机汉堡菜单，Esc 关闭 |
-| Button | `.yk-btn` + `--primary / --secondary / --navy / --lg / --sm` | 最小 44px 高；按下下沉 4–6px；`:disabled` 半透明 |
-| Icon button | `.yk-icon-btn` | 44×44，必须有 `aria-label` |
-| Fridge door（首页） | `pages/Home.tsx` | 冷冻室便签 + 冷藏门问题 + 唯一 CTA |
-| Ingredient tile | `.yk-tile` | 点击加入/移除，`aria-pressed`；可拖拽 |
-| Category filter | `.yk-tab` | `aria-pressed` 按钮组 |
-| Inventory row | `.yk-row` | 数量步进器、单位、存放位置、删除 |
-| Recipe card | `.yk-card` | 照片、状态徽章、菜名（英文/罗马音）、日文装饰、时间、缺少的必需食材、Select |
-| Status badge | `.yk-status--ready / almost / shop` | 圆点 + 文字 |
-| Plan bar | `.yk-planbar` | 选中菜品后出现，吸底 |
-| Receipt | `.yk-receipt` | 锯齿边、等宽数字、可编辑行、打印样式 |
-| Toast | `.yk-toast` | `role=status`，2.4 秒自动消失 |
-| Waves | `components/Waves.tsx` | 纯装饰 |
+| Header (awning + logo + nav) | `components/Header.tsx` | Mustard underline on current page; count badges; mobile hamburger menu closes on Esc |
+| Button | `.yk-btn` + `--primary / --secondary / --navy / --lg / --sm` | Min 44px tall; sinks 4–6px on press; `:disabled` is semi-transparent |
+| Icon button | `.yk-icon-btn` | 44×44, must have an `aria-label` |
+| Fridge door (home) | `pages/Home.tsx` | Freezer note + fridge-door question + the only CTA |
+| Ingredient tile | `.yk-tile` | Click to add/remove, `aria-pressed`; draggable |
+| Category filter | `.yk-tab` | `aria-pressed` button group |
+| Inventory row | `.yk-row` | Quantity stepper, unit, storage location, delete |
+| Recipe card | `.yk-card` | Photo, status badge, dish name (English/romaji), Japanese decoration, time, missing essentials, Select |
+| Status badge | `.yk-status--ready / almost / shop` | Dot + text |
+| Plan bar | `.yk-planbar` | Appears after selecting dishes, sticky at the bottom |
+| Receipt | `.yk-receipt` | Zigzag edge, tabular numbers, editable rows, print styles |
+| Toast | `.yk-toast` | `role=status`, auto-dismisses after 2.4 seconds |
+| Waves | `components/Waves.tsx` | Decorative only |
