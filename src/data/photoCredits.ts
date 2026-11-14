@@ -1,4 +1,4 @@
-/** Photo credits for public/images/ramen/*.jpg — all from Unsplash, free under the Unsplash License. */
+/** Photo credits for public/images/ramen/*.jpg — from Unsplash and Pexels, free for commercial use under their licenses. */
 export interface PhotoCredit { author: string; url: string; site: string }
 
 export const PHOTO_CREDITS: Record<string, PhotoCredit> = {
@@ -19,4 +19,9 @@ export const PHOTO_CREDITS: Record<string, PhotoCredit> = {
   'abura-soba': { author: "taro ohtani", url: 'https://unsplash.com/photos/f1AU6N-zp-c', site: 'Unsplash' },
   'wakayama': { author: "Masaaki Komori", url: 'https://unsplash.com/photos/2TjDelq95rc', site: 'Unsplash' },
   'sano': { author: "j", url: 'https://unsplash.com/photos/lbxLlgi_8_w', site: 'Unsplash' },
+  'tsukemen': { author: 'airamdphoto', url: 'https://www.pexels.com/photo/delicious-tsukemen-with-rich-broth-and-toppings-30682730/', site: 'Pexels' },
+  'sapporo-miso': { author: 'Christian Dala', url: 'https://www.pexels.com/photo/close-up-of-a-bowl-ramen-standing-on-a-table-in-a-restaurant-23658622/', site: 'Pexels' },
+  'kurume': { author: 'eugeniofr', url: 'https://www.pexels.com/photo/traditional-japanese-ramen-bowl-in-tokyo-30988961/', site: 'Pexels' },
+  'takayama': { author: 'Markus Winkler', url: 'https://www.pexels.com/photo/bowl-of-ramen-with-pork-19856561/', site: 'Pexels' },
+  'okinawa-soba': { author: '8-Low Ural', url: 'https://unsplash.com/photos/ramen-l3Mr7vSdmd4', site: 'Unsplash' },
 }

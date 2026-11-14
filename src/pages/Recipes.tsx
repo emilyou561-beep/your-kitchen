@@ -8,6 +8,7 @@ import { RecipeImage } from '../components/RecipeImage'
 import { Stamp } from '../components/Stamp'
 import { ArrowRight, Check, Clock, Plus, Search } from '../components/Icons'
 import { useKitchen } from '../state/KitchenContext'
+import { PHOTO_CREDITS } from '../data/photoCredits'
 import './Recipes.css'
 
 type Filter = 'all' | Availability
@@ -36,7 +37,14 @@ export function Recipes() {
   const q = query.trim().toLowerCase()
   const keep = (m: RecipeMatch) => (!time || m.minutes <= time) && (!q || haystack(m.recipe).includes(q))
 
-  const ramen = useMemo(() => rankRecipes(RAMEN, inventory, routes).filter(keep), [inventory, routes, q, time]) // eslint-disable-line react-hooks/exhaustive-deps
+  // Bowls with real photos lead the menu until every bowl has one; availability order is kept within each group.
+  const ramen = useMemo(
+    () => {
+      const ranked = rankRecipes(RAMEN, inventory, routes).filter(keep)
+      return [...ranked.filter((m) => PHOTO_CREDITS[m.recipe.id]), ...ranked.filter((m) => !PHOTO_CREDITS[m.recipe.id])]
+    },
+    [inventory, routes, q, time], // eslint-disable-line react-hooks/exhaustive-deps
+  )
   const bySoup = soup === 'all' ? ramen : ramen.filter((m) => m.recipe.soup === soup)
   const counts = useMemo(() => {
     const c = { ready: 0, almost: 0, shop: 0 }

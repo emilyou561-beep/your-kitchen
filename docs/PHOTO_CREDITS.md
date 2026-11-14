@@ -1,6 +1,6 @@
 # 照片来源
 
-所有照片来自 Unsplash，按 [Unsplash License](https://unsplash.com/license) 免费商用，不强制署名，但我们在详情页仍标注作者。
+照片来自 Unsplash 和 Pexels，按 [Unsplash License](https://unsplash.com/license) / [Pexels License](https://www.pexels.com/license/) 免费商用，不强制署名，但我们在详情页仍标注作者。
 
 | 拉面 | 文件 | 摄影师 | 原图 |
 |---|---|---|---|
@@ -21,5 +21,11 @@
 | abura-soba | `public/images/ramen/abura-soba.jpg` | taro ohtani | https://unsplash.com/photos/f1AU6N-zp-c |
 | wakayama | `public/images/ramen/wakayama.jpg` | Masaaki Komori | https://unsplash.com/photos/2TjDelq95rc |
 | sano | `public/images/ramen/sano.jpg` | j | https://unsplash.com/photos/lbxLlgi_8_w |
+
+| tsukemen | `public/images/ramen/tsukemen.jpg` | airamdphoto (Pexels) | https://www.pexels.com/photo/delicious-tsukemen-with-rich-broth-and-toppings-30682730/ |
+| sapporo-miso | `public/images/ramen/sapporo-miso.jpg` | Christian Dala (Pexels) | https://www.pexels.com/photo/close-up-of-a-bowl-ramen-standing-on-a-table-in-a-restaurant-23658622/ |
+| kurume | `public/images/ramen/kurume.jpg` | eugeniofr (Pexels) | https://www.pexels.com/photo/traditional-japanese-ramen-bowl-in-tokyo-30988961/ |
+| takayama | `public/images/ramen/takayama.jpg` | Markus Winkler (Pexels) | https://www.pexels.com/photo/bowl-of-ramen-with-pork-19856561/ |
+| okinawa-soba | `public/images/ramen/okinawa-soba.jpg` | 8-Low Ural | https://unsplash.com/photos/ramen-l3Mr7vSdmd4 |
 
 新增照片时：放进 `public/images/ramen/<id>.jpg`，并在 `src/data/photoCredits.ts` 加一行来源。
