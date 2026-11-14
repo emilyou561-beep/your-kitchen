@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { INGREDIENTS, INGREDIENT_BY_ID, PANTRY_BASICS, searchIngredients } from '../data/ingredients'
-import { RECIPES, RECIPE_BY_ID } from '../data/recipes'
+import { RECIPES, RECIPE_BY_ID, artFor } from '../data/recipes'
 import { buildGrocery, groceryText } from './grocery'
 import type { GroceryItem } from './grocery'
 import { matchRecipe, rankRecipes } from './match'
@@ -212,5 +212,26 @@ describe('routes', () => {
     expect(quick).toContain('tonkotsu-base')
     expect(auth).toContain('pork-bones')
     expect(auth).not.toContain('tonkotsu-base')
+  })
+})
+
+describe('fun facts & route art', () => {
+  const ramen = RECIPES.filter((r) => r.kind === 'ramen')
+  it('every ramen has a sourced, English fun fact', () => {
+    const jp = /[\u3040-\u30ff\u4e00-\u9faf]/
+    for (const r of ramen) {
+      expect(r.funFact, r.id).toBeDefined()
+      expect(r.funFact!.url.startsWith('https://'), r.id).toBe(true)
+      expect(jp.test(r.funFact!.fact), r.id).toBe(false)
+    }
+  })
+  it('authentic art differs from quick art when a dish has an authentic route', () => {
+    for (const r of ramen.filter((x) => x.authentic)) {
+      expect(JSON.stringify(artFor(r, 'authentic')), r.id).not.toBe(JSON.stringify(artFor(r, 'quick')))
+    }
+  })
+  it('quick art is unchanged', () => {
+    const r = RECIPE_BY_ID['tokyo-shoyu']
+    expect(artFor(r, 'quick')).toEqual(r.art)
   })
 })

@@ -226,7 +226,7 @@ function RecipeCard({ match, index, selected, onToggle }: { match: RecipeMatch; 
   return (
     <article className="yk-card" data-selected={selected} aria-labelledby={`r-${recipe.id}`}>
       <div className="yk-card__media">
-        <RecipeImage recipe={recipe} />
+        <RecipeImage recipe={recipe} route={route} />
         <StatusBadge status={status} />
       </div>
       <div className="yk-card__body">

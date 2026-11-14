@@ -3,7 +3,7 @@ import type { Recipe } from './recipeTypes'
 import { RAMEN, RAMEN_BASICS } from './ramen'
 
 export type { Recipe, RecipeIngredient, RecipeKind, Route, RouteId, SoupType, RamenArtSpec, Topping } from './recipeTypes'
-export { routeOf, formatMinutes, SOUP_LABEL } from './recipeTypes'
+export { routeOf, artFor, formatMinutes, SOUP_LABEL } from './recipeTypes'
 
 type SideDraft = Omit<Recipe, 'kind'>
 

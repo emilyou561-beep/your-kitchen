@@ -50,7 +50,7 @@ export function RecipeDetail() {
 
       <div className="yk-detail__grid">
         <figure className="yk-detail__photo">
-          <RecipeImage recipe={recipe} />
+          <RecipeImage recipe={recipe} route={route} key={route} />
           <StatusBadge status={match.status} />
           {match.status === 'ready' && <Stamp key={recipe.id} />}
         </figure>
@@ -60,7 +60,18 @@ export function RecipeDetail() {
             {recipe.nameJa}
           </span>
           <h1 className="yk-page__title">{recipe.name}</h1>
-          <p className="yk-detail__blurb">{recipe.blurb}</p>
+          {recipe.funFact ? (
+            <aside className="yk-funfact" aria-label="Fun fact">
+              <span className="yk-funfact__label">Did you know?</span>
+              <p>{recipe.funFact.fact}</p>
+              <a href={recipe.funFact.url} target="_blank" rel="noreferrer" className="yk-funfact__src">
+                Source: {recipe.funFact.source}
+                <span className="yk-visually-hidden"> (opens in a new tab)</span>
+              </a>
+            </aside>
+          ) : (
+            <p className="yk-detail__blurb">{recipe.blurb}</p>
+          )}
           {recipe.region && (
             <p className="yk-card__tags yk-detail__tags">
               <span>{recipe.region}</span>
@@ -72,7 +83,7 @@ export function RecipeDetail() {
               {(
                 [
                   ['quick', 'Quick', recipe.minutes, 'Store-bought stock & noodles'],
-                  ['authentic', 'Authentic', recipe.authentic.minutes, 'Shop-style, from scratch'],
+                  ['authentic', 'Authentic', recipe.authentic.minutes, 'Shop-style: aroma oil, homemade toppings'],
                 ] as [RouteId, string, number, string][]
               ).map(([id, label, mins, note]) => (
                 <button key={id} type="button" className="yk-route__opt" aria-pressed={route === id} onClick={() => setRoute(recipe.id, id)}>

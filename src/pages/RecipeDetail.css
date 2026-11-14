@@ -250,3 +250,38 @@
 .yk-detail__basics a {
   color: var(--yk-vermilion);
 }
+
+.yk-funfact {
+  position: relative;
+  margin: var(--yk-space-4) 0 0;
+  padding: 16px 18px 14px;
+  background: var(--yk-paper-light);
+  border: var(--yk-border-thin);
+  border-radius: var(--yk-radius-md);
+  box-shadow: 4px 5px 0 var(--yk-mustard);
+}
+.yk-funfact__label {
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 2px 10px;
+  border-radius: var(--yk-radius-pill);
+  background: var(--yk-mustard);
+  border: 2px solid var(--yk-ink);
+  font-weight: 900;
+  font-size: var(--yk-text-xs);
+}
+.yk-funfact p {
+  margin: 0;
+  font-size: var(--yk-text-md);
+  line-height: 1.55;
+}
+.yk-funfact__src {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: var(--yk-text-xs);
+  font-weight: 700;
+  color: var(--yk-ink-soft);
+}
+.yk-funfact__src:hover {
+  color: var(--yk-vermilion);
+}

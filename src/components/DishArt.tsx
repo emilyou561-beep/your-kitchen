@@ -4,7 +4,8 @@
  * All drawing happens in a 200×120 box so dishes can be reused in other scenes.
  */
 import type { ReactNode } from 'react'
-import type { Recipe } from '../data/recipeTypes'
+import { artFor } from '../data/recipeTypes'
+import type { Recipe, RouteId } from '../data/recipeTypes'
 import { RamenDrawing } from './RamenArt'
 
 const INK = '#28251F'
@@ -675,10 +676,11 @@ function BasicPot({ tint }: { tint: string }) {
   )
 }
 
-export function DishArt({ id, recipe }: { id: string; recipe?: Recipe }) {
-  const body = recipe?.art ? (
+export function DishArt({ id, recipe, route = 'quick' }: { id: string; recipe?: Recipe; route?: RouteId }) {
+  const spec = recipe ? artFor(recipe, route) : undefined
+  const body = spec ? (
     <g transform="translate(100 74) scale(1.08) translate(-100 -74)">
-      <RamenDrawing spec={recipe.art} />
+      <RamenDrawing spec={spec} />
     </g>
   ) : recipe?.kind === 'basic' ? (
     <BasicPot tint={recipe.tint} />

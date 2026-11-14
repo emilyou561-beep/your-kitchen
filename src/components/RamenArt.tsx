@@ -227,6 +227,28 @@ const Yuzu = ({ x, y }: { x: number; y: number }) => (
   <path d={`M${x - 5} ${y} q5 -4 10 0`} stroke="#F4C830" strokeWidth={3} fill="none" strokeLinecap="round" />
 )
 
+/** Shop-style aroma oil: glossy golden rings floating on the soup. */
+function OilLayer() {
+  const r = rng(77)
+  return (
+    <g>
+      {Array.from({ length: 14 }).map((_, i) => {
+        const a = r() * Math.PI * 2
+        const d = Math.sqrt(r()) * 0.9
+        const x = CX + Math.cos(a) * RX * d
+        const y = CY + Math.sin(a) * RY * d
+        const rad = 1.6 + r() * 2.6
+        return (
+          <g key={i}>
+            <ellipse cx={x} cy={y} rx={rad} ry={rad * 0.7} fill="#F2C14E" opacity={0.85} />
+            <ellipse cx={x - rad * 0.3} cy={y - rad * 0.25} rx={rad * 0.35} ry={rad * 0.22} fill="#FFF6D0" />
+          </g>
+        )
+      })}
+    </g>
+  )
+}
+
 function StarchSauce() {
   return (
     <g>
@@ -286,7 +308,7 @@ function drawTopping(t: Topping, x: number, y: number, i: number): ReactNode {
 }
 
 /** Overlays that sit across the whole surface rather than in a slot. */
-const SURFACE: Topping[] = ['chili-oil', 'back-fat', 'pepper', 'sesame', 'onion', 'mayu', 'starch-sauce', 'nori', 'mountain', 'chilled-strips']
+const SURFACE: Topping[] = ['oil', 'chili-oil', 'back-fat', 'pepper', 'sesame', 'onion', 'mayu', 'starch-sauce', 'nori', 'mountain', 'chilled-strips']
 
 function Noodles({ type }: { type: RamenArtSpec['noodle'] }) {
   const w = type === 'thin' ? 1.6 : type === 'thick' ? 4 : type === 'flat' ? 4.6 : 2.6
@@ -330,6 +352,7 @@ function Toppings({ spec }: { spec: RamenArtSpec }) {
     <g>
       {top.includes('starch-sauce') && <StarchSauce />}
       {top.includes('mayu') && <path d="M70 62 q12 -8 26 -2 q12 5 24 -1" stroke="#1A1410" strokeWidth={3.2} fill="none" strokeLinecap="round" opacity={0.85} />}
+      {top.includes('oil') && <OilLayer />}
       {top.includes('chili-oil') && <SurfaceDots color="#D9341E" n={16} seed={17} r={2.2} />}
       {top.includes('nori') && <Nori x={130} />}
       {top.includes('mountain') && drawTopping('mountain', 0, 0, 99)}

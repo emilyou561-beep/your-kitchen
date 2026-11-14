@@ -69,6 +69,7 @@ export type Topping =
   | 'yuzu'
   | 'pork-bits'
   | 'starch-sauce'
+  | 'oil'
 
 /** Parameters for the hand-drawn bowl illustration. */
 export interface RamenArtSpec {
@@ -109,6 +110,8 @@ export interface Recipe {
   authentic?: Route
   /** Ids of Ramen Basics the authentic route uses. */
   basics?: string[]
+  /** Ramen only: a sourced fun fact shown on the detail page. */
+  funFact?: { fact: string; source: string; url: string }
 }
 
 export const e = (id: string, qty: number, unit: string): RecipeIngredient => ({ id, qty, unit, essential: true })
@@ -123,4 +126,28 @@ export function formatMinutes(m: number): string {
   if (m < 90) return `${m} min`
   const h = m / 60
   return `${Number.isInteger(h) ? h : h.toFixed(1)} hr`
+}
+
+/**
+ * Illustration for a route. The authentic bowl shows what the shop-style route adds:
+ * a glossy aroma-oil layer, extra homemade chashu, and an ajitama when the route makes one.
+ */
+export function artFor(recipe: Recipe, route: RouteId = 'quick'): RamenArtSpec | undefined {
+  const base = recipe.art
+  if (!base || route !== 'authentic' || !recipe.authentic) return base
+  const b = recipe.basics ?? []
+  const top = [...base.top]
+  const add = (t: Topping) => {
+    if (!top.includes(t)) top.push(t)
+  }
+  if (base.vessel === 'bowl' && !top.includes('back-fat') && !top.includes('mayu')) add('oil')
+  if (b.includes('basic-chashu')) top.unshift('chashu')
+  if (b.includes('basic-ajitama')) add('egg')
+  if (b.includes('basic-aroma-oils') && !top.includes('mayu') && !top.includes('back-fat')) add('scallion')
+  // Every shop-style bowl gets at least one visible upgrade: homemade chashu, then an egg.
+  if (top.length === base.top.length) {
+    if (top.includes('egg')) top.unshift('chashu')
+    else add('egg')
+  }
+  return { ...base, top }
 }

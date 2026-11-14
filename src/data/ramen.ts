@@ -6,6 +6,7 @@
  */
 import { e, o } from './recipeTypes'
 import type { Recipe, RecipeIngredient } from './recipeTypes'
+import { FUN_FACTS } from './funFacts'
 
 /* ───────── shared bundles ───────── */
 
@@ -41,6 +42,7 @@ function mergeLines(list: RecipeIngredient[]): RecipeIngredient[] {
 function tidyRecipe(r: Recipe): Recipe {
   return {
     ...r,
+    funFact: FUN_FACTS[r.id],
     ingredients: mergeLines(r.ingredients),
     authentic: r.authentic ? { ...r.authentic, ingredients: mergeLines(r.authentic.ingredients) } : undefined,
   }
@@ -698,7 +700,7 @@ const RAMEN_RAW: Recipe[] = [
     steps: ['Sauté onion, garlic and pork in the chili oil until soft and sweet.', 'Add stock and soy; boil 1 minute.', SERVE],
   },
   {
-    id: 'karamiso', kind: 'ramen', name: 'Spicy Miso Ramen', nameJa: '辛味噌ラーメン', region: 'Akita / Yamagata', soup: 'miso', tint: '#B9572A',
+    id: 'karamiso', kind: 'ramen', name: 'Spicy Miso Ramen', nameJa: '辛味噌ラーメン', region: 'Yamagata', soup: 'miso', tint: '#B9572A',
     blurb: 'Miso ramen with a ball of fiery chili miso to stir in.',
     art: { vessel: 'bowl', soup: '#C26A30', noodle: 'thick', top: ['chili-oil', 'chashu', 'sprouts', 'scallion'] },
     minutes: 25, serves: 2,
