@@ -85,15 +85,30 @@
 .yk-fridge:hover {
   box-shadow: 18px 20px 0 var(--yk-navy-shadow), 0 0 50px rgb(214 166 66 / 0.12);
 }
+.yk-fridge[data-opening='true'] {
+  overflow: visible;
+  cursor: wait;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgb(214 166 66 / 0.34), transparent 38%),
+    linear-gradient(145deg, #142f4c, var(--yk-navy-deep));
+  box-shadow: 18px 20px 0 var(--yk-navy-shadow), 0 0 58px rgb(214 166 66 / 0.28);
+}
+.yk-fridge[data-opening='true']::before {
+  opacity: 0.18;
+}
 
 .yk-fridge__freezer {
   position: relative;
+  z-index: 2;
   height: 168px;
   border-bottom: 4px solid var(--yk-ink);
   background:
     radial-gradient(circle at 18% 20%, rgb(255 251 241 / 0.78) 0 2px, transparent 3px),
     linear-gradient(135deg, transparent 0 48%, rgb(216 199 162 / 0.2) 49% 50%, transparent 51%);
   background-size: 26px 26px, 100% 100%;
+  transform-origin: right center;
+  backface-visibility: hidden;
+  transition: transform 620ms cubic-bezier(0.2, 0.8, 0.18, 1), filter 620ms var(--yk-ease);
 }
 
 
@@ -140,10 +155,25 @@
 .yk-fridge__door {
   position: relative;
   z-index: 1;
+  background: var(--yk-paper);
   padding: 52px 64px 64px 56px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  transform-origin: right center;
+  backface-visibility: hidden;
+  transition: transform 680ms cubic-bezier(0.2, 0.8, 0.18, 1), filter 680ms var(--yk-ease);
+}
+.yk-fridge[data-opening='true'] .yk-fridge__freezer,
+.yk-fridge[data-opening='true'] .yk-fridge__door {
+  transform: perspective(1100px) rotateY(-68deg) translateX(-12px);
+  filter: brightness(0.94) saturate(0.88);
+}
+.yk-fridge[data-opening='true'] .yk-fridge__freezer {
+  transition-delay: 20ms;
+}
+.yk-fridge[data-opening='true'] .yk-fridge__door {
+  transition-delay: 70ms;
 }
 
 .yk-fridge__title {
@@ -262,6 +292,14 @@
 .yk-home__waves {
   position: relative;
   flex: none;
+  transition: opacity 480ms var(--yk-ease);
+}
+.yk-home[data-opening='true'] .yk-home__photo {
+  opacity: 0.38;
+  filter: saturate(0.7) blur(1px);
+}
+.yk-home[data-opening='true'] .yk-home__waves {
+  opacity: 0.24;
 }
 
 /* ── Showa magnets on the freezer door ── */
@@ -326,6 +364,13 @@
   from { opacity: 0; transform: translateY(12px) scale(0.96); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+.yk-hero-glint {
+  animation: yk-hero-glint 3.8s ease-in-out infinite;
+}
+@keyframes yk-hero-glint {
+  0%, 100% { opacity: 0.28; transform: translateX(-2px); }
+  50% { opacity: 0.88; transform: translateX(4px); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .yk-home__sun,
@@ -342,6 +387,15 @@
   .yk-home__photo::after,
   .yk-fridge__handle::after {
     display: none;
+  }
+  .yk-fridge[data-opening='true'] .yk-fridge__freezer,
+  .yk-fridge[data-opening='true'] .yk-fridge__door {
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+  .yk-hero-glint {
+    animation: none;
   }
 }
 .yk-magnet--milk { left: 46px; top: 22px; width: 58px; --r: -8deg; }

@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
-import type { PointerEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import type { MouseEvent, PointerEvent } from 'react'
 import { ArrowRight } from '../components/Icons'
 import { Waves } from '../components/Waves'
 import { HeroArt } from '../components/HeroArt'
@@ -8,9 +8,12 @@ import { Magnets } from '../components/Magnets'
 import './Home.css'
 
 export function Home() {
+  const navigate = useNavigate()
+  const [opening, setOpening] = useState(false)
   const homeRef = useRef<HTMLElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   const frameRef = useRef<number | null>(null)
+  const navigateTimerRef = useRef<number | null>(null)
 
   const setScene = (x: number, y: number) => {
     const stage = stageRef.current
@@ -39,18 +42,31 @@ export function Home() {
     frameRef.current = requestAnimationFrame(() => setScene(0, 0))
   }
 
+  const handleKitchenOpen = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    event.preventDefault()
+    if (opening) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      navigate('/kitchen')
+      return
+    }
+    setOpening(true)
+    navigateTimerRef.current = window.setTimeout(() => navigate('/kitchen'), 680)
+  }
+
   useEffect(() => {
     return () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
+      if (navigateTimerRef.current !== null) window.clearTimeout(navigateTimerRef.current)
     }
   }, [])
 
   return (
-    <main ref={homeRef} id="main" className="yk-home yk-grain">
+    <main ref={homeRef} id="main" className="yk-home yk-grain" data-opening={opening ? 'true' : undefined}>
       <div className="yk-home__sun" aria-hidden="true" />
 
       <div ref={stageRef} className="yk-home__stage" onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
-        <section className="yk-fridge yk-grain" aria-labelledby="hero-q">
+        <section className="yk-fridge yk-grain" aria-labelledby="hero-q" data-opening={opening ? 'true' : undefined}>
           <div className="yk-fridge__freezer">
             <Magnets />
             <div className="yk-fridge__handle yk-fridge__handle--short" aria-hidden="true" />
@@ -63,7 +79,12 @@ export function Home() {
             <svg className="yk-fridge__swash" viewBox="0 0 250 18" aria-hidden="true" focusable="false">
               <path d="M4 12C60 3 150 2 246 9" fill="none" stroke="#D6A642" strokeWidth="7" strokeLinecap="round" />
             </svg>
-            <Link to="/kitchen" className="yk-btn yk-btn--primary yk-btn--lg yk-fridge__cta">
+            <Link
+              to="/kitchen"
+              className="yk-btn yk-btn--primary yk-btn--lg yk-fridge__cta"
+              onClick={handleKitchenOpen}
+              aria-busy={opening}
+            >
               Add Ingredients
               <ArrowRight size={26} />
             </Link>
