@@ -115,8 +115,8 @@
   transform: scale(1);
 }
 .yk-fridge[data-opening='true'] .yk-fridge__front {
-  transform: perspective(1100px) rotateY(-72deg) translateX(-18px);
-  box-shadow: 18px 20px 0 var(--yk-navy-shadow), 0 0 58px rgb(214 166 66 / 0.28);
+  animation: yk-fridge-swing 460ms cubic-bezier(0.2, 0.8, 0.18, 1) both;
+  transition: none;
 }
 
 .yk-fridge__freezer {
@@ -350,6 +350,19 @@
       translate3d(calc(var(--scene-x, 0) * -2px), calc(var(--scene-y, 0) * -2px), 0);
   }
 }
+@keyframes yk-fridge-swing {
+  from {
+    transform: perspective(1100px)
+      rotateX(calc(var(--scene-y, 0) * -0.8deg))
+      rotateY(calc(var(--scene-x, 0) * 1.2deg))
+      translate3d(calc(var(--scene-x, 0) * -2px), calc(var(--scene-y, 0) * -2px), 0);
+    box-shadow: var(--yk-shadow-hero);
+  }
+  to {
+    transform: perspective(1100px) rotateY(-72deg) translateX(-18px);
+    box-shadow: 18px 20px 0 var(--yk-navy-shadow), 0 0 58px rgb(214 166 66 / 0.28);
+  }
+}
 @keyframes yk-home-card {
   from { opacity: 0; transform: perspective(1200px) translate3d(36px, 18px, -60px) rotate(5deg) scale(0.96); }
   to {
@@ -470,7 +483,7 @@
     transform: none;
   }
   .yk-fridge[data-opening='true'] .yk-fridge__front {
-    transform: perspective(900px) rotateY(-72deg) translateX(-8px);
+    animation-name: yk-fridge-swing;
   }
   .yk-fridge__freezer {
     height: 86px;
