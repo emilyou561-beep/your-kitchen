@@ -58,7 +58,7 @@ export function Home() {
       const goToKitchen = () => navigate('/kitchen')
       if (transitionDocument.startViewTransition) transitionDocument.startViewTransition(goToKitchen)
       else goToKitchen()
-    }, 480)
+    }, 580)
   }
 
   useEffect(() => {
