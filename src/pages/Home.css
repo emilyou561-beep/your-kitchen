@@ -359,8 +359,8 @@
     box-shadow: var(--yk-shadow-hero);
   }
   to {
-    transform: perspective(1100px) rotateY(72deg) translate3d(18px, 0, 72px);
-    box-shadow: 24px 26px 0 var(--yk-navy-shadow), 0 0 58px rgb(214 166 66 / 0.28);
+    transform: perspective(1100px) translate3d(42px, -2px, 190px) rotateY(68deg) rotateZ(-0.6deg);
+    box-shadow: 34px 34px 0 var(--yk-navy-shadow), 0 0 64px rgb(214 166 66 / 0.32);
   }
 }
 @keyframes yk-home-card {
