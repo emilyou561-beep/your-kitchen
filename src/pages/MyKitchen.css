@@ -17,7 +17,38 @@
 
 /* ── Market ── */
 .yk-market {
-  padding: var(--yk-space-5);
+  position: relative;
+  overflow: hidden;
+  padding: 0 var(--yk-space-5) var(--yk-space-5);
+  background: var(--yk-paper);
+  border-width: 4px;
+  border-radius: var(--yk-radius-xl);
+  box-shadow: var(--yk-shadow-hero);
+  view-transition-name: yk-fridge-bridge;
+}
+.yk-market::before {
+  content: '';
+  display: block;
+  height: 76px;
+  margin: 0 calc(var(--yk-space-5) * -1) var(--yk-space-5);
+  border-bottom: 4px solid var(--yk-ink);
+  background:
+    radial-gradient(circle at 18% 22%, rgb(255 251 241 / 0.78) 0 2px, transparent 3px),
+    linear-gradient(135deg, transparent 0 48%, rgb(216 199 162 / 0.2) 49% 50%, transparent 51%),
+    var(--yk-paper);
+  background-size: 26px 26px, 100% 100%, 100% 100%;
+}
+.yk-market::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 14px;
+  height: 38px;
+  border: 3px solid var(--yk-ink);
+  border-radius: 10px;
+  background: var(--yk-mustard);
+  box-shadow: inset 2px 0 0 rgb(255 251 241 / 0.55), 0 2px 0 rgb(40 37 31 / 0.18);
 }
 
 .yk-tabs {
