@@ -5,6 +5,7 @@ import { formatAmount, ingredientName, matchRecipe } from '../lib/match'
 import { tidy } from '../lib/units'
 import { RecipeImage } from '../components/RecipeImage'
 import { Stamp } from '../components/Stamp'
+import { PHOTO_CREDITS } from '../data/photoCredits'
 import { ArrowRight, Check, Clock, Minus, Plus } from '../components/Icons'
 import { useKitchen } from '../state/KitchenContext'
 import { StatusBadge } from './Recipes'
@@ -53,6 +54,15 @@ export function RecipeDetail() {
           <RecipeImage recipe={recipe} route={route} key={route} live="always" aspect={0.625} />
           <StatusBadge status={match.status} />
           {match.status === 'ready' && <Stamp key={recipe.id} />}
+          {PHOTO_CREDITS[recipe.id] && (
+            <figcaption className="yk-detail__credit">
+              Photo:{' '}
+              <a href={PHOTO_CREDITS[recipe.id].url} target="_blank" rel="noreferrer">
+                {PHOTO_CREDITS[recipe.id].author} / {PHOTO_CREDITS[recipe.id].site}
+                <span className="yk-visually-hidden"> (opens in a new tab)</span>
+              </a>
+            </figcaption>
+          )}
         </figure>
 
         <div className="yk-detail__info">

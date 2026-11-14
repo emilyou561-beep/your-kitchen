@@ -285,3 +285,15 @@
 .yk-funfact__src:hover {
   color: var(--yk-vermilion);
 }
+
+.yk-detail__credit {
+  position: absolute;
+  right: 14px;
+  bottom: -26px;
+  font-size: 12px;
+  color: var(--yk-ink-soft);
+  transform: rotate(1deg);
+}
+.yk-detail__credit a {
+  color: inherit;
+}

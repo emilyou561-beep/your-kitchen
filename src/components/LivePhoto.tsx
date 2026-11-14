@@ -10,8 +10,8 @@ export interface SoupArea {
   ry: number
 }
 
-/** Default for an overhead three-quarter bowl shot, centred in frame. */
-export const DEFAULT_SOUP: SoupArea = { cx: 0.5, cy: 0.5, rx: 0.33, ry: 0.24 }
+/** Default: bowl centred in frame — fits both overhead and three-quarter shots reasonably. */
+export const DEFAULT_SOUP: SoupArea = { cx: 0.5, cy: 0.5, rx: 0.29, ry: 0.36 }
 
 /**
  * A photo that feels alive:
