@@ -1,59 +1,59 @@
-# 交接说明（给 Codex）
+# Handoff Notes
 
-> 说明用中文；代码、注释、界面文案保持英文。
+> Code, comments and UI copy are all in English. Japanese appears only as `aria-hidden` decoration.
 
-## 现状
+## Current state
 
-可运行的本地 MVP：Vite + React 19 + TypeScript + react-router。五个页面和完整流程都已实现，见 `docs/PAGE_SPECIFICATIONS.md`。
-没有后端、账号、付费 API、部署。数据存在 localStorage。
+A working local MVP: Vite + React 19 + TypeScript + react-router. All five pages and the full flow are implemented; see `docs/PAGE_SPECIFICATIONS.md`.
+No backend, accounts, paid APIs or deployment. Data lives in localStorage.
 
 ```bash
 npm install
 npm run dev      # http://localhost:5180
-npm run build    # 类型检查 + 打包
-npm test         # 单元测试（vitest，23 个）
+npm run build    # type check + bundle
+npm test         # unit tests (vitest)
 ```
 
-## 目录
+## Layout
 
 ```
 src/
-  styles/tokens.css      设计 token（唯一真源）
-  index.css              全局样式 + 通用组件
-  data/ingredients.ts    食材表（英文名/罗马音/别名/默认单位与位置）
-  data/recipeTypes.ts    菜谱类型（kind / 汤底 / 插画参数 / 两条路线）
-  data/ramen.ts          拉面目录 + Ramen Basics
-  data/recipes.ts        配菜 + 汇总导出
-  lib/units.ts           单位换算与取整
-  lib/match.ts           可做程度计算（按数量）与排序
-  lib/grocery.ts         购物清单汇总（跨菜品合并、扣库存）
-  lib/logic.test.ts      单元测试
-  state/KitchenContext   全局状态 + localStorage
-  components/            Header, Icons, Waves, RecipeImage
-  pages/                 Home, MyKitchen, Recipes, RecipeDetail, GroceryList（各带 .css）
-public/images/           照片和纸纹
-docs/                    设计规格（中文）
+  styles/tokens.css      design tokens (single source of truth)
+  index.css              global styles + shared components
+  data/ingredients.ts    ingredient table (English name / romaji / aliases / default unit and location)
+  data/recipeTypes.ts    recipe types (kind / soup / illustration params / two routes)
+  data/ramen.ts          ramen catalog + Ramen Basics
+  data/recipes.ts        sides + combined export
+  data/funFacts.ts       sourced fun fact for each ramen
+  data/photoCredits.ts   photo credits
+  data/photoSoup.ts      per-photo soup area overrides for LivePhoto
+  lib/units.ts           unit conversion and rounding
+  lib/match.ts           quantity-aware cookability and sorting
+  lib/grocery.ts         grocery list totals (merged across dishes, minus stock)
+  lib/tactile.ts         fly / replay / vibrate helpers
+  lib/logic.test.ts      unit tests
+  state/KitchenContext   global state + localStorage
+  components/            Header, Icons, Waves, RecipeImage, LivePhoto, RamenArt, Stamp, TearStub, Magnets
+  pages/                 Home, MyKitchen, Recipes, RecipeDetail, GroceryList (each with its own .css)
+public/images/           photos and paper grain
+docs/                    design specs
 ```
 
-## 待办（按优先级）
-
-**P0**
-1. 替换首页主图：`public/images/hero-nikujaga.jpg` 目前是参考图裁切的低分辨率占位，需要换成 Canva 生成的高清图（≥ 2400px 宽，导出后压缩到 < 400KB 的 JPG/WebP）。
-2. 为其余 9 道菜补照片，放 `public/images/<recipe-id>.jpg`，并在 `data/recipes.ts` 填 `image` 字段。
-3. ~~单元测试~~ 已完成（`src/lib/logic.test.ts`）。补充：React 组件测试（Testing Library）。
+## To do (by priority)
 
 **P1**
-4. Playwright 截图测试：按 `VISUAL_QA.md` 的四个尺寸自动截图。
-5. axe 可访问性自动检查，0 个 serious/critical。
-6. 收据锯齿边在 Safari 下检查 `mask` 兼容性。
+1. Playwright screenshot tests at the four sizes in `VISUAL_QA.md`.
+2. Automated axe accessibility check with 0 serious/critical issues.
+3. Check `mask` support for the receipt's zigzag edge in Safari.
+4. React component tests (Testing Library).
 
 **P2**
-7. 当前 109 种食材；41 种拉面（多数有快速版 + 正宗版）、11 个拉面基础组件、27 道配菜（见 docs/RAMEN_SOURCES.md）。继续扩充时保持 essential 标注准确，测试会自动检查食材 id 是否存在、界面文字是否为英文。
-8. 收据清单可按超市区域分组（蔬菜/肉/调料）。
+5. Currently 109 ingredients; 41 ramen (most with Quick + Authentic routes), 11 Ramen Basics, 27 sides (see docs/RAMEN_SOURCES.md). When adding more, keep essential flags accurate; the tests automatically check that ingredient ids exist and that UI text is English.
+6. Group the receipt by store section (produce / meat / seasonings).
 
-## 规则
+## Rules
 
-- 不改视觉方向；需要改时先问 Emily。
-- Claude 负责设计规格和视觉验收；Codex 负责实现和测试。不要同时编辑同一个文件。
-- 新文案必须是英文，日文只能装饰并 `aria-hidden`。
-- 新颜色、字号、间距先加到 `tokens.css`。
+- Don't change the visual direction; ask Emily first if it needs to change.
+- Claude owns the design specs and visual sign-off; Codex owns implementation and tests. Don't edit the same file at the same time.
+- New copy must be English; Japanese is decoration only and must be `aria-hidden`.
+- Add new colors, type sizes and spacing to `tokens.css` first.

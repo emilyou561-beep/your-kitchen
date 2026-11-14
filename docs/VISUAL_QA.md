@@ -1,56 +1,56 @@
-# 视觉验收清单
+# Visual QA Checklist
 
-每次改动后在以下尺寸截图检查：**1440×900、1024×768、390×844、360×740**。
-截图命名：`<页面>-<宽度>.png`，如 `home-1440.png`。
+After every change, take screenshots at these sizes: **1440×900, 1024×768, 390×844, 360×740**.
+Screenshot naming: `<page>-<width>.png`, e.g. `home-1440.png`.
 
-## A. 首页（最重要）
+## A. Home page (most important)
 
-- [ ] 首屏只有：Logo、3 个导航、问题、1 个按钮、便签、照片标签。没有说明条、分类、功能介绍。
-- [ ] 1440×900 下不出现滚动条，青海波完整可见。
-- [ ] "Add Ingredients" 是全屏唯一的朱红实心按钮，一眼可见。
-- [ ] 照片清晰无拉伸、无模糊（原图宽度 ≥ 渲染宽度 × 2）。
-- [ ] 照片标签 "Nikujaga" 未被冰箱门遮挡。
-- [ ] 手机：照片在上，冰箱门压住照片下沿约 40px；按钮全宽；无横向滚动。
-- [ ] 日文只出现在装饰位置。
+- [ ] Above the fold there is only: logo, 3 nav items, the question, 1 button, the note, and the photo label. No instruction strip, categories, or feature list.
+- [ ] At 1440×900 there is no scrollbar and the seigaiha waves are fully visible.
+- [ ] "Add Ingredients" is the only solid vermilion button on screen and is visible at a glance.
+- [ ] The photo is sharp, not stretched or blurry (source width ≥ 2× rendered width).
+- [ ] The photo label is not covered by the fridge door.
+- [ ] Mobile: photo on top, fridge door overlaps the photo's bottom edge by about 40px; full-width button; no horizontal scroll.
+- [ ] Japanese appears only in decorative positions.
 
-## B. 通用视觉
+## B. General visuals
 
-- [ ] 只用 token 颜色；无渐变铺底、无模糊投影、无 emoji。
-- [ ] 所有描边是墨色 2–3px；投影是无模糊错位。
-- [ ] 标题 Shrikhand、正文 Zen Maru Gothic 正确加载（无系统衬线回退）。
-- [ ] 纸纹可见但不脏：100% 缩放下要凑近才看得清。
-- [ ] 文字无截断、无重叠（尤其 My Kitchen 行、菜名长的卡片）。
+- [ ] Only token colors; no gradient backgrounds, no blurred shadows, no emoji.
+- [ ] All outlines are 2–3px ink; shadows are blur-free offsets.
+- [ ] Shrikhand titles and Zen Maru Gothic body load correctly (no fallback to a system serif).
+- [ ] Paper grain is visible but not dirty: at 100% zoom you have to lean in to see it.
+- [ ] No truncated or overlapping text (especially My Kitchen rows and cards with long dish names).
 
-## C. 可访问性
+## C. Accessibility
 
-- [ ] 正文对比度 ≥ 4.5:1，大字 ≥ 3:1（颜色表见 DESIGN_SYSTEM）。
-- [ ] 只用键盘能完成整个流程：加食材 → 选菜 → 生成清单 → 勾选 → 删除。
-- [ ] 每个可聚焦元素都有可见的芥末焦点环。
-- [ ] 所有图标按钮有可读名称（用 axe 或 Lighthouse 检查，0 个严重问题）。
-- [ ] 开启"减少动态效果"后无任何动画。
-- [ ] 页面放大到 200% 仍可使用、无内容丢失。
-- [ ] 状态不只靠颜色（徽章有文字）。
+- [ ] Body contrast ≥ 4.5:1, large text ≥ 3:1 (see the color table in DESIGN_SYSTEM).
+- [ ] The full flow works with the keyboard only: add ingredients → select dishes → build list → check off → delete.
+- [ ] Every focusable element shows a visible mustard focus ring.
+- [ ] Every icon button has an accessible name (check with axe or Lighthouse: 0 serious issues).
+- [ ] With "reduce motion" on, there is no animation at all.
+- [ ] The page is still usable at 200% zoom with no lost content.
+- [ ] State is not conveyed by color alone (badges have text).
 
-## D. 状态
+## D. States
 
-- [ ] 空：My Kitchen、菜谱筛选为空、清单——都有提示和下一步按钮。
-- [ ] 无照片菜谱显示插画占位，不是破图。
-- [ ] 清空 localStorage 后进入任意页面不报错。
-- [ ] 访问 `/recipes/xxx` 显示 "Recipe not found"。
-- [ ] 打印预览只显示收据。
+- [ ] Empty states: My Kitchen, empty recipe filter, grocery list — each has a hint and a next-step button.
+- [ ] Recipes without a photo show the illustration fallback, never a broken image.
+- [ ] After clearing localStorage, every page loads without errors.
+- [ ] Visiting `/recipes/xxx` shows "Recipe not found".
+- [ ] Print preview shows only the receipt.
 
-## E. 功能对照
+## E. Functional checks
 
-- [ ] 加入鸡蛋、洋葱、鸡腿肉、酱油、味醂、米 → Oyakodon 显示 Ready。
-- [ ] 选 Nikujaga + Oyakodon，缺洋葱时清单里洋葱只出现一次。
-- [ ] 手动加 "Matcha" 后重新生成清单，"Matcha" 仍在。
-- [ ] 刷新后库存、选菜、清单都还在。
+- [ ] With the ramen starter in My Kitchen, at least one ramen shows Ready.
+- [ ] Select two dishes that both need the same missing ingredient: it appears only once on the list.
+- [ ] Manually add "Matcha", rebuild the list, and "Matcha" is still there.
+- [ ] After a refresh, inventory, selected dishes, and the list are all still there.
 
-## 问题反馈格式
+## Issue report format
 
 ```
-[P0/P1/P2] 页面 · 尺寸 · 截图名
-现象：…
-期望：…（引用本文件条目编号）
+[P0/P1/P2] Page · size · screenshot name
+Observed: …
+Expected: … (cite the item number in this file)
 ```
-P0 = 阻断流程或无法访问；P1 = 明显违背设计；P2 = 细节打磨。
+P0 = blocks the flow or is inaccessible; P1 = clearly breaks the design; P2 = polish.

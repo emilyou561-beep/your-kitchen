@@ -1,8 +1,8 @@
-# 照片来源
+# Photo Credits
 
-本目录中的拉面照片全部由 OpenAI ImageGen 生成，按本项目的区域风味 prompt 制作；详情页标注为 AI generated，不链接到空的外部来源。
+All ramen photos in this folder were generated with OpenAI ImageGen from this project's regional prompts. The detail page labels them "AI generated" and does not link to an empty external source.
 
-| 拉面 | 文件 | 摄影师 | 原图 |
+| Ramen | File | Photographer | Original |
 |---|---|---|---|
 | tokyo-shoyu | `public/images/ramen/tokyo-shoyu.jpg` | AI generated | — |
 | iekei | `public/images/ramen/iekei.jpg` | AI generated | — |
