@@ -327,3 +327,119 @@
   font-size: 12px;
   color: var(--yk-ink);
 }
+
+/* ── Showa wooden menu boards (ramen list) ── */
+.yk-cards--boards {
+  row-gap: calc(var(--yk-space-6) + 40px);
+  padding-top: 44px;
+}
+.yk-board {
+  position: relative;
+  height: 100%;
+  transform-origin: 50% -38px;
+}
+.yk-board__hang {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -40px;
+  width: 100%;
+  height: 42px;
+  overflow: visible;
+}
+.yk-board__nail {
+  position: absolute;
+  left: 50%;
+  top: -40px;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #E6E2DA, #8C8A86 60%, #4A4844);
+  border: 1.5px solid var(--yk-ink);
+  box-shadow: 1px 2px 0 rgb(0 0 0 / 0.3);
+}
+.yk-board:hover,
+.yk-board:focus-within {
+  animation: yk-swing 1.3s cubic-bezier(0.3, 0.6, 0.4, 1);
+}
+@keyframes yk-swing {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(3.2deg); }
+  35% { transform: rotate(-2.4deg); }
+  55% { transform: rotate(1.4deg); }
+  75% { transform: rotate(-0.6deg); }
+  100% { transform: rotate(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yk-board:hover,
+  .yk-board:focus-within {
+    animation: none;
+  }
+}
+
+.yk-card--board {
+  padding: 12px 12px 14px;
+  border: 3px solid #3A2210;
+  border-radius: 10px;
+  background-color: #C08A52;
+  background-image:
+    repeating-linear-gradient(93deg, rgb(110 60 25 / 0.16) 0 2px, transparent 2px 11px),
+    repeating-linear-gradient(87deg, rgb(255 236 200 / 0.12) 0 1px, transparent 1px 17px),
+    radial-gradient(ellipse 30% 8% at 70% 40%, rgb(90 45 15 / 0.25), transparent),
+    var(--yk-grain);
+  background-size: auto, auto, auto, var(--yk-grain-size);
+  box-shadow:
+    inset 0 0 0 2px #D9A86E,
+    inset 0 0 22px rgb(70 35 10 / 0.45),
+    6px 9px 0 rgb(40 25 10 / 0.5);
+  overflow: visible;
+}
+.yk-card--board:hover {
+  transform: none;
+  box-shadow:
+    inset 0 0 0 2px #D9A86E,
+    inset 0 0 22px rgb(70 35 10 / 0.45),
+    6px 12px 0 rgb(40 25 10 / 0.45);
+}
+.yk-card--board .yk-card__media {
+  border: 3px solid var(--yk-ink);
+  border-radius: 4px;
+  overflow: visible;
+}
+.yk-card--board .yk-card__media .yk-recipe-img {
+  border-radius: 1px;
+}
+.yk-card--board .yk-card__body {
+  margin-top: 12px;
+  background: var(--yk-paper-light);
+  border: 2px solid var(--yk-ink);
+  border-radius: 4px;
+  box-shadow: 2px 3px 0 rgb(40 25 10 / 0.35);
+  padding: 26px 16px 16px;
+}
+/* little nail heads pinning the paper slip */
+.yk-card--board .yk-card__body::before,
+.yk-card--board .yk-card__body::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8C8A86;
+  border: 1px solid var(--yk-ink);
+}
+.yk-card--board .yk-card__body {
+  position: relative;
+}
+.yk-card--board .yk-card__body::before {
+  left: 8px;
+}
+.yk-card--board .yk-card__body::after {
+  right: 8px;
+}
+.yk-card--board[data-selected='true'] {
+  outline: 4px solid var(--yk-mustard);
+  outline-offset: 3px;
+}

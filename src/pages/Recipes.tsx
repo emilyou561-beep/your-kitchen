@@ -141,10 +141,10 @@ export function Recipes() {
           </button>
         </div>
       ) : (
-        <ul className="yk-cards">
+        <ul className="yk-cards yk-cards--boards">
           {shown.map((m, i) => (
             <li key={m.recipe.id}>
-              <RecipeCard match={m} index={i} selected={selected.includes(m.recipe.id)} onToggle={() => toggleRecipe(m.recipe.id)} />
+              <RecipeCard board match={m} index={i} selected={selected.includes(m.recipe.id)} onToggle={() => toggleRecipe(m.recipe.id)} />
             </li>
           ))}
         </ul>
@@ -220,11 +220,38 @@ export function missingLabel(l: LineCheck): string {
   return l.short < l.need - 1e-9 ? `${name} (${formatAmount(l.short, l.ri.unit)} more)` : name
 }
 
-function RecipeCard({ match, index, selected, onToggle }: { match: RecipeMatch; index: number; selected: boolean; onToggle: () => void }) {
+function RecipeCard({
+  match,
+  index,
+  selected,
+  onToggle,
+  board = false,
+}: {
+  match: RecipeMatch
+  index: number
+  selected: boolean
+  onToggle: () => void
+  board?: boolean
+}) {
+  const card = <CardBody match={match} index={index} selected={selected} onToggle={onToggle} board={board} />
+  if (!board) return card
+  // Showa menu board: hangs from a nail by a cord, and swings when you touch it.
+  return (
+    <div className="yk-board" style={{ animationDelay: `${(index % 3) * -0.4}s` }}>
+      <svg className="yk-board__hang" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M28 40 L50 6 L72 40" fill="none" stroke="#6B4A2A" strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
+      </svg>
+      <span className="yk-board__nail" aria-hidden="true" />
+      {card}
+    </div>
+  )
+}
+
+function CardBody({ match, index, selected, onToggle, board }: { match: RecipeMatch; index: number; selected: boolean; onToggle: () => void; board: boolean }) {
   const { recipe, status, missingEssential, minutes, route } = match
   const shown = missingEssential.slice(0, 4)
   return (
-    <article className="yk-card" data-selected={selected} aria-labelledby={`r-${recipe.id}`}>
+    <article className={`yk-card${board ? ' yk-card--board' : ''}`} data-selected={selected} aria-labelledby={`r-${recipe.id}`}>
       <div className="yk-card__media">
         <RecipeImage recipe={recipe} route={route} />
         <StatusBadge status={status} />
