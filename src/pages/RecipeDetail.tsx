@@ -50,7 +50,7 @@ export function RecipeDetail() {
 
       <div className="yk-detail__grid">
         <figure className="yk-detail__photo">
-          <RecipeImage recipe={recipe} route={route} key={route} />
+          <RecipeImage recipe={recipe} route={route} key={route} live="always" aspect={0.625} />
           <StatusBadge status={match.status} />
           {match.status === 'ready' && <Stamp key={recipe.id} />}
         </figure>
