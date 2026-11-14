@@ -57,10 +57,16 @@ export function RecipeDetail() {
           {PHOTO_CREDITS[recipe.id] && (
             <figcaption className="yk-detail__credit">
               Photo:{' '}
-              <a href={PHOTO_CREDITS[recipe.id].url} target="_blank" rel="noreferrer">
-                {PHOTO_CREDITS[recipe.id].author} / {PHOTO_CREDITS[recipe.id].site}
-                <span className="yk-visually-hidden"> (opens in a new tab)</span>
-              </a>
+              {PHOTO_CREDITS[recipe.id].url ? (
+                <a href={PHOTO_CREDITS[recipe.id].url} target="_blank" rel="noreferrer">
+                  {PHOTO_CREDITS[recipe.id].author} / {PHOTO_CREDITS[recipe.id].site}
+                  <span className="yk-visually-hidden"> (opens in a new tab)</span>
+                </a>
+              ) : (
+                <span>
+                  {PHOTO_CREDITS[recipe.id].author} / {PHOTO_CREDITS[recipe.id].site}
+                </span>
+              )}
             </figcaption>
           )}
         </figure>

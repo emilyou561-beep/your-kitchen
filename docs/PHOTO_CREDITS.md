@@ -1,31 +1,47 @@
 # 照片来源
 
-照片来自 Unsplash 和 Pexels，按 [Unsplash License](https://unsplash.com/license) / [Pexels License](https://www.pexels.com/license/) 免费商用，不强制署名，但我们在详情页仍标注作者。
+本目录中的拉面照片全部由 OpenAI ImageGen 生成，按本项目的区域风味 prompt 制作；详情页标注为 AI generated，不链接到空的外部来源。
 
 | 拉面 | 文件 | 摄影师 | 原图 |
 |---|---|---|---|
-| tokyo-shoyu | `public/images/ramen/tokyo-shoyu.jpg` | Frank from 5 AM Ramen | https://unsplash.com/photos/fHSTIBefNXQ |
-| iekei | `public/images/ramen/iekei.jpg` | Susann Schuster | https://unsplash.com/photos/5x8dUGe-7Fo |
-| miso-butter-corn | `public/images/ramen/miso-butter-corn.jpg` | Huyen Bui | https://unsplash.com/photos/NHEL1M1Cv-A |
-| kitakata | `public/images/ramen/kitakata.jpg` | Frank from 5 AM Ramen | https://unsplash.com/photos/vPMQl71yFDI |
-| kumamoto | `public/images/ramen/kumamoto.jpg` | Famery Fialiwan | https://unsplash.com/photos/x2AdZdiv9FM |
-| tori-paitan | `public/images/ramen/tori-paitan.jpg` | Poul Hoang | https://unsplash.com/photos/OnfxSQPREcs |
-| tomato-ramen | `public/images/ramen/tomato-ramen.jpg` | Nancy Ingersoll | https://unsplash.com/photos/J1W-4H9OrH8 |
-| hakata-tonkotsu | `public/images/ramen/hakata-tonkotsu.jpg` | Diego Lozano | https://unsplash.com/photos/mE6kjov4rTg |
-| hakodate-shio | `public/images/ramen/hakodate-shio.jpg` | Frank from 5 AM Ramen | https://unsplash.com/photos/1PrmJze9d7E |
-| kyoto | `public/images/ramen/kyoto.jpg` | David Hunter | https://unsplash.com/photos/xhOkqfXYls8 |
-| shirakawa | `public/images/ramen/shirakawa.jpg` | Jason Leung | https://unsplash.com/photos/arFb72Zid48 |
-| champon | `public/images/ramen/champon.jpg` | Kouji Tsuru | https://unsplash.com/photos/gfPSvhmg_Jw |
-| karamiso | `public/images/ramen/karamiso.jpg` | Yuika Takamura | https://unsplash.com/photos/vbx6QU249z8 |
-| tantanmen | `public/images/ramen/tantanmen.jpg` | Frank from 5 AM Ramen | https://unsplash.com/photos/egzPIj_8MFA |
-| abura-soba | `public/images/ramen/abura-soba.jpg` | taro ohtani | https://unsplash.com/photos/f1AU6N-zp-c |
-| wakayama | `public/images/ramen/wakayama.jpg` | Masaaki Komori | https://unsplash.com/photos/2TjDelq95rc |
-| sano | `public/images/ramen/sano.jpg` | j | https://unsplash.com/photos/lbxLlgi_8_w |
-
-| tsukemen | `public/images/ramen/tsukemen.jpg` | airamdphoto (Pexels) | https://www.pexels.com/photo/delicious-tsukemen-with-rich-broth-and-toppings-30682730/ |
-| sapporo-miso | `public/images/ramen/sapporo-miso.jpg` | Christian Dala (Pexels) | https://www.pexels.com/photo/close-up-of-a-bowl-ramen-standing-on-a-table-in-a-restaurant-23658622/ |
-| kurume | `public/images/ramen/kurume.jpg` | eugeniofr (Pexels) | https://www.pexels.com/photo/traditional-japanese-ramen-bowl-in-tokyo-30988961/ |
-| takayama | `public/images/ramen/takayama.jpg` | Markus Winkler (Pexels) | https://www.pexels.com/photo/bowl-of-ramen-with-pork-19856561/ |
-| okinawa-soba | `public/images/ramen/okinawa-soba.jpg` | 8-Low Ural | https://unsplash.com/photos/ramen-l3Mr7vSdmd4 |
-
-新增照片时：放进 `public/images/ramen/<id>.jpg`，并在 `src/data/photoCredits.ts` 加一行来源。
+| tokyo-shoyu | `public/images/ramen/tokyo-shoyu.jpg` | AI generated | — |
+| iekei | `public/images/ramen/iekei.jpg` | AI generated | — |
+| miso-butter-corn | `public/images/ramen/miso-butter-corn.jpg` | AI generated | — |
+| kitakata | `public/images/ramen/kitakata.jpg` | AI generated | — |
+| kumamoto | `public/images/ramen/kumamoto.jpg` | AI generated | — |
+| tori-paitan | `public/images/ramen/tori-paitan.jpg` | AI generated | — |
+| tomato-ramen | `public/images/ramen/tomato-ramen.jpg` | AI generated | — |
+| hakata-tonkotsu | `public/images/ramen/hakata-tonkotsu.jpg` | AI generated | — |
+| hakodate-shio | `public/images/ramen/hakodate-shio.jpg` | AI generated | — |
+| kyoto | `public/images/ramen/kyoto.jpg` | AI generated | — |
+| shirakawa | `public/images/ramen/shirakawa.jpg` | AI generated | — |
+| champon | `public/images/ramen/champon.jpg` | AI generated | — |
+| karamiso | `public/images/ramen/karamiso.jpg` | AI generated | — |
+| tantanmen | `public/images/ramen/tantanmen.jpg` | AI generated | — |
+| abura-soba | `public/images/ramen/abura-soba.jpg` | AI generated | — |
+| wakayama | `public/images/ramen/wakayama.jpg` | AI generated | — |
+| sano | `public/images/ramen/sano.jpg` | AI generated | — |
+| tsukemen | `public/images/ramen/tsukemen.jpg` | AI generated | — |
+| sapporo-miso | `public/images/ramen/sapporo-miso.jpg` | AI generated | — |
+| kurume | `public/images/ramen/kurume.jpg` | AI generated | — |
+| takayama | `public/images/ramen/takayama.jpg` | AI generated | — |
+| okinawa-soba | `public/images/ramen/okinawa-soba.jpg` | AI generated | — |
+| asahikawa-shoyu | `public/images/ramen/asahikawa-shoyu.jpg` | AI generated | — |
+| kagoshima | `public/images/ramen/kagoshima.jpg` | AI generated | — |
+| jiro | `public/images/ramen/jiro.jpg` | AI generated | — |
+| toyama-black | `public/images/ramen/toyama-black.jpg` | AI generated | — |
+| hachioji | `public/images/ramen/hachioji.jpg` | AI generated | — |
+| tokushima | `public/images/ramen/tokushima.jpg` | AI generated | — |
+| onomichi | `public/images/ramen/onomichi.jpg` | AI generated | — |
+| tsubame-sanjo | `public/images/ramen/tsubame-sanjo.jpg` | AI generated | — |
+| nagaoka-ginger | `public/images/ramen/nagaoka-ginger.jpg` | AI generated | — |
+| niboshi | `public/images/ramen/niboshi.jpg` | AI generated | — |
+| hiroshima-shirunashi | `public/images/ramen/hiroshima-shirunashi.jpg` | AI generated | — |
+| katsuura-tantanmen | `public/images/ramen/katsuura-tantanmen.jpg` | AI generated | — |
+| taiwan-ramen | `public/images/ramen/taiwan-ramen.jpg` | AI generated | — |
+| taiwan-mazesoba | `public/images/ramen/taiwan-mazesoba.jpg` | AI generated | — |
+| hiyashi-chuka | `public/images/ramen/hiyashi-chuka.jpg` | AI generated | — |
+| tenri | `public/images/ramen/tenri.jpg` | AI generated | — |
+| takaida | `public/images/ramen/takaida.jpg` | AI generated | — |
+| sanmamen | `public/images/ramen/sanmamen.jpg` | AI generated | — |
+| karamen | `public/images/ramen/karamen.jpg` | AI generated | — |
