@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import type { PointerEvent } from 'react'
 import { ArrowRight } from '../components/Icons'
 import { Waves } from '../components/Waves'
 import { HeroArt } from '../components/HeroArt'
@@ -6,11 +8,48 @@ import { Magnets } from '../components/Magnets'
 import './Home.css'
 
 export function Home() {
+  const homeRef = useRef<HTMLElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const frameRef = useRef<number | null>(null)
+
+  const setScene = (x: number, y: number) => {
+    const stage = stageRef.current
+    if (!stage) return
+    const spotX = `${((x + 1) * 50).toFixed(1)}%`
+    const spotY = `${((y + 1) * 50).toFixed(1)}%`
+    stage.style.setProperty('--scene-x', x.toFixed(3))
+    stage.style.setProperty('--scene-y', y.toFixed(3))
+    stage.style.setProperty('--spot-x', spotX)
+    stage.style.setProperty('--spot-y', spotY)
+    homeRef.current?.style.setProperty('--spot-x', spotX)
+    homeRef.current?.style.setProperty('--spot-y', spotY)
+  }
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'touch' || !stageRef.current) return
+    const bounds = stageRef.current.getBoundingClientRect()
+    const x = Math.max(-1, Math.min(1, ((event.clientX - bounds.left) / bounds.width - 0.5) * 2))
+    const y = Math.max(-1, Math.min(1, ((event.clientY - bounds.top) / bounds.height - 0.5) * 2))
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
+    frameRef.current = requestAnimationFrame(() => setScene(x, y))
+  }
+
+  const handlePointerLeave = () => {
+    if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
+    frameRef.current = requestAnimationFrame(() => setScene(0, 0))
+  }
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
+    }
+  }, [])
+
   return (
-    <main id="main" className="yk-home yk-grain">
+    <main ref={homeRef} id="main" className="yk-home yk-grain">
       <div className="yk-home__sun" aria-hidden="true" />
 
-      <div className="yk-home__stage">
+      <div ref={stageRef} className="yk-home__stage" onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
         <section className="yk-fridge yk-grain" aria-labelledby="hero-q">
           <div className="yk-fridge__freezer">
             <Magnets />
