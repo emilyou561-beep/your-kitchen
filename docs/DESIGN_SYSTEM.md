@@ -62,7 +62,7 @@ Type scale (rem): 13 / 15 / 17 (body) / 22 / 28 / 40 / home question `clamp(44px
 - Dish centered slightly left, leaving the top-right corner for the decorative signboard.
 - Treatment: 10–12px paper frame + ink outline + offset shadow, slight rotation (±1.5°).
 - Consistent ratios: home 16:9.3; recipe cards 5:3; detail page 16:10.
-- Sources: original AI-generated images or licensed stock. No TV screenshots, trademarks, or random web images.
+- Sources: original images made for this project or licensed stock. No TV screenshots, trademarks, or random web images.
 - When there is no photo, `RecipeImage` falls back to the illustration (bowl + dish colors). Never show a broken image.
 
 ## 7. Breakpoints

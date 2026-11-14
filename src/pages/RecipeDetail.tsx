@@ -54,7 +54,7 @@ export function RecipeDetail() {
           <RecipeImage recipe={recipe} route={route} key={route} live="always" aspect={0.625} />
           <StatusBadge status={match.status} />
           {match.status === 'ready' && <Stamp key={recipe.id} />}
-          {PHOTO_CREDITS[recipe.id] && (
+          {PHOTO_CREDITS[recipe.id]?.url && (
             <figcaption className="yk-detail__credit">
               Photo:{' '}
               {PHOTO_CREDITS[recipe.id].url ? (

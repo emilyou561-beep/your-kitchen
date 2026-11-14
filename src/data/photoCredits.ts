@@ -1,4 +1,4 @@
-/** Photo credits for public/images/ramen/*.jpg — generated with OpenAI ImageGen for this project. */
+/** Ramen photos in public/images/ramen. Entries with a url get a visible credit on the detail page. */
 export interface PhotoCredit { author: string; url: string; site: string }
 
 export const PHOTO_CREDITS: Record<string, PhotoCredit> = {

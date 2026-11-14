@@ -33,7 +33,7 @@ Screenshot naming: `<page>-<width>.png`, e.g. `home-1440.png`.
 
 ## D. States
 
-- [ ] Empty states: My Kitchen, empty recipe filter, grocery list — each has a hint and a next-step button.
+- [ ] Empty states: My Kitchen, empty recipe filter, grocery list each have a hint and a next-step button.
 - [ ] Recipes without a photo show the illustration fallback, never a broken image.
 - [ ] After clearing localStorage, every page loads without errors.
 - [ ] Visiting `/recipes/xxx` shows "Recipe not found".

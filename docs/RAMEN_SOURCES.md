@@ -73,9 +73,9 @@ Authentic recipes link to these components: stocks, tare, aroma oils, chashu, aj
 
 Recipe steps were written for this project. Regional characteristics (soup, noodle type, signature toppings) were cross-checked against:
 
-- [10 Regional Types Of Japanese Ramen — The Real Japan](https://www.therealjapan.com/types-of-japanese-ramen/)
-- [Authentic Regional Ramen in Tokyo — nippon.com](https://www.nippon.com/en/articles/-/13802)
-- [19 Different Types Of Ramen — Japanese Taste](https://japanesetaste.com/blogs/japanese-taste-blog/variety-is-the-spice-19-different-types-of-ramen-you-need-to-know-about)
-- [Recreate Japanese Regional Ramen at Home — Myojo USA](https://www.myojousa.com/?p=14883)
-- [Regional ramen (ご当地ラーメン) — KNT Kinki Nippon Tourist](https://www.knt.co.jp/meito/sp/ramen/)
-- [Ramen recipes — Just One Cookbook](https://www.justonecookbook.com/ramen/)
+- [10 Regional Types Of Japanese Ramen, The Real Japan](https://www.therealjapan.com/types-of-japanese-ramen/)
+- [Authentic Regional Ramen in Tokyo, nippon.com](https://www.nippon.com/en/articles/-/13802)
+- [19 Different Types Of Ramen, Japanese Taste](https://japanesetaste.com/blogs/japanese-taste-blog/variety-is-the-spice-19-different-types-of-ramen-you-need-to-know-about)
+- [Recreate Japanese Regional Ramen at Home, Myojo USA](https://www.myojousa.com/?p=14883)
+- [Regional ramen (ご当地ラーメン), KNT Kinki Nippon Tourist](https://www.knt.co.jp/meito/sp/ramen/)
+- [Ramen recipes, Just One Cookbook](https://www.justonecookbook.com/ramen/)
