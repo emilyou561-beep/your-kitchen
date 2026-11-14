@@ -241,3 +241,76 @@
     padding: 0 16px;
   }
 }
+
+/* ── Ramen page extras ── */
+.yk-recipes__soups {
+  margin: calc(var(--yk-space-2) * -1) 0 var(--yk-space-5);
+}
+.yk-card__tags {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.yk-card__tags span {
+  font-size: var(--yk-text-xs);
+  font-weight: 700;
+  padding: 2px 10px;
+  border: 2px solid var(--yk-ink);
+  border-radius: var(--yk-radius-pill);
+  background: var(--yk-paper);
+}
+.yk-card__tags span + span {
+  background: var(--yk-navy);
+  color: var(--yk-paper);
+}
+.yk-card__route {
+  margin-left: 8px;
+  font-size: var(--yk-text-xs);
+  color: var(--yk-ink-soft);
+  font-weight: 700;
+}
+.yk-recipes__section {
+  margin-top: var(--yk-space-8);
+}
+.yk-recipes__section-head {
+  margin-bottom: var(--yk-space-5);
+}
+.yk-recipes__section-head p {
+  margin: 4px 0 0;
+  color: var(--yk-ink-soft);
+}
+.yk-recipes__h2 {
+  font-family: var(--yk-font-display);
+  font-size: var(--yk-text-2xl);
+  color: var(--yk-navy);
+  line-height: 1.1;
+}
+.yk-cards--compact {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.yk-sides summary {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 0;
+  border-top: 3px dashed var(--yk-paper-edge);
+  min-height: 44px;
+}
+.yk-sides summary::-webkit-details-marker {
+  display: none;
+}
+.yk-sides summary::after {
+  content: '＋';
+  margin-left: auto;
+  font-weight: 900;
+  font-size: var(--yk-text-xl);
+}
+.yk-sides[open] summary::after {
+  content: '－';
+}
+.yk-sides[open] .yk-cards {
+  margin-top: var(--yk-space-4);
+}

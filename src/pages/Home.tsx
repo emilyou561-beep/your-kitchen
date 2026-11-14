@@ -33,7 +33,7 @@ export function Home() {
 
         <figure className="yk-home__photo">
           <HeroArt />
-          <figcaption>Breakfast Set</figcaption>
+          <figcaption>Shoyu Ramen</figcaption>
         </figure>
       </div>
 

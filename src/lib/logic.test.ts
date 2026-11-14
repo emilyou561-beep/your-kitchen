@@ -15,8 +15,36 @@ describe('data integrity', () => {
     expect(new Set(RECIPES.map((r) => r.id)).size).toBe(RECIPES.length)
   })
 
-  it('every recipe ingredient exists in the catalog', () => {
-    for (const r of RECIPES) for (const ri of r.ingredients) expect(INGREDIENT_BY_ID[ri.id], `${r.id} → ${ri.id}`).toBeDefined()
+  it('every recipe ingredient exists in the catalog (both routes)', () => {
+    for (const r of RECIPES) {
+      for (const ri of [...r.ingredients, ...(r.authentic?.ingredients ?? [])]) {
+        expect(INGREDIENT_BY_ID[ri.id], `${r.id} → ${ri.id}`).toBeDefined()
+      }
+    }
+  })
+
+  it('ramen entries are complete and reference real basics', () => {
+    const ramen = RECIPES.filter((r) => r.kind === 'ramen')
+    expect(ramen.length).toBeGreaterThanOrEqual(35)
+    for (const r of ramen) {
+      expect(r.region, r.id).toBeTruthy()
+      expect(r.soup, r.id).toBeTruthy()
+      expect(r.art, r.id).toBeTruthy()
+      for (const b of r.basics ?? []) expect(RECIPE_BY_ID[b]?.kind, `${r.id} → ${b}`).toBe('basic')
+      if (r.authentic) {
+        expect(r.authentic.minutes, r.id).toBeGreaterThan(r.minutes)
+        expect(r.authentic.steps.length, r.id).toBeGreaterThan(0)
+      }
+    }
+  })
+
+  it('no duplicate ingredient lines within a route', () => {
+    for (const r of RECIPES) {
+      for (const list of [r.ingredients, r.authentic?.ingredients ?? []]) {
+        const ids = list.map((i) => i.id)
+        expect(new Set(ids).size, `${r.id}: ${ids.filter((x, i) => ids.indexOf(x) !== i)}`).toBe(ids.length)
+      }
+    }
   })
 
   it('every recipe has at least one essential ingredient and steps', () => {
@@ -33,7 +61,8 @@ describe('data integrity', () => {
   it('UI text is English only (Japanese only in nameJa)', () => {
     const jp = /[぀-ヿ一-龯]/
     for (const r of RECIPES) {
-      expect(jp.test(r.name + r.blurb + r.steps.join(' ')), r.id).toBe(false)
+      const text = [r.name, r.blurb, r.region ?? '', ...r.steps, ...(r.authentic?.steps ?? [])].join(' ')
+      expect(jp.test(text), r.id).toBe(false)
     }
     for (const i of INGREDIENTS) expect(jp.test(i.name), i.id).toBe(false)
   })
@@ -161,5 +190,27 @@ describe('buildGrocery', () => {
   it('exports plain text', () => {
     const txt = groceryText([{ key: 'a', name: 'Egg', qty: '2', unit: 'pc', checked: false, forRecipes: [] }])
     expect(txt).toContain('☐ Egg — 2 pc')
+  })
+})
+
+describe('routes', () => {
+  it('authentic route uses its own ingredient list and time', () => {
+    const r = RECIPE_BY_ID['hakata-tonkotsu']
+    const q = matchRecipe(r, [], r.serves, 'quick')
+    const a = matchRecipe(r, [], r.serves, 'authentic')
+    expect(q.lines.map((l) => l.ri.id)).toContain('tonkotsu-base')
+    expect(a.lines.map((l) => l.ri.id)).toContain('pork-bones')
+    expect(a.minutes).toBeGreaterThan(q.minutes)
+  })
+  it('falls back to quick when a dish has no authentic route', () => {
+    const r = RECIPE_BY_ID['hiyashi-chuka']
+    expect(matchRecipe(r, [], r.serves, 'authentic').route).toBe('quick')
+  })
+  it('grocery list follows the chosen route', () => {
+    const quick = buildGrocery(['hakata-tonkotsu'], []).map((g) => g.ingredientId)
+    const auth = buildGrocery(['hakata-tonkotsu'], [], [], { routes: { 'hakata-tonkotsu': 'authentic' } }).map((g) => g.ingredientId)
+    expect(quick).toContain('tonkotsu-base')
+    expect(auth).toContain('pork-bones')
+    expect(auth).not.toContain('tonkotsu-base')
   })
 })

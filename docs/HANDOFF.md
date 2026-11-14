@@ -21,7 +21,9 @@ src/
   styles/tokens.css      设计 token（唯一真源）
   index.css              全局样式 + 通用组件
   data/ingredients.ts    食材表（英文名/罗马音/别名/默认单位与位置）
-  data/recipes.ts        菜谱（essential/optional 食材、步骤）
+  data/recipeTypes.ts    菜谱类型（kind / 汤底 / 插画参数 / 两条路线）
+  data/ramen.ts          拉面目录 + Ramen Basics
+  data/recipes.ts        配菜 + 汇总导出
   lib/units.ts           单位换算与取整
   lib/match.ts           可做程度计算（按数量）与排序
   lib/grocery.ts         购物清单汇总（跨菜品合并、扣库存）
@@ -46,7 +48,7 @@ docs/                    设计规格（中文）
 6. 收据锯齿边在 Safari 下检查 `mask` 兼容性。
 
 **P2**
-7. 当前 71 种食材、27 道菜。继续扩充时保持 essential 标注准确，测试会自动检查食材 id 是否存在、界面文字是否为英文。
+7. 当前 109 种食材；41 种拉面（多数有快速版 + 正宗版）、11 个拉面基础组件、27 道配菜（见 docs/RAMEN_SOURCES.md）。继续扩充时保持 essential 标注准确，测试会自动检查食材 id 是否存在、界面文字是否为英文。
 8. 收据清单可按超市区域分组（蔬菜/肉/调料）。
 
 ## 规则

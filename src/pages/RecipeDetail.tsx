@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { RECIPE_BY_ID } from '../data/recipes'
+import { RECIPE_BY_ID, SOUP_LABEL, formatMinutes, routeOf } from '../data/recipes'
+import type { RouteId } from '../data/recipes'
 import { formatAmount, ingredientName, matchRecipe } from '../lib/match'
 import { tidy } from '../lib/units'
 import { RecipeImage } from '../components/RecipeImage'
@@ -12,7 +13,7 @@ import './RecipeDetail.css'
 export function RecipeDetail() {
   const { id = '' } = useParams()
   const recipe = RECIPE_BY_ID[id]
-  const { inventory, selected, servings, setServings, toggleRecipe, addIngredient, buildGroceryList, notify } = useKitchen()
+  const { inventory, selected, servings, routes, setRoute, setServings, toggleRecipe, addIngredient, buildGroceryList, notify } = useKitchen()
   const navigate = useNavigate()
 
   if (!recipe) {
@@ -29,7 +30,10 @@ export function RecipeDetail() {
   }
 
   const serves = servings[recipe.id] ?? recipe.serves
-  const match = matchRecipe(recipe, inventory, serves)
+  const route: RouteId = recipe.authentic ? routes[recipe.id] ?? 'quick' : 'quick'
+  const match = matchRecipe(recipe, inventory, serves, route)
+  const steps = routeOf(recipe, route).steps
+  const usedBasics = route === 'authentic' ? (recipe.basics ?? []).map((b) => RECIPE_BY_ID[b]).filter(Boolean) : []
   const isSelected = selected.includes(recipe.id)
 
   const makeList = () => {
@@ -41,7 +45,7 @@ export function RecipeDetail() {
   return (
     <main id="main" className="yk-page yk-detail">
       <Link to="/recipes" className="yk-detail__back">
-        ← All recipes
+        ← All ramen
       </Link>
 
       <div className="yk-detail__grid">
@@ -57,9 +61,32 @@ export function RecipeDetail() {
           </span>
           <h1 className="yk-page__title">{recipe.name}</h1>
           <p className="yk-detail__blurb">{recipe.blurb}</p>
+          {recipe.region && (
+            <p className="yk-card__tags yk-detail__tags">
+              <span>{recipe.region}</span>
+              {recipe.soup && <span>{SOUP_LABEL[recipe.soup]}</span>}
+            </p>
+          )}
+          {recipe.authentic && (
+            <div className="yk-route" role="group" aria-label="Recipe version">
+              {(
+                [
+                  ['quick', 'Quick', recipe.minutes, 'Store-bought stock & noodles'],
+                  ['authentic', 'Authentic', recipe.authentic.minutes, 'Shop-style, from scratch'],
+                ] as [RouteId, string, number, string][]
+              ).map(([id, label, mins, note]) => (
+                <button key={id} type="button" className="yk-route__opt" aria-pressed={route === id} onClick={() => setRoute(recipe.id, id)}>
+                  <strong>{label}</strong>
+                  <span>
+                    {formatMinutes(mins)} · {note}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
           <div className="yk-detail__meta">
             <span className="yk-detail__time">
-              <Clock size={20} /> {recipe.minutes} min
+              <Clock size={20} /> {formatMinutes(match.minutes)}
             </span>
             <div className="yk-stepper" role="group" aria-label="Servings">
               <button
@@ -154,8 +181,19 @@ export function RecipeDetail() {
           <h2 id="steps-h" className="yk-detail__h2">
             Steps
           </h2>
+          {usedBasics.length > 0 && (
+            <p className="yk-detail__basics">
+              Uses:{' '}
+              {usedBasics.map((b, i) => (
+                <span key={b.id}>
+                  {i > 0 && ', '}
+                  <Link to={`/recipes/${b.id}`}>{b.name}</Link>
+                </span>
+              ))}
+            </p>
+          )}
           <ol>
-            {recipe.steps.map((s, i) => (
+            {steps.map((s, i) => (
               <li key={i}>{s}</li>
             ))}
           </ol>

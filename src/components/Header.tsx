@@ -53,7 +53,7 @@ export function Header() {
           </NavLink>
           <NavLink to="/recipes" className="yk-nav__link">
             <BowlIcon />
-            Recipes
+            Ramen
           </NavLink>
           <NavLink to="/list" className="yk-nav__link">
             <ReceiptIcon />

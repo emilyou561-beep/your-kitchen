@@ -1,8 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { INGREDIENT_BY_ID, PANTRY_BASICS } from '../data/ingredients'
+import { INGREDIENT_BY_ID, PANTRY_BASICS, RAMEN_STARTER } from '../data/ingredients'
 import type { Storage } from '../data/ingredients'
 import { buildGrocery } from '../lib/grocery'
+import type { RouteId } from '../data/recipes'
 import type { GroceryItem } from '../lib/grocery'
 import { convert, tidy } from '../lib/units'
 
@@ -20,6 +21,8 @@ interface KitchenState {
   selected: string[]
   /** Servings chosen per recipe; missing = recipe default. */
   servings: Record<string, number>
+  /** Quick or authentic route chosen per ramen. */
+  routes: Record<string, RouteId>
   includeOptional: boolean
   grocery: GroceryItem[]
 }
@@ -39,6 +42,8 @@ interface KitchenApi extends KitchenState {
   clearInventory: () => void
   toggleRecipe: (id: string) => void
   setServings: (id: string, n: number) => void
+  setRoute: (id: string, route: RouteId) => void
+  addRamenStarter: () => void
   setIncludeOptional: (v: boolean) => void
   buildGroceryList: (alsoSelect?: string) => number
   addGroceryItem: (name: string) => void
@@ -52,7 +57,7 @@ interface KitchenApi extends KitchenState {
 }
 
 const STORAGE_KEY = 'yoru-kitchen:v1'
-const EMPTY: KitchenState = { inventory: [], selected: [], servings: {}, includeOptional: false, grocery: [] }
+const EMPTY: KitchenState = { inventory: [], selected: [], servings: {}, routes: {}, includeOptional: false, grocery: [] }
 
 function load(): KitchenState {
   try {
@@ -63,6 +68,7 @@ function load(): KitchenState {
       inventory: Array.isArray(p.inventory) ? p.inventory.filter((i) => INGREDIENT_BY_ID[i.ingredientId]) : [],
       selected: Array.isArray(p.selected) ? p.selected : [],
       servings: p.servings && typeof p.servings === 'object' ? p.servings : {},
+      routes: p.routes && typeof p.routes === 'object' ? p.routes : {},
       includeOptional: !!p.includeOptional,
       grocery: Array.isArray(p.grocery) ? p.grocery : [],
     }
@@ -183,6 +189,21 @@ export function KitchenProvider({ children }: { children: ReactNode }) {
     setState((s) => ({ ...s, servings: { ...s.servings, [id]: v } }))
   }, [])
 
+  const setRoute = useCallback((id: string, route: RouteId) => {
+    setState((s) => ({ ...s, routes: { ...s.routes, [id]: route } }))
+  }, [])
+
+  const addRamenStarter = useCallback(() => {
+    const missing = RAMEN_STARTER.filter((id) => !state.inventory.some((i) => i.ingredientId === id))
+    if (missing.length === 0) {
+      notify('You already have the ramen starter set')
+      return
+    }
+    const prev = state.inventory
+    setState((s) => ({ ...s, inventory: missing.reduce((inv, id) => addStock(inv, id), s.inventory) }))
+    notify(`${missing.length} ramen basics added`, { label: 'Undo', run: () => setState((s) => ({ ...s, inventory: prev })) })
+  }, [notify, state.inventory])
+
   const setIncludeOptional = useCallback((v: boolean) => setState((s) => ({ ...s, includeOptional: v })), [])
 
   const buildGroceryList = useCallback(
@@ -191,6 +212,7 @@ export function KitchenProvider({ children }: { children: ReactNode }) {
         alsoSelect && !state.selected.includes(alsoSelect) ? [...state.selected, alsoSelect] : state.selected
       const grocery = buildGrocery(selected, state.inventory, state.grocery, {
         servings: state.servings,
+        routes: state.routes,
         includeOptional: state.includeOptional,
       })
       setState((s) => ({ ...s, selected, grocery }))
@@ -270,6 +292,8 @@ export function KitchenProvider({ children }: { children: ReactNode }) {
     clearInventory,
     toggleRecipe,
     setServings,
+    setRoute,
+    addRamenStarter,
     setIncludeOptional,
     buildGroceryList,
     addGroceryItem,

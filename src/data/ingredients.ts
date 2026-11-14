@@ -1,6 +1,7 @@
 export type Storage = 'fridge' | 'freezer' | 'pantry'
 
 export type Category =
+  | 'ramen'
   | 'vegetables'
   | 'meat-fish'
   | 'tofu-eggs'
@@ -22,6 +23,7 @@ export interface Ingredient {
 }
 
 export const CATEGORIES: { id: Category; label: string }[] = [
+  { id: 'ramen', label: 'Ramen Pantry' },
   { id: 'vegetables', label: 'Vegetables' },
   { id: 'meat-fish', label: 'Meat & Fish' },
   { id: 'tofu-eggs', label: 'Tofu & Eggs' },
@@ -39,6 +41,45 @@ export const STORAGE_LABEL: Record<Storage, string> = {
 export const UNITS = ['pc', 'g', 'kg', 'ml', 'L', 'tbsp', 'tsp', 'cup', 'pack', 'bunch', 'bowl']
 
 export const INGREDIENTS: Ingredient[] = [
+  // Ramen pantry — noodles, stocks, toppings and seasonings ramen relies on
+  { id: 'ramen-noodles', name: 'Fresh ramen noodles', romaji: 'nama-men', category: 'ramen', storage: 'fridge', unit: 'pack', defaultQty: 2, aliases: ['ramen', 'noodles', 'chukamen', 'wavy noodles'] },
+  { id: 'thin-ramen-noodles', name: 'Thin straight noodles', romaji: 'hosomen', category: 'ramen', storage: 'fridge', unit: 'pack', defaultQty: 2, aliases: ['hakata noodles', 'ramen', 'noodles'] },
+  { id: 'thick-ramen-noodles', name: 'Thick ramen noodles', romaji: 'futomen', category: 'ramen', storage: 'fridge', unit: 'pack', defaultQty: 2, aliases: ['tsukemen noodles', 'ramen', 'noodles'] },
+  { id: 'chicken-stock', name: 'Chicken stock', romaji: 'torigara sūpu', category: 'ramen', storage: 'pantry', unit: 'ml', defaultQty: 1000, aliases: ['broth', 'stock', 'bouillon'] },
+  { id: 'tonkotsu-base', name: 'Tonkotsu soup concentrate', romaji: 'tonkotsu no moto', category: 'ramen', storage: 'pantry', unit: 'ml', defaultQty: 200, aliases: ['pork bone soup', 'ramen base'] },
+  { id: 'chicken-carcass', name: 'Chicken carcass', romaji: 'torigara', category: 'ramen', storage: 'freezer', unit: 'pc', defaultQty: 2, aliases: ['chicken bones', 'chicken frame'] },
+  { id: 'chicken-wings', name: 'Chicken wings', romaji: 'tebasaki', category: 'ramen', storage: 'freezer', unit: 'g', defaultQty: 500, aliases: ['wing tips'] },
+  { id: 'pork-bones', name: 'Pork bones', romaji: 'tonkotsu', category: 'ramen', storage: 'freezer', unit: 'kg', defaultQty: 1.5, aliases: ['pork femur', 'pork trotters', 'genkotsu'] },
+  { id: 'pork-back-fat', name: 'Pork back fat', romaji: 'seabura', category: 'ramen', storage: 'freezer', unit: 'g', defaultQty: 200, aliases: ['fatback', 'lard'] },
+  { id: 'pork-belly-block', name: 'Pork belly block', romaji: 'buta bara burokku', category: 'ramen', storage: 'fridge', unit: 'g', defaultQty: 500, aliases: ['chashu pork', 'pork belly'] },
+  { id: 'chashu', name: 'Ready-made chashu', romaji: 'chāshū', category: 'ramen', storage: 'fridge', unit: 'pack', defaultQty: 1, aliases: ['roast pork', 'char siu'] },
+  { id: 'menma', name: 'Menma', romaji: 'menma', category: 'ramen', storage: 'fridge', unit: 'g', defaultQty: 100, aliases: ['bamboo shoots'] },
+  { id: 'naruto', name: 'Naruto fish cake', romaji: 'narutomaki', category: 'ramen', storage: 'fridge', unit: 'pc', defaultQty: 1, aliases: ['kamaboko', 'fish cake'] },
+  { id: 'kombu', name: 'Kombu', romaji: 'konbu', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 50, aliases: ['kelp'] },
+  { id: 'niboshi', name: 'Dried sardines', romaji: 'niboshi', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 100, aliases: ['iriko', 'dried anchovies'] },
+  { id: 'dried-shiitake', name: 'Dried shiitake', romaji: 'hoshi shiitake', category: 'ramen', storage: 'pantry', unit: 'pc', defaultQty: 6, aliases: ['mushroom'] },
+  { id: 'kikurage', name: 'Wood ear mushroom', romaji: 'kikurage', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 20, aliases: ['black fungus'] },
+  { id: 'takana', name: 'Pickled mustard greens', romaji: 'karashi takana', category: 'ramen', storage: 'fridge', unit: 'g', defaultQty: 100, aliases: ['takana'] },
+  { id: 'corn', name: 'Sweet corn', romaji: 'kōn', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 200, aliases: ['canned corn'] },
+  { id: 'lard', name: 'Lard', romaji: 'rādo', category: 'ramen', storage: 'fridge', unit: 'g', defaultQty: 200, aliases: ['pork fat'] },
+  { id: 'sesame-paste', name: 'Sesame paste', romaji: 'neri goma', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 100, aliases: ['tahini'] },
+  { id: 'chili-oil', name: 'Chili oil', romaji: 'rāyu', category: 'ramen', storage: 'pantry', unit: 'ml', defaultQty: 100, aliases: ['rayu', 'la-yu'] },
+  { id: 'sichuan-pepper', name: 'Sichuan pepper', romaji: 'kajō sanshō', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 20, aliases: ['hua jiao'] },
+  { id: 'black-pepper', name: 'Black pepper', romaji: 'kuro koshō', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 50, aliases: ['pepper'] },
+  { id: 'white-pepper', name: 'White pepper', romaji: 'shiro koshō', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 50, aliases: ['pepper'] },
+  { id: 'nira', name: 'Garlic chives', romaji: 'nira', category: 'ramen', storage: 'fridge', unit: 'bunch', defaultQty: 1, aliases: ['chinese chives'] },
+  { id: 'bok-choy', name: 'Bok choy', romaji: 'chingensai', category: 'ramen', storage: 'fridge', unit: 'pc', defaultQty: 2, aliases: ['pak choi'] },
+  { id: 'soy-milk', name: 'Unsweetened soy milk', romaji: 'tōnyū', category: 'ramen', storage: 'fridge', unit: 'ml', defaultQty: 1000, aliases: ['soymilk'] },
+  { id: 'oyster-sauce', name: 'Oyster sauce', romaji: 'oisutā sōsu', category: 'ramen', storage: 'fridge', unit: 'ml', defaultQty: 200 },
+  { id: 'bread-flour', name: 'Bread flour', romaji: 'kyōrikiko', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 1000, aliases: ['strong flour', 'high-gluten flour'] },
+  { id: 'baking-soda', name: 'Baking soda', romaji: 'jūsō', category: 'ramen', storage: 'pantry', unit: 'g', defaultQty: 200, aliases: ['kansui substitute', 'bicarbonate'] },
+  { id: 'seafood-mix', name: 'Seafood mix', romaji: 'shīfūdo mikkusu', category: 'ramen', storage: 'freezer', unit: 'g', defaultQty: 300, aliases: ['squid', 'shrimp', 'clams'] },
+  { id: 'pork-ribs', name: 'Pork spare ribs', romaji: 'sōki', category: 'ramen', storage: 'freezer', unit: 'g', defaultQty: 500, aliases: ['soki', 'ribs'] },
+  { id: 'ham', name: 'Sliced ham', romaji: 'hamu', category: 'ramen', storage: 'fridge', unit: 'pack', defaultQty: 1 },
+  { id: 'cheese', name: 'Grated cheese', romaji: 'chīzu', category: 'ramen', storage: 'fridge', unit: 'g', defaultQty: 100, aliases: ['parmesan'] },
+  { id: 'japanese-mustard', name: 'Japanese mustard', romaji: 'karashi', category: 'ramen', storage: 'fridge', unit: 'g', defaultQty: 40, aliases: ['karashi'] },
+  { id: 'yuzu', name: 'Yuzu peel', romaji: 'yuzu', category: 'ramen', storage: 'fridge', unit: 'pc', defaultQty: 1, aliases: ['citrus', 'lemon'] },
+
   // Vegetables
   { id: 'potato', name: 'Potato', romaji: 'jagaimo', category: 'vegetables', storage: 'pantry', unit: 'pc', defaultQty: 3 },
   { id: 'onion', name: 'Onion', romaji: 'tamanegi', category: 'vegetables', storage: 'pantry', unit: 'pc', defaultQty: 2 },
@@ -119,6 +160,9 @@ export const INGREDIENTS: Ingredient[] = [
 
 /** One-tap "I have the basics" set for My Kitchen. */
 export const PANTRY_BASICS = ['soy-sauce', 'mirin', 'sake', 'sugar', 'salt', 'dashi', 'vegetable-oil', 'rice']
+
+/** One-tap "ramen night starter": stock, noodles and the toppings most bowls share. */
+export const RAMEN_STARTER = ['ramen-noodles', 'chicken-stock', 'soy-sauce', 'scallion', 'egg', 'nori', 'menma', 'garlic', 'ginger', 'sesame-oil']
 
 export const INGREDIENT_BY_ID: Record<string, Ingredient> = Object.fromEntries(
   INGREDIENTS.map((i) => [i.id, i]),

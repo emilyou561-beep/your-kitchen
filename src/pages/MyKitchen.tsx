@@ -12,9 +12,9 @@ const STORAGES: Storage[] = ['fridge', 'freezer', 'pantry']
 const DRAG_TYPE = 'application/x-yoru-ingredient'
 
 export function MyKitchen() {
-  const { inventory, owned, addIngredient, removeIngredient, updateIngredient, addPantryBasics, clearInventory } = useKitchen()
+  const { inventory, owned, addIngredient, removeIngredient, updateIngredient, addPantryBasics, addRamenStarter, clearInventory } = useKitchen()
   const [query, setQuery] = useState('')
-  const [category, setCategory] = useState<Category>('vegetables')
+  const [category, setCategory] = useState<Category>('ramen')
   const [dropActive, setDropActive] = useState(false)
   const panelRef = useRef<HTMLElement>(null)
   const countRef = useRef<HTMLSpanElement>(null)
@@ -68,7 +68,7 @@ export function MyKitchen() {
           onClick={(e) => inventory.length === 0 && e.preventDefault()}
           data-disabled={inventory.length === 0}
         >
-          See Recipes
+          See Ramen
           <ArrowRight />
         </Link>
       </div>
@@ -168,6 +168,9 @@ export function MyKitchen() {
             </span>
           </div>
           <div className="yk-fridge-list__tools">
+            <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={addRamenStarter}>
+              <Plus size={18} /> Ramen starter
+            </button>
             <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={addPantryBasics}>
               <Plus size={18} /> Pantry basics
             </button>
@@ -181,7 +184,7 @@ export function MyKitchen() {
           {inventory.length === 0 ? (
             <div className="yk-empty yk-fridge-list__empty">
               <p className="yk-empty__title">Your fridge is empty</p>
-              <p>Tap an ingredient to add it, or start with the pantry basics.</p>
+              <p>Tap an ingredient to add it, or start with the ramen starter set.</p>
             </div>
           ) : (
             grouped.map(

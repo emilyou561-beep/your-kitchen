@@ -5,7 +5,7 @@ import { DishArt } from './DishArt'
 export function RecipeImage({ recipe, className = '' }: { recipe: Recipe; className?: string }) {
   return (
     <div className={`yk-recipe-img yk-recipe-img--art ${className}`} role="img" aria-label={`Illustration of ${recipe.name}`}>
-      <DishArt id={recipe.id} />
+      <DishArt id={recipe.id} recipe={recipe} />
       <span
         className="yk-recipe-img__ja"
         aria-hidden="true"

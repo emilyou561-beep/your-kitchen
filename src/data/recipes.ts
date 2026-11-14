@@ -1,30 +1,14 @@
-export interface RecipeIngredient {
-  id: string
-  qty: number
-  unit: string
-  /** Essential ingredients decide availability; optional ones never block a dish. */
-  essential: boolean
-}
+import { e, o } from './recipeTypes'
+import type { Recipe } from './recipeTypes'
+import { RAMEN, RAMEN_BASICS } from './ramen'
 
-export interface Recipe {
-  id: string
-  name: string
-  /** Japanese name — decorative only, always aria-hidden. */
-  nameJa: string
-  blurb: string
-  minutes: number
-  serves: number
-  image?: string
-  /** Fallback tint for the illustrated placeholder when no photo exists yet. */
-  tint: string
-  ingredients: RecipeIngredient[]
-  steps: string[]
-}
+export type { Recipe, RecipeIngredient, RecipeKind, Route, RouteId, SoupType, RamenArtSpec, Topping } from './recipeTypes'
+export { routeOf, formatMinutes, SOUP_LABEL } from './recipeTypes'
 
-const e = (id: string, qty: number, unit: string): RecipeIngredient => ({ id, qty, unit, essential: true })
-const o = (id: string, qty: number, unit: string): RecipeIngredient => ({ id, qty, unit, essential: false })
+type SideDraft = Omit<Recipe, 'kind'>
 
-export const RECIPES: Recipe[] = [
+/** Japanese home dishes — now shown as sides next to the ramen. */
+const SIDE_DRAFTS: SideDraft[] = [
   {
     id: 'nikujaga', name: 'Nikujaga', nameJa: '肉じゃが', blurb: 'Beef and potatoes simmered sweet and savory.',
     minutes: 35, serves: 3, tint: '#C9894A',
@@ -337,5 +321,9 @@ export const RECIPES: Recipe[] = [
     steps: ['Stir the natto vigorously with its sauce (or soy sauce) until stringy.', 'Spoon over hot rice; top with scallion and a raw egg yolk if you like.'],
   },
 ]
+
+export const SIDES: Recipe[] = SIDE_DRAFTS.map((r) => ({ ...r, kind: 'side' }))
+
+export const RECIPES: Recipe[] = [...RAMEN, ...RAMEN_BASICS, ...SIDES]
 
 export const RECIPE_BY_ID: Record<string, Recipe> = Object.fromEntries(RECIPES.map((r) => [r.id, r]))

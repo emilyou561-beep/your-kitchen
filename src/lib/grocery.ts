@@ -1,5 +1,6 @@
 import { INGREDIENT_BY_ID } from '../data/ingredients'
-import { RECIPE_BY_ID } from '../data/recipes'
+import { RECIPE_BY_ID, routeOf } from '../data/recipes'
+import type { RouteId } from '../data/recipes'
 import { shortfall, stockMap } from './match'
 import type { Stock } from './match'
 import { convert, toBuy } from './units'
@@ -17,6 +18,7 @@ export interface GroceryItem {
 
 export interface BuildOptions {
   servings?: Record<string, number>
+  routes?: Record<string, RouteId>
   includeOptional?: boolean
 }
 
@@ -30,7 +32,7 @@ export function buildGrocery(
   selected: string[],
   stock: Stock[],
   previous: GroceryItem[] = [],
-  { servings = {}, includeOptional = false }: BuildOptions = {},
+  { servings = {}, routes = {}, includeOptional = false }: BuildOptions = {},
 ): GroceryItem[] {
   const totals = new Map<string, { qty: number; unit: string; recipes: string[] }>()
 
@@ -38,7 +40,7 @@ export function buildGrocery(
     const recipe = RECIPE_BY_ID[rid]
     if (!recipe) continue
     const factor = (servings[rid] ?? recipe.serves) / recipe.serves
-    for (const ri of recipe.ingredients) {
+    for (const ri of routeOf(recipe, routes[rid]).ingredients) {
       if (!ri.essential && !includeOptional) continue
       const need = ri.qty * factor
       const t = totals.get(ri.id)

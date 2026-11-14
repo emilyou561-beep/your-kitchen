@@ -4,6 +4,8 @@
  * All drawing happens in a 200×120 box so dishes can be reused in other scenes.
  */
 import type { ReactNode } from 'react'
+import type { Recipe } from '../data/recipeTypes'
+import { RamenDrawing } from './RamenArt'
 
 const INK = '#28251F'
 const PAPER = '#F5E8CD'
@@ -659,7 +661,30 @@ export function DishBackdrop() {
   )
 }
 
-export function DishArt({ id }: { id: string }) {
+/** Stock pot used for Ramen Basics — liquid coloured with the recipe tint. */
+function BasicPot({ tint }: { tint: string }) {
+  return (
+    <g>
+      <ellipse cx={100} cy={52} rx={50} ry={11} fill="#5E6366" stroke={INK} strokeWidth={SW} />
+      <ellipse cx={100} cy={53} rx={45} ry={9} fill={tint} />
+      <ellipse cx={86} cy={51} rx={16} ry={2.6} fill="#fff" opacity={0.25} />
+      <path d="M50 52A50 11 0 0 0 150 52V96A50 11 0 0 1 50 96Z" fill="#A9ADAF" stroke={INK} strokeWidth={SW} />
+      <path d="M58 60V92" stroke="#E6E7E4" strokeWidth={5} strokeLinecap="round" opacity={0.7} />
+      <path d="M50 66h-12a4 4 0 0 0 0 8h12M150 66h12a4 4 0 0 1 0 8h-12" fill="#7E8386" stroke={INK} strokeWidth={SW} />
+    </g>
+  )
+}
+
+export function DishArt({ id, recipe }: { id: string; recipe?: Recipe }) {
+  const body = recipe?.art ? (
+    <g transform="translate(100 74) scale(1.08) translate(-100 -74)">
+      <RamenDrawing spec={recipe.art} />
+    </g>
+  ) : recipe?.kind === 'basic' ? (
+    <BasicPot tint={recipe.tint} />
+  ) : (
+    <DishDrawing id={id} />
+  )
   return (
     <svg viewBox="0 0 200 120" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">
       <DishBackdrop />
@@ -667,7 +692,7 @@ export function DishArt({ id }: { id: string }) {
         <path d="M86 40c0-6 6-6 6-12" />
         <path d="M106 38c0-6 6-6 6-12" />
       </g>
-      <DishDrawing id={id} />
+      {body}
     </svg>
   )
 }
