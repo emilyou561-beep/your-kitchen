@@ -22,9 +22,9 @@ export function RecipeImage({
   aspect?: number
 }) {
   const photo = recipe.kind === 'ramen'
-    ? `/images/ramen/${recipe.id}.jpg`
+    ? `${import.meta.env.BASE_URL}images/ramen/${recipe.id}.jpg`
     : recipe.kind === 'side'
-      ? `/images/sides/${recipe.id}.jpg`
+      ? `${import.meta.env.BASE_URL}images/sides/${recipe.id}.jpg`
       : recipe.image
   const [failed, setFailed] = useState(false)
   const showPhoto = !!photo && !failed

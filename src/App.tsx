@@ -43,7 +43,7 @@ function Toast() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <KitchenProvider>
         <a href="#main" className="yk-skip">
           Skip to content

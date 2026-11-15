@@ -2,6 +2,8 @@
 
 Tell it what's in your fridge and it shows which Japanese ramen you can make tonight. There are 41 regional styles, from Sapporo miso to Hakata tonkotsu, and each one has a quick version (store-bought stock, about 30 minutes) and a shop-style version (stock, tare and oil from scratch). It checks quantities, not just whether you have something, then turns whatever's missing into a grocery receipt you can edit, check off and print.
 
+**Try it:** https://emilyou561-beep.github.io/your-kitchen/
+
 ![React](https://img.shields.io/badge/React-19-00274C?style=flat-square) ![TypeScript](https://img.shields.io/badge/TypeScript-5-00274C?style=flat-square) ![Vite](https://img.shields.io/badge/Vite-8-00274C?style=flat-square) ![tests](https://img.shields.io/badge/tests-vitest-00274C?style=flat-square)
 
 ## Run it

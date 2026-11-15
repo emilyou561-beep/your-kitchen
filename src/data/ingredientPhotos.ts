@@ -1,6 +1,6 @@
 import type { Category, Ingredient } from './ingredients'
 
-const PHOTO_ROOT = '/images/ingredients'
+const PHOTO_ROOT = `${import.meta.env.BASE_URL}images/ingredients`
 
 /**
  * A small library of tactile ingredient cutouts. Similar ingredients share a
