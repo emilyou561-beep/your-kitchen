@@ -5,7 +5,7 @@ interface ChopsticksCursorProps {
   visible: boolean
 }
 
-/** A quiet, nostalgic pair of lacquered chopsticks that replaces the OS cursor. */
+/** A pair of matching lacquered chopsticks: broad ends up, fine tips down. */
 export const ChopsticksCursor = forwardRef<HTMLDivElement, ChopsticksCursorProps>(function ChopsticksCursor(
   { holding, visible },
   ref,
@@ -18,25 +18,32 @@ export const ChopsticksCursor = forwardRef<HTMLDivElement, ChopsticksCursorProps
       data-visible={visible}
       aria-hidden="true"
     >
-      <svg className="yk-chopsticks-cursor__art" viewBox="0 0 82 96" role="presentation">
+      <svg className="yk-chopsticks-cursor__art" viewBox="0 0 100 124" role="presentation">
         <defs>
-          <linearGradient id="yk-chopstick-red" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stopColor="#8c1e1b" />
-            <stop offset="0.5" stopColor="#d44732" />
-            <stop offset="1" stopColor="#731418" />
-          </linearGradient>
-          <linearGradient id="yk-chopstick-wood" x1="0" x2="1">
-            <stop offset="0" stopColor="#b46e2d" />
-            <stop offset="0.5" stopColor="#f0bd61" />
-            <stop offset="1" stopColor="#8a4d21" />
+          <linearGradient id="yk-chopstick-lacquer" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stopColor="#b52e28" />
+            <stop offset="0.48" stopColor="#7f191d" />
+            <stop offset="1" stopColor="#4f1016" />
           </linearGradient>
         </defs>
-        <path d="M19 8 55 82" fill="none" stroke="#2c241c" strokeWidth="8" strokeLinecap="round" />
-        <path d="M19 8 55 82" fill="none" stroke="url(#yk-chopstick-red)" strokeWidth="5" strokeLinecap="round" />
-        <path d="M37 7 65 79" fill="none" stroke="#2c241c" strokeWidth="8" strokeLinecap="round" />
-        <path d="M37 7 65 79" fill="none" stroke="url(#yk-chopstick-wood)" strokeWidth="5" strokeLinecap="round" />
-        <path d="M14 5h10M32 4h10" stroke="#f3d27d" strokeWidth="3" strokeLinecap="round" />
-        <circle cx="58" cy="84" r="4" fill="#f3d27d" stroke="#2c241c" strokeWidth="2" />
+        <path
+          className="yk-chopsticks-cursor__left"
+          d="M26 8 40 5Q43 5 44 9l10 106-5 4-5-4L24 12Q23 8 26 8Z"
+          fill="url(#yk-chopstick-lacquer)"
+          stroke="#2c241c"
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
+        <path
+          className="yk-chopsticks-cursor__right"
+          d="M58 5h15q3 0 2 4L56 111l-5 5-5-5L57 9q0-4 1-4Z"
+          fill="url(#yk-chopstick-lacquer)"
+          stroke="#2c241c"
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
+        <path d="M27 10h14M59 8h14" stroke="#df6e55" strokeWidth="2" strokeLinecap="round" opacity="0.65" />
+        <path d="M49 112 51 116 54 112" fill="none" stroke="#2c241c" strokeWidth="2" strokeLinecap="round" />
       </svg>
     </div>
   )

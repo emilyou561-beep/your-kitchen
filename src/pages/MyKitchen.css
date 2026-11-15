@@ -307,20 +307,20 @@
   z-index: 100;
   left: 0;
   top: 0;
-  width: 64px;
-  height: 70px;
+  width: 74px;
+  height: 96px;
   pointer-events: none;
   opacity: 0;
-  transform: translate(-12px, -12px) rotate(-16deg);
-  transform-origin: 20% 20%;
+  transform: translate(-50%, -100%) rotate(-2deg);
+  transform-origin: 50% 100%;
   transition: opacity 120ms ease, transform 180ms var(--yk-ease);
-  filter: drop-shadow(3px 5px 0 rgb(40 37 31 / 0.22));
+  filter: drop-shadow(3px 5px 0 rgb(40 37 31 / 0.24));
 }
 .yk-chopsticks-cursor[data-visible='true'] {
   opacity: 1;
 }
 .yk-chopsticks-cursor[data-holding='true'] {
-  transform: translate(-11px, -10px) rotate(-7deg) scale(1.08);
+  transform: translate(-50%, -100%) rotate(0deg) scale(1.04);
 }
 .yk-chopsticks-cursor__art {
   width: 100%;
@@ -332,21 +332,27 @@
   z-index: 90;
   left: 0;
   top: 0;
-  width: 112px;
-  height: 112px;
+  width: 104px;
+  height: 104px;
   pointer-events: none;
   display: grid;
   place-items: center;
-  transform: translate(-72%, -83%) rotate(-7deg);
+  transform: translate(-50%, -105%) rotate(-2deg);
   filter: drop-shadow(0 9px 5px rgb(40 37 31 / 0.22));
 }
-.yk-held-ingredient img {
+.yk-held-ingredient__food {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.yk-held-ingredient__food img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  animation: yk-held-bob 460ms ease-in-out infinite alternate;
 }
-.yk-held-ingredient span {
+.yk-held-ingredient__label {
   position: absolute;
   left: 50%;
   bottom: -3px;
@@ -360,8 +366,29 @@
   white-space: nowrap;
   transform: translateX(-50%);
 }
-.yk-held-ingredient[data-soft='true'] img {
-  animation: yk-held-bob 460ms ease-in-out infinite alternate, yk-soft-hold 620ms ease-in-out infinite alternate;
+.yk-held-ingredient[data-soft='true'] .yk-held-ingredient__food {
+  animation: yk-soft-clamp 620ms cubic-bezier(0.35, 0.05, 0.35, 1) infinite alternate;
+}
+.yk-held-ingredient__pinch {
+  position: absolute;
+  z-index: 3;
+  top: 63%;
+  width: 17px;
+  height: 28px;
+  border: 2px solid rgb(75 35 27 / 0.5);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgb(66 28 20 / 0.28), transparent 68%);
+  mix-blend-mode: multiply;
+  filter: blur(0.5px);
+  animation: yk-pinch 620ms cubic-bezier(0.35, 0.05, 0.35, 1) infinite alternate;
+}
+.yk-held-ingredient__pinch--left {
+  left: 17%;
+  transform: rotate(-16deg);
+}
+.yk-held-ingredient__pinch--right {
+  right: 17%;
+  transform: rotate(16deg);
 }
 
 /* ── Countertop drop zone ── */
@@ -513,13 +540,13 @@
   color: var(--yk-navy);
 }
 
-@keyframes yk-held-bob {
-  from { transform: translateY(2px) rotate(-2deg); }
-  to { transform: translateY(-4px) rotate(3deg); }
+@keyframes yk-soft-clamp {
+  from { transform: scaleX(1) scaleY(1) rotate(-1deg); }
+  to { transform: scaleX(0.9) scaleY(1.04) rotate(1deg); }
 }
-@keyframes yk-soft-hold {
-  from { transform: scaleX(1) scaleY(1); }
-  to { transform: scaleX(1.08) scaleY(0.91) rotate(2deg); }
+@keyframes yk-pinch {
+  from { opacity: 0.52; transform: translateY(0) scale(0.92); }
+  to { opacity: 0.9; transform: translateY(2px) scale(1.13); }
 }
 @keyframes yk-soft-rest {
   0%, 100% { transform: scaleX(1) scaleY(1); }

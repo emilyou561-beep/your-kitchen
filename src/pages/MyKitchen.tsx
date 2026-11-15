@@ -416,8 +416,16 @@ export function MyKitchen() {
       </div>
       {heldIngredient && INGREDIENT_BY_ID[heldIngredient] && (
         <div ref={heldRef} className="yk-held-ingredient" data-soft={isSoftIngredient(heldIngredient)} aria-hidden="true">
-          <img src={ingredientPhoto(INGREDIENT_BY_ID[heldIngredient])} alt="" />
-          <span>{INGREDIENT_BY_ID[heldIngredient].name}</span>
+          <div className="yk-held-ingredient__food">
+            <img src={ingredientPhoto(INGREDIENT_BY_ID[heldIngredient])} alt="" />
+            {isSoftIngredient(heldIngredient) && (
+              <>
+                <span className="yk-held-ingredient__pinch yk-held-ingredient__pinch--left" />
+                <span className="yk-held-ingredient__pinch yk-held-ingredient__pinch--right" />
+              </>
+            )}
+          </div>
+          <span className="yk-held-ingredient__label">{INGREDIENT_BY_ID[heldIngredient].name}</span>
         </div>
       )}
       <ChopsticksCursor ref={cursorRef} holding={heldIngredient !== null} visible={cursorVisible} />
