@@ -79,3 +79,11 @@ All side-dish photos were generated with OpenAI ImageGen for this project.
 | nasu-dengaku | `public/images/sides/nasu-dengaku.jpg` | AI generated | OpenAI ImageGen |
 | onigiri | `public/images/sides/onigiri.jpg` | AI generated | OpenAI ImageGen |
 | natto-gohan | `public/images/sides/natto-gohan.jpg` | AI generated | OpenAI ImageGen |
+
+## Ingredient cutouts
+
+Ingredient cutouts used by the My Kitchen refrigerator and chopping-board interaction were generated with OpenAI ImageGen. Related ingredients reuse a cutout from the same ingredient family.
+
+| Files | Author | Site |
+|---|---|---|
+| `public/images/ingredients/*.png` | AI generated | OpenAI ImageGen |
