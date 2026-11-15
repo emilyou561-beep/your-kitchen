@@ -1,4 +1,4 @@
-/** Photo credits for public/images/ramen/*.jpg — generated with OpenAI ImageGen for this project. */
+/** Photo credits for generated recipe photos in public/images/ramen/ and public/images/sides/. */
 export interface PhotoCredit { author: string; url: string; site: string }
 
 export const PHOTO_CREDITS: Record<string, PhotoCredit> = {
@@ -43,4 +43,31 @@ export const PHOTO_CREDITS: Record<string, PhotoCredit> = {
   'takaida': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
   'sanmamen': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
   'karamen': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'nikujaga': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'oyakodon': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'gyudon': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'miso-soup': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'tonjiru': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'tamagoyaki': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'teriyaki-chicken': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'karaage': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'shogayaki': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'tonkatsu': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'hambagu': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'omurice': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'saba-misoni': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'shake-teishoku': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'mabo-dofu': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'hiyayakko': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'yaki-udon': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'yakisoba': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'zaru-soba': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'kare-raisu': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'okonomiyaki': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'kinpira-gobo': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'kabocha-nimono': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'horenso-ohitashi': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'nasu-dengaku': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'onigiri': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
+  'natto-gohan': { author: 'AI generated', url: '', site: 'OpenAI ImageGen' },
 }

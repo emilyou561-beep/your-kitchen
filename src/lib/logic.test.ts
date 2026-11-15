@@ -239,10 +239,12 @@ describe('fun facts & route art', () => {
 import { existsSync } from 'node:fs'
 import { PHOTO_CREDITS } from '../data/photoCredits'
 describe('photos', () => {
-  it('every credited photo exists and belongs to a ramen', () => {
+  it('every credited photo exists and belongs to a photographed recipe', () => {
     for (const id of Object.keys(PHOTO_CREDITS)) {
-      expect(RECIPE_BY_ID[id]?.kind, id).toBe('ramen')
-      expect(existsSync(`public/images/ramen/${id}.jpg`), id).toBe(true)
+      const recipe = RECIPE_BY_ID[id]
+      expect(['ramen', 'side'], id).toContain(recipe?.kind)
+      const folder = recipe?.kind === 'side' ? 'sides' : 'ramen'
+      expect(existsSync(`public/images/${folder}/${id}.jpg`), id).toBe(true)
     }
   })
 })

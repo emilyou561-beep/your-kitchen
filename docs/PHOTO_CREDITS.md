@@ -45,3 +45,37 @@ All ramen photos in this folder were generated with OpenAI ImageGen from this pr
 | takaida | `public/images/ramen/takaida.jpg` | AI generated | — |
 | sanmamen | `public/images/ramen/sanmamen.jpg` | AI generated | — |
 | karamen | `public/images/ramen/karamen.jpg` | AI generated | — |
+
+## Side dishes
+
+All side-dish photos were generated with OpenAI ImageGen for this project.
+
+| ID | File | Author | Site |
+|---|---|---|---|
+| nikujaga | `public/images/sides/nikujaga.jpg` | AI generated | OpenAI ImageGen |
+| oyakodon | `public/images/sides/oyakodon.jpg` | AI generated | OpenAI ImageGen |
+| gyudon | `public/images/sides/gyudon.jpg` | AI generated | OpenAI ImageGen |
+| miso-soup | `public/images/sides/miso-soup.jpg` | AI generated | OpenAI ImageGen |
+| tonjiru | `public/images/sides/tonjiru.jpg` | AI generated | OpenAI ImageGen |
+| tamagoyaki | `public/images/sides/tamagoyaki.jpg` | AI generated | OpenAI ImageGen |
+| teriyaki-chicken | `public/images/sides/teriyaki-chicken.jpg` | AI generated | OpenAI ImageGen |
+| karaage | `public/images/sides/karaage.jpg` | AI generated | OpenAI ImageGen |
+| shogayaki | `public/images/sides/shogayaki.jpg` | AI generated | OpenAI ImageGen |
+| tonkatsu | `public/images/sides/tonkatsu.jpg` | AI generated | OpenAI ImageGen |
+| hambagu | `public/images/sides/hambagu.jpg` | AI generated | OpenAI ImageGen |
+| omurice | `public/images/sides/omurice.jpg` | AI generated | OpenAI ImageGen |
+| saba-misoni | `public/images/sides/saba-misoni.jpg` | AI generated | OpenAI ImageGen |
+| shake-teishoku | `public/images/sides/shake-teishoku.jpg` | AI generated | OpenAI ImageGen |
+| mabo-dofu | `public/images/sides/mabo-dofu.jpg` | AI generated | OpenAI ImageGen |
+| hiyayakko | `public/images/sides/hiyayakko.jpg` | AI generated | OpenAI ImageGen |
+| yaki-udon | `public/images/sides/yaki-udon.jpg` | AI generated | OpenAI ImageGen |
+| yakisoba | `public/images/sides/yakisoba.jpg` | AI generated | OpenAI ImageGen |
+| zaru-soba | `public/images/sides/zaru-soba.jpg` | AI generated | OpenAI ImageGen |
+| kare-raisu | `public/images/sides/kare-raisu.jpg` | AI generated | OpenAI ImageGen |
+| okonomiyaki | `public/images/sides/okonomiyaki.jpg` | AI generated | OpenAI ImageGen |
+| kinpira-gobo | `public/images/sides/kinpira-gobo.jpg` | AI generated | OpenAI ImageGen |
+| kabocha-nimono | `public/images/sides/kabocha-nimono.jpg` | AI generated | OpenAI ImageGen |
+| horenso-ohitashi | `public/images/sides/horenso-ohitashi.jpg` | AI generated | OpenAI ImageGen |
+| nasu-dengaku | `public/images/sides/nasu-dengaku.jpg` | AI generated | OpenAI ImageGen |
+| onigiri | `public/images/sides/onigiri.jpg` | AI generated | OpenAI ImageGen |
+| natto-gohan | `public/images/sides/natto-gohan.jpg` | AI generated | OpenAI ImageGen |

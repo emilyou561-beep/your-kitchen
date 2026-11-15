@@ -5,9 +5,8 @@ import { LivePhoto } from './LivePhoto'
 import { SOUP_AREAS } from '../data/photoSoup'
 
 /**
- * Dish image. Ramen first try a photo at /images/ramen/<id>.jpg; if it is missing
- * (or fails to load) the hand-drawn illustration shows instead — so dropping a photo
- * into public/images/ramen/ is all it takes to upgrade a bowl.
+ * Dish image. Ramen and side dishes try their matching generated photo first; if it
+ * is missing (or fails to load) the hand-drawn illustration shows instead.
  */
 export function RecipeImage({
   recipe,
@@ -22,7 +21,11 @@ export function RecipeImage({
   live?: 'always' | 'hover'
   aspect?: number
 }) {
-  const photo = recipe.kind === 'ramen' ? `/images/ramen/${recipe.id}.jpg` : recipe.image
+  const photo = recipe.kind === 'ramen'
+    ? `/images/ramen/${recipe.id}.jpg`
+    : recipe.kind === 'side'
+      ? `/images/sides/${recipe.id}.jpg`
+      : recipe.image
   const [failed, setFailed] = useState(false)
   const showPhoto = !!photo && !failed
   const authentic = route === 'authentic' && !!recipe.authentic
