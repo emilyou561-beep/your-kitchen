@@ -87,3 +87,11 @@ Ingredient cutouts used by the My Kitchen refrigerator and chopping-board intera
 | Files | Author | Site |
 |---|---|---|
 | `public/images/ingredients/*.png` | AI generated | OpenAI ImageGen |
+
+## Interaction cursor
+
+The dimensional pinching-hand cursor was generated with OpenAI ImageGen as a transparent UI cutout.
+
+| File | Author | Site |
+|---|---|---|
+| `public/images/ui/pinch-hand-cursor.png` | AI generated | OpenAI ImageGen |

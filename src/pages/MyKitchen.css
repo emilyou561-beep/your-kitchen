@@ -301,31 +301,48 @@
   box-shadow: 0 3px 0 var(--yk-ink), inset 0 0 0 2px rgb(255 255 255 / 0.16);
 }
 
-/* ── Lacquered chopstick pointer and held ingredient ── */
-.yk-chopsticks-cursor {
+/* ── Dimensional pinch hand and held ingredient ── */
+.yk-pinch-hand-cursor {
   position: fixed;
   z-index: 100;
   left: 0;
   top: 0;
-  width: 74px;
-  height: 96px;
+  width: 104px;
+  height: 130px;
   pointer-events: none;
   opacity: 0;
-  transform: translate(-50%, -100%) rotate(-2deg);
-  transform-origin: 50% 100%;
+  transform: translate(-50%, -90%) rotate(-4deg);
+  transform-origin: 52% 92%;
   transition: opacity 120ms ease, transform 180ms var(--yk-ease);
-  filter: drop-shadow(3px 5px 0 rgb(40 37 31 / 0.24));
+  filter: drop-shadow(3px 7px 4px rgb(40 37 31 / 0.2));
 }
-.yk-chopsticks-cursor[data-visible='true'] {
+.yk-pinch-hand-cursor[data-visible='true'] {
   opacity: 1;
 }
-.yk-chopsticks-cursor[data-holding='true'] {
-  transform: translate(-50%, -100%) rotate(0deg) scale(1.04);
+.yk-pinch-hand-cursor[data-holding='true'] {
+  transform: translate(-50%, -90%) rotate(-1deg) scale(1.04);
 }
-.yk-chopsticks-cursor__art {
+.yk-pinch-hand-cursor img {
   width: 100%;
   height: 100%;
-  overflow: visible;
+  object-fit: contain;
+}
+.yk-pinch-hand-cursor__contact {
+  position: absolute;
+  left: 50%;
+  bottom: 13%;
+  width: 25px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgb(91 43 28 / 0.22);
+  filter: blur(3px);
+  transform: translateX(-50%) rotate(-8deg);
+  opacity: 0.65;
+  transition: opacity 180ms ease, transform 180ms var(--yk-ease);
+}
+.yk-pinch-hand-cursor[data-holding='true'] .yk-pinch-hand-cursor__contact {
+  opacity: 0.95;
+  transform: translateX(-50%) scale(1.2, 0.72) rotate(-8deg);
 }
 .yk-held-ingredient {
   position: fixed;
@@ -337,20 +354,23 @@
   pointer-events: none;
   display: grid;
   place-items: center;
-  transform: translate(-50%, -105%) rotate(-2deg);
+  transform: perspective(520px) translate(-50%, -105%) rotateX(16deg) rotateY(-8deg) rotateZ(-2deg);
   filter: drop-shadow(0 9px 5px rgb(40 37 31 / 0.22));
 }
 .yk-held-ingredient__food {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 82%;
+  height: 82%;
   display: grid;
   place-items: center;
+  transform: translateY(-5px);
 }
 .yk-held-ingredient__food img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transform: perspective(520px) rotateX(10deg) rotateY(-7deg);
+  transform-origin: 50% 86%;
 }
 .yk-held-ingredient__label {
   position: absolute;
@@ -389,6 +409,19 @@
 .yk-held-ingredient__pinch--right {
   right: 17%;
   transform: rotate(16deg);
+}
+.yk-held-ingredient__food::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 5%;
+  width: 46%;
+  height: 9px;
+  border-radius: 50%;
+  background: rgb(62 27 21 / 0.28);
+  filter: blur(3px);
+  transform: translateX(-50%);
+  opacity: 0.72;
 }
 
 /* ── Countertop drop zone ── */
@@ -542,7 +575,7 @@
 
 @keyframes yk-soft-clamp {
   from { transform: scaleX(1) scaleY(1) rotate(-1deg); }
-  to { transform: scaleX(0.9) scaleY(1.04) rotate(1deg); }
+  to { transform: scaleX(0.86) scaleY(1.07) translateY(2px) rotate(1deg); }
 }
 @keyframes yk-pinch {
   from { opacity: 0.52; transform: translateY(0) scale(0.92); }
