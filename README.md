@@ -6,10 +6,16 @@ Tell it what's in your fridge and it shows which Japanese ramen you can make ton
 
 ## Run it
 
+You'll need [Node.js](https://nodejs.org) 20.19 or newer.
+
 ```bash
+git clone https://github.com/emilyou561-beep/your-kitchen.git
+cd your-kitchen
 npm install
-npm run dev     # http://localhost:5180
+npm run dev
 ```
+
+Then open http://localhost:5180.
 
 Everything runs in the browser. There's no account or server, and your fridge is saved in localStorage.
 
