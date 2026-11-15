@@ -301,8 +301,8 @@
   box-shadow: 0 3px 0 var(--yk-ink), inset 0 0 0 2px rgb(255 255 255 / 0.16);
 }
 
-/* ── Gloved pointer and held ingredient ── */
-.yk-glove-cursor {
+/* ── Lacquered chopstick pointer and held ingredient ── */
+.yk-chopsticks-cursor {
   position: fixed;
   z-index: 100;
   left: 0;
@@ -316,13 +316,13 @@
   transition: opacity 120ms ease, transform 180ms var(--yk-ease);
   filter: drop-shadow(3px 5px 0 rgb(40 37 31 / 0.22));
 }
-.yk-glove-cursor[data-visible='true'] {
+.yk-chopsticks-cursor[data-visible='true'] {
   opacity: 1;
 }
-.yk-glove-cursor[data-holding='true'] {
+.yk-chopsticks-cursor[data-holding='true'] {
   transform: translate(-11px, -10px) rotate(-7deg) scale(1.08);
 }
-.yk-glove-cursor__art {
+.yk-chopsticks-cursor__art {
   width: 100%;
   height: 100%;
   overflow: visible;

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { CATEGORIES, INGREDIENTS, INGREDIENT_BY_ID, STORAGE_LABEL, UNITS, searchIngredients } from '../data/ingredients'
 import type { Category, Storage } from '../data/ingredients'
 import { ArrowRight, Check, Minus, Plus, Search, Trash } from '../components/Icons'
-import { GloveCursor } from '../components/GloveCursor'
+import { ChopsticksCursor } from '../components/ChopsticksCursor'
 import { ingredientPhoto, isSoftIngredient } from '../data/ingredientPhotos'
 import { useKitchen } from '../state/KitchenContext'
 import { buzz, flyTo, replay } from '../lib/tactile'
@@ -420,7 +420,7 @@ export function MyKitchen() {
           <span>{INGREDIENT_BY_ID[heldIngredient].name}</span>
         </div>
       )}
-      <GloveCursor ref={cursorRef} holding={heldIngredient !== null} visible={cursorVisible} />
+      <ChopsticksCursor ref={cursorRef} holding={heldIngredient !== null} visible={cursorVisible} />
     </main>
   )
 }
