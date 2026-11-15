@@ -349,12 +349,12 @@
   z-index: 101;
   left: 0;
   top: 0;
-  width: 72px;
-  height: 72px;
+  width: 58px;
+  height: 58px;
   pointer-events: none;
   display: grid;
   place-items: center;
-  transform: perspective(520px) translate(-50%, -105%) rotateX(16deg) rotateY(-8deg) rotateZ(-2deg);
+  transform: perspective(520px) translate(-50%, -76%) rotateX(16deg) rotateY(-8deg) rotateZ(-2deg);
   filter: drop-shadow(0 9px 5px rgb(40 37 31 / 0.22));
 }
 .yk-held-ingredient__food {
@@ -373,7 +373,7 @@
   transform-origin: 50% 86%;
 }
 .yk-held-ingredient__label {
-  position: absolute;
+  display: none;
   left: 50%;
   bottom: -3px;
   max-width: 130px;
