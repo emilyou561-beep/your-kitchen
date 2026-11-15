@@ -307,8 +307,8 @@
   z-index: 100;
   left: 0;
   top: 0;
-  width: 104px;
-  height: 130px;
+  width: 86px;
+  height: 108px;
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, -90%) rotate(-4deg);
@@ -346,11 +346,11 @@
 }
 .yk-held-ingredient {
   position: fixed;
-  z-index: 90;
+  z-index: 101;
   left: 0;
   top: 0;
-  width: 104px;
-  height: 104px;
+  width: 72px;
+  height: 72px;
   pointer-events: none;
   display: grid;
   place-items: center;
@@ -359,8 +359,8 @@
 }
 .yk-held-ingredient__food {
   position: relative;
-  width: 82%;
-  height: 82%;
+  width: 100%;
+  height: 100%;
   display: grid;
   place-items: center;
   transform: translateY(-5px);
