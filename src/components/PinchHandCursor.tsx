@@ -5,7 +5,7 @@ interface PinchHandCursorProps {
   visible: boolean
 }
 
-/** Generated, transparent cursor art with the food kept visually behind the pinch. */
+/** Generated, transparent cursor art used as the drag affordance. */
 export const PinchHandCursor = forwardRef<HTMLDivElement, PinchHandCursorProps>(function PinchHandCursor(
   { holding, visible },
   ref,
@@ -13,7 +13,6 @@ export const PinchHandCursor = forwardRef<HTMLDivElement, PinchHandCursorProps>(
   return (
     <div ref={ref} className="yk-pinch-hand-cursor" data-holding={holding} data-visible={visible} aria-hidden="true">
       <img src="/images/ui/pinch-hand-cursor.png" alt="" />
-      <span className="yk-pinch-hand-cursor__contact" />
     </div>
   )
 })

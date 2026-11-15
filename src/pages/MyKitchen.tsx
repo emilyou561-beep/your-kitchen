@@ -418,12 +418,6 @@ export function MyKitchen() {
         <div ref={heldRef} className="yk-held-ingredient" data-soft={isSoftIngredient(heldIngredient)} aria-hidden="true">
           <div className="yk-held-ingredient__food">
             <img src={ingredientPhoto(INGREDIENT_BY_ID[heldIngredient])} alt="" />
-            {isSoftIngredient(heldIngredient) && (
-              <>
-                <span className="yk-held-ingredient__pinch yk-held-ingredient__pinch--left" />
-                <span className="yk-held-ingredient__pinch yk-held-ingredient__pinch--right" />
-              </>
-            )}
           </div>
           <span className="yk-held-ingredient__label">{INGREDIENT_BY_ID[heldIngredient].name}</span>
         </div>

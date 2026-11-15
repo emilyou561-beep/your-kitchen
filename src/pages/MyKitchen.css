@@ -304,7 +304,8 @@
 /* ── Dimensional pinch hand and held ingredient ── */
 .yk-pinch-hand-cursor {
   position: fixed;
-  z-index: 100;
+  /* The hand sits in front of the food so the fingertips occlude its edges. */
+  z-index: 102;
   left: 0;
   top: 0;
   width: 86px;
@@ -327,25 +328,9 @@
   height: 100%;
   object-fit: contain;
 }
-.yk-pinch-hand-cursor__contact {
-  position: absolute;
-  left: 50%;
-  bottom: 13%;
-  width: 25px;
-  height: 9px;
-  border-radius: 50%;
-  background: rgb(91 43 28 / 0.22);
-  filter: blur(3px);
-  transform: translateX(-50%) rotate(-8deg);
-  opacity: 0.65;
-  transition: opacity 180ms ease, transform 180ms var(--yk-ease);
-}
-.yk-pinch-hand-cursor[data-holding='true'] .yk-pinch-hand-cursor__contact {
-  opacity: 0.95;
-  transform: translateX(-50%) scale(1.2, 0.72) rotate(-8deg);
-}
 .yk-held-ingredient {
   position: fixed;
+  /* The food is tucked behind the pinch, not pasted on top of the fingers. */
   z-index: 101;
   left: 0;
   top: 0;
@@ -354,7 +339,7 @@
   pointer-events: none;
   display: grid;
   place-items: center;
-  transform: perspective(520px) translate(-50%, -76%) rotateX(16deg) rotateY(-8deg) rotateZ(-2deg);
+  transform: perspective(520px) translate(-50%, -52%) rotateX(16deg) rotateY(-8deg) rotateZ(-2deg);
   filter: drop-shadow(0 9px 5px rgb(40 37 31 / 0.22));
 }
 .yk-held-ingredient__food {
@@ -388,27 +373,6 @@
 }
 .yk-held-ingredient[data-soft='true'] .yk-held-ingredient__food {
   animation: yk-soft-clamp 620ms cubic-bezier(0.35, 0.05, 0.35, 1) infinite alternate;
-}
-.yk-held-ingredient__pinch {
-  position: absolute;
-  z-index: 3;
-  top: 63%;
-  width: 17px;
-  height: 28px;
-  border: 2px solid rgb(75 35 27 / 0.5);
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgb(66 28 20 / 0.28), transparent 68%);
-  mix-blend-mode: multiply;
-  filter: blur(0.5px);
-  animation: yk-pinch 620ms cubic-bezier(0.35, 0.05, 0.35, 1) infinite alternate;
-}
-.yk-held-ingredient__pinch--left {
-  left: 17%;
-  transform: rotate(-16deg);
-}
-.yk-held-ingredient__pinch--right {
-  right: 17%;
-  transform: rotate(16deg);
 }
 .yk-held-ingredient__food::after {
   content: '';
@@ -576,10 +540,6 @@
 @keyframes yk-soft-clamp {
   from { transform: scaleX(1) scaleY(1) rotate(-1deg); }
   to { transform: scaleX(0.86) scaleY(1.07) translateY(2px) rotate(1deg); }
-}
-@keyframes yk-pinch {
-  from { opacity: 0.52; transform: translateY(0) scale(0.92); }
-  to { opacity: 0.9; transform: translateY(2px) scale(1.13); }
 }
 @keyframes yk-soft-rest {
   0%, 100% { transform: scaleX(1) scaleY(1); }
