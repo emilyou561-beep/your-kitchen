@@ -1,9 +1,11 @@
 import { useMemo, useRef, useState } from 'react'
-import type { DragEvent } from 'react'
+import type { DragEvent, PointerEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { CATEGORIES, INGREDIENTS, INGREDIENT_BY_ID, STORAGE_LABEL, UNITS, searchIngredients } from '../data/ingredients'
 import type { Category, Storage } from '../data/ingredients'
 import { ArrowRight, Check, Minus, Plus, Search, Trash } from '../components/Icons'
+import { PinchHandCursor } from '../components/PinchHandCursor'
+import { ingredientPhoto, isSoftIngredient } from '../data/ingredientPhotos'
 import { useKitchen } from '../state/KitchenContext'
 import { buzz, flyTo, replay } from '../lib/tactile'
 import './MyKitchen.css'
@@ -16,18 +18,88 @@ export function MyKitchen() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<Category>('ramen')
   const [dropActive, setDropActive] = useState(false)
+  const [heldIngredient, setHeldIngredient] = useState<string | null>(null)
+  const [cursorVisible, setCursorVisible] = useState(false)
   const panelRef = useRef<HTMLElement>(null)
+  const boardRef = useRef<HTMLDivElement>(null)
   const countRef = useRef<HTMLSpanElement>(null)
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const heldRef = useRef<HTMLDivElement>(null)
+  const suppressClickRef = useRef(false)
+  const pointerDragRef = useRef<{
+    id: string
+    name: string
+    tile: HTMLButtonElement
+    pointerId: number
+    startX: number
+    startY: number
+    moved: boolean
+  } | null>(null)
 
-  /** Add with a little throw: tile squishes, chip arcs into the fridge, fridge wobbles. */
+  /** Add with a little throw: tile squishes, chip arcs onto the board, board wobbles. */
   const throwIn = (id: string, name: string, tile: HTMLElement) => {
     addIngredient(id, true)
     replay(tile, 'yk-squish')
     buzz()
-    flyTo(tile, [countRef.current, document.querySelector('[data-nav="kitchen"]')], name, (landed) => {
+    flyTo(tile, [boardRef.current, countRef.current, document.querySelector('[data-nav="kitchen"]')], name, (landed) => {
+      replay(boardRef.current, 'yk-board-land')
       replay(panelRef.current, 'yk-wobble')
       replay(landed, 'yk-pop')
     })
+  }
+
+  const isOverBoard = (x: number, y: number) => {
+    const rect = boardRef.current?.getBoundingClientRect()
+    return !!rect && x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom
+  }
+
+  const movePointer = (e: PointerEvent<HTMLElement>) => {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+      setCursorVisible(true)
+    }
+    cursorRef.current?.style.setProperty('left', `${e.clientX}px`)
+    cursorRef.current?.style.setProperty('top', `${e.clientY}px`)
+    heldRef.current?.style.setProperty('left', `${e.clientX}px`)
+    heldRef.current?.style.setProperty('top', `${e.clientY}px`)
+
+    const drag = pointerDragRef.current
+    if (!drag) return
+    const distance = Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY)
+    if (distance > 8) drag.moved = true
+    if (drag.moved) setDropActive(isOverBoard(e.clientX, e.clientY))
+  }
+
+  const startPointerDrag = (e: PointerEvent<HTMLButtonElement>, id: string, name: string) => {
+    if (owned.has(id) || e.button !== 0) return
+    e.preventDefault()
+    e.currentTarget.setPointerCapture?.(e.pointerId)
+    pointerDragRef.current = {
+      id,
+      name,
+      tile: e.currentTarget,
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      moved: false,
+    }
+    setHeldIngredient(id)
+    setCursorVisible(true)
+  }
+
+  const finishPointerDrag = (e: PointerEvent<HTMLElement>) => {
+    const drag = pointerDragRef.current
+    if (!drag || drag.pointerId !== e.pointerId) return
+    pointerDragRef.current = null
+    setHeldIngredient(null)
+    setDropActive(false)
+    if (drag.tile.hasPointerCapture?.(drag.pointerId)) drag.tile.releasePointerCapture(drag.pointerId)
+
+    const landed = drag.moved && isOverBoard(e.clientX, e.clientY)
+    suppressClickRef.current = true
+    if (landed || !drag.moved) throwIn(drag.id, drag.name, drag.tile)
+    window.setTimeout(() => {
+      suppressClickRef.current = false
+    }, 0)
   }
 
   const results = useMemo(
@@ -53,7 +125,13 @@ export function MyKitchen() {
   }
 
   return (
-    <main id="main" className="yk-page yk-kitchen">
+    <main
+      id="main"
+      className="yk-page yk-kitchen"
+      onPointerMove={movePointer}
+      onPointerLeave={() => setCursorVisible(false)}
+      onPointerUp={finishPointerDrag}
+    >
       <div className="yk-page__head">
         <div>
           <span className="yk-page__deco" aria-hidden="true">
@@ -124,15 +202,20 @@ export function MyKitchen() {
                       type="button"
                       className="yk-tile"
                       data-owned={has}
+                      data-soft={isSoftIngredient(ing.id)}
+                      data-held={heldIngredient === ing.id}
                       aria-pressed={has}
                       aria-label={has ? `${ing.name}, in your kitchen` : `Add ${ing.name}`}
-                      draggable={!has}
-                      onDragStart={(e) => {
-                        e.dataTransfer.setData(DRAG_TYPE, ing.id)
-                        e.dataTransfer.effectAllowed = 'copy'
+                      onPointerDown={(e) => startPointerDrag(e, ing.id, ing.name)}
+                      onClick={(e) => {
+                        if (suppressClickRef.current) return
+                        if (has) removeIngredient(ing.id)
+                        else throwIn(ing.id, ing.name, e.currentTarget)
                       }}
-                      onClick={(e) => (has ? removeIngredient(ing.id) : throwIn(ing.id, ing.name, e.currentTarget))}
                     >
+                      <span className="yk-tile__photo" aria-hidden="true">
+                        <img src={ingredientPhoto(ing)} alt="" />
+                      </span>
                       <span className="yk-tile__name">{ing.name}</span>
                       {ing.romaji && <span className="yk-tile__romaji">{ing.romaji}</span>}
                       <span className="yk-tile__mark" aria-hidden="true">
@@ -146,10 +229,10 @@ export function MyKitchen() {
           )}
         </section>
 
-        {/* ── Your fridge ── */}
+        {/* ── Chopping board / inventory ── */}
         <section
           ref={panelRef}
-          className="yk-fridge-list yk-panel"
+          className="yk-fridge-list yk-workbench yk-panel"
           aria-labelledby="fridge-h"
           data-drop={dropActive}
           onDragOver={(e) => {
@@ -162,10 +245,62 @@ export function MyKitchen() {
           onDrop={onDrop}
         >
           <div className="yk-fridge-list__head">
-            <h2 id="fridge-h">In your kitchen</h2>
+            <div>
+              <span className="yk-workbench__eyebrow">取材台 · TAKE OUT</span>
+              <h2 id="fridge-h">Chopping board</h2>
+            </div>
             <span ref={countRef} className="yk-fridge-list__count">
               {inventory.length}
             </span>
+          </div>
+          <p className="yk-workbench__hint">Pick up an ingredient from the fridge and place it here.</p>
+          <div
+            ref={boardRef}
+            className="yk-chopping-board"
+            data-drop={dropActive}
+            onDragOver={(e) => {
+              if (e.dataTransfer.types.includes(DRAG_TYPE)) {
+                e.preventDefault()
+                setDropActive(true)
+              }
+            }}
+            onDragLeave={() => setDropActive(false)}
+            onDrop={(e) => {
+              e.stopPropagation()
+              onDrop(e)
+            }}
+          >
+            <span className="yk-chopping-board__grain" aria-hidden="true" />
+            <span className="yk-chopping-board__stamp" aria-hidden="true">
+              よる
+              <small>YORU KITCHEN</small>
+            </span>
+            {inventory.length === 0 ? (
+              <div className="yk-chopping-board__empty">
+                <span className="yk-chopping-board__knife" aria-hidden="true">✦</span>
+                <strong>Drop ingredients here</strong>
+                <span>The board is waiting for your first pick.</span>
+              </div>
+            ) : (
+              <ul className="yk-board__items" aria-label="Ingredients on the chopping board">
+                {inventory.map((item) => {
+                  const ing = INGREDIENT_BY_ID[item.ingredientId]
+                  if (!ing) return null
+                  return (
+                    <li key={ing.id} className="yk-board__item" data-soft={isSoftIngredient(ing.id)}>
+                      <img src={ingredientPhoto(ing)} alt="" />
+                      <span>{ing.name}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </div>
+          <div className="yk-inventory__head">
+            <div>
+              <span className="yk-workbench__eyebrow">储藏柜 · INVENTORY</span>
+              <h3>Your kitchen</h3>
+            </div>
           </div>
           <div className="yk-fridge-list__tools">
             <button type="button" className="yk-btn yk-btn--secondary yk-btn--sm" onClick={addRamenStarter}>
@@ -279,6 +414,15 @@ export function MyKitchen() {
           )}
         </section>
       </div>
+      {heldIngredient && INGREDIENT_BY_ID[heldIngredient] && (
+        <div ref={heldRef} className="yk-held-ingredient" data-soft={isSoftIngredient(heldIngredient)} aria-hidden="true">
+          <div className="yk-held-ingredient__food">
+            <img src={ingredientPhoto(INGREDIENT_BY_ID[heldIngredient])} alt="" />
+          </div>
+          <span className="yk-held-ingredient__label">{INGREDIENT_BY_ID[heldIngredient].name}</span>
+        </div>
+      )}
+      <PinchHandCursor ref={cursorRef} holding={heldIngredient !== null} visible={cursorVisible} />
     </main>
   )
 }
